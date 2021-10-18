@@ -16,9 +16,9 @@ class CreatePortfolioTable extends Migration
         Schema::create('portfolio', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained('members');
-            $table->integer('completed');
-            $table->integer('overdue');
-            $table->integer('all');
+            $table->integer('task_completed');
+            $table->integer('task_overdue');
+            $table->integer('task_all');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -18,8 +18,10 @@ class MemberSeeder extends Seeder
 
         for ($i = 1; $i <= 100; $i++){
             $members = [
-                'user_id' => $i,
-                'admin_id' => rand(1,2)
+                'admin_id' => rand(1,2),
+                'name' => 'участник '.$i,
+                'password' => '12345'.$i,
+                'login' => 'member '.$i
             ];
             DB::table('members')->insert($members);
         }

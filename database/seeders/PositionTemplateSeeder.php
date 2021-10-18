@@ -14,7 +14,7 @@ class PositionTemplateSeeder extends Seeder
     public function run()
     {
 
-        $Positions = [
+        $positions = [
             'тимлид',
             'мидл',
             'сеньор',
@@ -24,7 +24,7 @@ class PositionTemplateSeeder extends Seeder
             'Проектировщик баз данных',
             'Програмист 1с',
             'Верстальщик',
-            'Андроид разработчик',
+            'Андроид разработчик(второй верстальщик но дороже)',
             'Бэкендер',
             'HR менеджер',
             'Проект менеджер',
@@ -35,13 +35,14 @@ class PositionTemplateSeeder extends Seeder
             'boss of this gym'
         ];
 
-        foreach ($Positions as $position){
+        foreach ($positions as $position){
             \DB::table('position_templates')->insert([
                 'group_id' => rand(1,3),
                 'name' => $position
             ]);
 
         }
+
 
 
 

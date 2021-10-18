@@ -22,9 +22,9 @@ class PortfolioSeeder extends Seeder
             $allTask = $completed_task + $overdue_task;
             $portfolio = [
                 'member_id' => $i,
-                'completed' => $completed_task,
-                'overdue' => $overdue_task,
-                'all' => $allTask
+                'task_completed' => $completed_task,
+                'task_overdue' => $overdue_task,
+                'task_all' => $allTask
 
             ];
             DB::table('portfolio')->insert($portfolio);

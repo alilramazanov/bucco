@@ -14,7 +14,7 @@ class TaskSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 1; $i < 10000 ; $i++){
+        for ($i = 1; $i < 3000 ; $i++){
             $task = [
                 'task_template_id' => rand(1, 100),
                 'task_status_id' => rand(1, 3),

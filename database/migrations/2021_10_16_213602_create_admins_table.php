@@ -17,7 +17,7 @@ class CreateAdminsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name', 50);
-            $table->string('login', 50);
+            $table->string('login', 50)->unique();
             $table->string('password', 50);
             $table->softDeletes();
 
