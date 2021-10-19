@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "27c0175ad7497c7533c73344649042cc",
+    "content-hash": "2e78d1d00c5efe16b08c407440187138",
     "packages": [
         {
             "name": "brick/math",
@@ -372,16 +372,16 @@
         },
         {
             "name": "graham-campbell/result-type",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
-                "reference": "84afea85c6841deeea872f36249a206e878a5de0"
+                "reference": "296c015dc30ec4322168c5ad3ee5cc11dae827ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/84afea85c6841deeea872f36249a206e878a5de0",
-                "reference": "84afea85c6841deeea872f36249a206e878a5de0",
+                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/296c015dc30ec4322168c5ad3ee5cc11dae827ac",
+                "reference": "296c015dc30ec4322168c5ad3ee5cc11dae827ac",
                 "shasum": ""
             },
             "require": {
@@ -417,7 +417,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Result-Type/issues",
-                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.2"
+                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.0.3"
             },
             "funding": [
                 {
@@ -429,7 +429,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-28T21:34:50+00:00"
+            "time": "2021-10-17T19:48:54+00:00"
         },
         {
             "name": "illuminate/auth",
@@ -4795,6 +4795,45 @@
             "time": "2021-09-24T15:59:58+00:00"
         },
         {
+            "name": "urameshibr/lumen-form-request",
+            "version": "1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/urameshibr/lumen-form-request.git",
+                "reference": "c540dbafed07fb71a6478478e8a4770ae7ff7105"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/urameshibr/lumen-form-request/zipball/c540dbafed07fb71a6478478e8a4770ae7ff7105",
+                "reference": "c540dbafed07fb71a6478478e8a4770ae7ff7105",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.4"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "Urameshibr\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel Form Request adaptation for Lumen framework.",
+            "keywords": [
+                "form",
+                "lumen",
+                "request"
+            ],
+            "support": {
+                "issues": "https://github.com/urameshibr/lumen-form-request/issues",
+                "source": "https://github.com/urameshibr/lumen-form-request/tree/1.5"
+            },
+            "time": "2018-10-18T00:07:29+00:00"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.3.1",
             "source": {
@@ -8285,6 +8324,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
@@ -8627,7 +8667,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": "^7.3|^8.0",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.1.0"

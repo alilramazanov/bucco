@@ -22,7 +22,7 @@ class CreateTasksTable extends Migration
 
             $table->text('description')->nullable();
             $table->dateTime('start_at')->nullable();
-            $table->dateTime('end_time')->nullable();
+            $table->dateTime('end_at')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
