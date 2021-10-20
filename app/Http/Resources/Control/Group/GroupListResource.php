@@ -11,7 +11,7 @@ class GroupListResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'admin_id' => $this->admin_id
+            'adminId' => $this->admin_id
 
         ];
     }

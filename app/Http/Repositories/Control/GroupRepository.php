@@ -2,7 +2,7 @@
 
 namespace App\Http\Repositories\Control;
 
-use App\Http\Requests\Control\Group\GroupListRequest;
+use App\Http\Requests\Control\Groups\GroupListRequest;
 use App\Http\Resources\Control\Group\GroupListResource;
 use App\Models\Group as Model;
 
@@ -27,7 +27,6 @@ class GroupRepository extends BaseRepository
             ->select($columns)
             ->where('admin_id', $request->get('admin_id'))
             ->get();
-
 
         return GroupListResource::collection($groups);
     }

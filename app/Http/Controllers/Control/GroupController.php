@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Control;
 
 use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Requests\ApiRequest;
-use App\Http\Requests\Control\Group\GroupListRequest;
+use App\Http\Requests\Control\Groups\GroupListRequest;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Urameshibr\Requests\FormRequest;
 
 class GroupController extends BaseController
@@ -22,13 +23,15 @@ class GroupController extends BaseController
         $this->groupRepository = app(GroupRepository::class);
     }
 
-
     public function list(GroupListRequest $request){
 
+        $groupList = $this->groupRepository->getGroupList($request);
 
+        if ($groupList->isEmpty()) {
+            throw new BadRequestException('Группы не найдены', 404);
+        }
 
-        return $this->groupRepository->getGroupList($request);
-
+        return  $groupList;
     }
 
 

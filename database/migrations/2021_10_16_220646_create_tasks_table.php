@@ -21,6 +21,7 @@ class CreateTasksTable extends Migration
             $table->foreignId('member_id')->constrained('members');
 
             $table->text('description')->nullable();
+            $table->boolean('finished')->default(false);
             $table->dateTime('start_at')->nullable();
             $table->dateTime('end_at')->nullable();
 

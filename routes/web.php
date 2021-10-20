@@ -38,14 +38,15 @@ $router->group(
         Route::group(
             ['prefix' => 'tasks', 'as' => 'tasks.'],
             function (){
-                Route::get('/all_group_tasks', 'Control\TaskController@getAllGroupTasks');
+                Route::get('/group-task-list', 'Control\TaskController@groupTaskList');
+                Route::get('/member-task-list', 'Control\TaskController@memberTaskList');
             }
         );
 
         Route::group(
             ['prefix' => 'members', 'as' => 'members.'],
             function (){
-                Route::get('/all_group_members', 'Control\Member@getAllGroupMembers');
+
             }
         );
     }

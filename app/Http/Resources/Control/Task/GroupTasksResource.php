@@ -4,7 +4,7 @@ namespace App\Http\Resources\Control\Task;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AllGroupTasksResource extends JsonResource
+class GroupTasksResource extends JsonResource
 {
     public function toArray($request)
     {
@@ -12,8 +12,8 @@ class AllGroupTasksResource extends JsonResource
             'id' => $this->id,
             'name' => $this->TaskTemplate->name,
             'description' => $this->description,
-            'start_at' => $this->start_at,
-            'end_at' => $this->end_at
+            'startAt' => $this->start_at,
+            'endAt' => $this->end_at
 
         ];
     }
