@@ -15,7 +15,6 @@ class PortfolioSeeder extends Seeder
     public function run()
     {
 
-
         for ($i = 1; $i <= 100; $i++){
             $completed_task = rand(1, 40);
             $overdue_task = rand(1, 40);

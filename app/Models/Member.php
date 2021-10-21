@@ -40,7 +40,8 @@ class Member extends Model
     protected $table = 'members';
 
     public function groups(){
-        return $this->belongsToMany(Group::class, 'group_members', 'member_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'group_members', 'member_id', 'group_id')
+      ;
     }
 
     public function tasks(){

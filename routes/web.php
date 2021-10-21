@@ -28,7 +28,7 @@ $router->group(
     ['prefix' => 'control/v1'],
     function (){
         Route::group(
-            ['prefix' => 'groups','as' => 'groups.'],
+            ['prefix' => 'groups'],
             function (){
                 Route::get('/list', 'Control\GroupController@list');
 
@@ -36,16 +36,19 @@ $router->group(
         );
 
         Route::group(
-            ['prefix' => 'tasks', 'as' => 'tasks.'],
+            ['prefix' => 'tasks'],
             function (){
                 Route::get('/group-task-list', 'Control\TaskController@groupTaskList');
                 Route::get('/member-task-list', 'Control\TaskController@memberTaskList');
+
             }
         );
 
         Route::group(
-            ['prefix' => 'members', 'as' => 'members.'],
+            ['prefix' => 'members'],
             function (){
+                Route::get('admin-member-list','Control\MemberController@adminMemberList');
+                Route::get('group-member-list', 'Control\MemberController@groupMemberList');
 
             }
         );
