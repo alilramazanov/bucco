@@ -34,5 +34,17 @@ class GroupController extends BaseController
         return  $groupList;
     }
 
+    public function statisticList(GroupListRequest $request){
+
+        $groupList = $this->groupRepository->getGroupStatisticList($request);
+
+        if ($groupList->isEmpty()) {
+            throw new BadRequestException('Группы не найдены', 404);
+        }
+
+        return  $groupList;
+
+    }
+
 
 }

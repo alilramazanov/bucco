@@ -19,6 +19,7 @@ class MemberRepository extends BaseRepository
         return Model::class;
     }
 
+
     public function getAdminMemberList($request){
 
         $columns = [
@@ -33,6 +34,8 @@ class MemberRepository extends BaseRepository
 
         return AdminMemberListResource::collection($adminMembers);
     }
+
+
 
     public function getGroupMemberList($request){
 

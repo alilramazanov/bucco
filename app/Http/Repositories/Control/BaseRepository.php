@@ -3,7 +3,8 @@
 namespace App\Http\Repositories\Control;
 
 use App\Http\Repositories\Repository;
-use App\Models\Task as Model;
+use Illuminate\Database\Eloquent\Model;
+
 
 class BaseRepository extends Repository
 {

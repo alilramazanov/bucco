@@ -19,6 +19,7 @@ class CreateTasksTable extends Migration
             $table->foreignId('task_status_id')->constrained('task_statuses');
             $table->foreignId('group_id')->constrained('groups');
             $table->foreignId('member_id')->constrained('members');
+            $table->foreignId('admin_id')->constrained('admins');
 
             $table->text('description')->nullable();
             $table->boolean('finished')->default(false);

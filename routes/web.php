@@ -29,8 +29,9 @@ $router->group(
     function (){
         Route::group(
             ['prefix' => 'groups'],
-            function (){
+            function () {
                 Route::get('/list', 'Control\GroupController@list');
+                Route::get('/statistic-list', 'Control\GroupController@statisticList');
 
             }
         );

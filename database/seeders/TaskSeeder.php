@@ -22,7 +22,8 @@ class TaskSeeder extends Seeder
                 'task_status_id' => rand(1, 3),
                 'description' => $faker->realText(rand(100, 1000)),
                 'group_id' => rand(1, 3),
-                'member_id' => rand(1, 100)
+                'member_id' => rand(1, 100),
+                'admin_id' => rand(1,2)
             ];
 
             \DB::table('tasks')->insert($task);
