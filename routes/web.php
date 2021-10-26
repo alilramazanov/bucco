@@ -20,15 +20,14 @@
 use Illuminate\Support\Facades\Route;
 
 $router->get('/', function () use ($router) {
-    return "next door";
-//    return $router->app->version();
+    return $router->app->version();
 });
 
 $router->group(
     ['prefix' => 'control/v1'],
     function (){
         Route::group(
-            ['prefix' => 'groups','as' => 'groups.'],
+            ['prefix' => 'groups'],
             function (){
                 Route::get('/list', 'Control\GroupController@list');
 
@@ -36,16 +35,39 @@ $router->group(
         );
 
         Route::group(
-            ['prefix' => 'tasks', 'as' => 'tasks.'],
+            ['prefix' => 'tasks'],
             function (){
                 Route::get('/all_group_tasks', 'Control\TaskController@getAllGroupTasks');
             }
         );
 
         Route::group(
-            ['prefix' => 'members', 'as' => 'members.'],
+            ['prefix' => 'members'],
             function (){
                 Route::get('/all_group_members', 'Control\Member@getAllGroupMembers');
+            }
+        );
+
+        Route::group(
+            ['prefix' => 'admin'],
+            function (){
+                Route::post('/register', 'Control\AuthController@register');
+                Route::post('/login', 'Control\AuthController@login');
+                Route::post('/logout', 'Control\ProfileController@logout');
+                Route::get('/profile/show', 'Control\ProfileController@showAdmin');
+                Route::post('/profile/update', 'Control\ProfileController@updateAdmin');
+                Route::post('/refresh-token', 'Control\ProfileController@refresh');
+                Route::post('/profile/change-password', 'Control\ProfileController@changePassword');
+            }
+        );
+
+        Route::group(
+            ['prefix' => 'member'],
+            function (){
+                Route::post('/login', 'Control\AuthController@loginMember');
+                Route::post('/logout', 'Control\MemberProfileController@logout');
+                Route::get('/profile/show', 'Control\MemberProfileController@show');
+                Route::post('/refresh-token', 'Control\MemberProfileController@refresh');
             }
         );
     }

@@ -16,7 +16,7 @@ class CreateMembersTable extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50);
-            $table->string('password', 50);
+            $table->string('password');
             $table->string('login', 50)->unique();
             $table->foreignId('admin_id')->constrained('admins');
             $table->timestamps();

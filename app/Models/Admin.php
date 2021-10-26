@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Auth\Authenticatable;
+use Laravel\Lumen\Auth\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 /**
  * App\Models\Admin
  *
@@ -30,10 +35,49 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Admin extends Model
+class Admin extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
+    use Authenticatable;
+    use Authorizable;
+    use HasFactory;
 
     protected $table = 'admins';
+
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'login',
+        'password'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+    ];
+
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     * @return array
+     */
+    public function getJWTCustomClaims(): array
+    {
+        return [];
+    }
+
 
     public function groups(){
         return $this->hasMany(Group::class);
@@ -42,6 +86,4 @@ class Admin extends Model
     public function members(){
         return $this->hasMany(Member::class);
     }
-
 }
-
