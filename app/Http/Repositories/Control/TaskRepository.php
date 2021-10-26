@@ -2,7 +2,6 @@
 
 namespace App\Http\Repositories\Control;
 
-use App\Http\Requests\Control\Groups\AllGroupTasksRequest;
 use App\Http\Resources\Control\Task\GroupTasksResource;
 use App\Http\Resources\Control\Task\MemberTasksResource;
 use App\Models\Task as Model;

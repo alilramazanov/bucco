@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Control;
 
-use App\Http\Controllers\Controller;
 use App\Http\Repositories\Control\MemberRepository;
 use App\Http\Requests\Control\Members\AdminMemberListRequest;
 use App\Http\Requests\Control\Members\GroupMemberListRequest;
-use App\Http\Requests\Control\Members\MemberRequest;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class MemberController extends BaseController

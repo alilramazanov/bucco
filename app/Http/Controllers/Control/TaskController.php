@@ -6,10 +6,7 @@ use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\TaskCreateRequest;
-use App\Http\Requests\Control\Tasks\TaskRequest;
-use App\Models\Portfolio;
 use App\Models\Task;
-use stdClass;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -76,12 +73,10 @@ class TaskController extends BaseController
 
             return 'Такая запись уже существует';
 
-        } else {
-
-            Task::create($data);
-            return 'Запись сохранена';
         }
 
+        Task::create($data);
+        return 'Запись сохранена';
     }
 
 
@@ -100,7 +95,7 @@ class TaskController extends BaseController
     }
 
 
-    public function delite(TaskCreateRequest $request){
+    public function delete(TaskCreateRequest $request){
 
         $isDelete = Task::whereId($request->input('id'))
             ->delete();

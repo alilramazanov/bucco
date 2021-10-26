@@ -51,6 +51,10 @@ class ProfileController extends Controller
         }
     }
 
+    /**
+     * @param UpdatePasswordRequest $request
+     * @return ErrorResource|SuccessResource
+     */
     public function changePassword(UpdatePasswordRequest $request)
     {
         try {

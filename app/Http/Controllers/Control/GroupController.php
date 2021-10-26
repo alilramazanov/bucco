@@ -4,12 +4,8 @@ namespace App\Http\Controllers\Control;
 
 
 use App\Http\Repositories\Control\GroupRepository;
-use App\Http\Requests\ApiRequest;
 use App\Http\Requests\Control\Groups\GroupListRequest;
-
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
-use Urameshibr\Requests\FormRequest;
 
 class GroupController extends BaseController
 {

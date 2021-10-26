@@ -3,15 +3,11 @@
 namespace App\Http\Repositories\Control;
 
 
-use App\Http\Requests\Control\Members\AdminMemberListRequest;
-use App\Http\Resources\Control\Group\PortfolioResource;
 use App\Http\Resources\Control\Member\AdminMemberListResource;
 use App\Http\Resources\Control\Member\GroupMemberListResource;
 use App\Models\Admin;
 use App\Models\Group;
-use App\Models\Member;
 use App\Models\Member as Model;
-use App\Models\Portfolio;
 
 class MemberRepository extends BaseRepository
 {

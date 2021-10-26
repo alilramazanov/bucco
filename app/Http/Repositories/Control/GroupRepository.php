@@ -2,7 +2,6 @@
 
 namespace App\Http\Repositories\Control;
 
-use App\Http\Requests\Control\Groups\GroupListRequest;
 use App\Http\Resources\Control\Group\GroupListResource;
 use App\Http\Resources\Control\Group\GroupStatisticListResource;
 use App\Models\Group as Model;
