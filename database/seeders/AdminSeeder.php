@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
+
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AdminSeeder extends Seeder
 {
@@ -14,17 +17,22 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('admins')->insert([
-            'name' => 'Магомед(админимтратор)',
-            'login' => 'Magomed',
-            'password' => '123456'
 
-        ]);
-        DB::table('admins')->insert([
-            'name' => 'Ангелина(администратор)',
-            'login' => 'Angelina',
-            'password' => '123456'
-        ]);
-        //
+
+        $faker = Factory::create();
+
+
+        for ($i = 0; $i < 3; $i++) {
+
+            $name = $faker->name();
+
+
+            DB::table('admins')->insert([
+                'name' => $name,
+                'login' => Str::slug($name). ".@gmail.com",
+                'password' => '123456'
+
+            ]);
+        }
     }
 }

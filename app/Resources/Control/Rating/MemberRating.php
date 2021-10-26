@@ -19,18 +19,7 @@ class MemberRating
 
     }
 
-    public function getMemberRating($portfolio)
-    {
-
-        $memberPortfolio = $portfolio->first();
-        $allTask = $memberPortfolio->task_all;
-        $completedTask = $memberPortfolio->task_completed;
-
-        return $this->getRating($allTask, $completedTask);
-
-    }
-
-    public function getGroupMemberRating($portfolio){
+    public function getMemberRating($portfolio){
 
         $allTask = $portfolio['all'];
         $completedTask = $portfolio['completed'];
@@ -38,4 +27,5 @@ class MemberRating
         return $this->getRating($allTask, $completedTask);
 
     }
+
 }

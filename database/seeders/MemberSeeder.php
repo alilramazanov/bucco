@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class MemberSeeder extends Seeder
 {
@@ -16,12 +18,17 @@ class MemberSeeder extends Seeder
     {
 
 
-        for ($i = 1; $i <= 100; $i++){
+        $faker = Factory::create();
+
+        for ($i = 1; $i <= 10; $i++){
+            $name = $faker->firstName();
+
+
             $members = [
-                'admin_id' => rand(1,2),
-                'name' => 'участник '.$i,
+                'admin_id' => rand(1,3),
+                'name' => $name,
                 'password' => '12345'.$i,
-                'login' => 'member '.$i
+                'login' => Str::slug($name).$i
             ];
             DB::table('members')->insert($members);
         }

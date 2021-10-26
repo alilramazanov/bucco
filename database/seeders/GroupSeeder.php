@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,19 +15,20 @@ class GroupSeeder extends Seeder
      */
     public function run()
     {
-        $groups = [
-            'SmartDev',
-            'Cron',
-            'Группа 05ru'
-        ];
 
+        $faker = Factory::create();
 
-        foreach ($groups as $group){
+        for ($i =0; $i < 3; $i++){
+
+            $name = $faker->company();
+
             $table = [
-                'name' => $group,
-                'admin_id'=> rand(1, 2)
+                'name' => $name,
+                'admin_id'=> rand(1, 3)
             ];
             DB::table('groups')->insert($table);
+
         }
+
     }
 }

@@ -16,7 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('task_template_id')->constrained('task_templates');
-            $table->foreignId('task_status_id')->constrained('task_statuses');
+            $table->foreignId('task_status_id')->default(1)->constrained('task_statuses');
             $table->foreignId('group_id')->constrained('groups');
             $table->foreignId('member_id')->constrained('members');
             $table->foreignId('admin_id')->constrained('admins');

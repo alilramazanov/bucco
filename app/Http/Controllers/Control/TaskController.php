@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Control;
 
 use App\Http\Repositories\Control\TaskRepository;
-use App\Http\Requests\Control\Groups\AllGroupTasksRequest;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
+use App\Http\Requests\Control\Tasks\TaskCreateRequest;
 use App\Http\Requests\Control\Tasks\TaskRequest;
+use App\Models\Portfolio;
+use App\Models\Task;
+use stdClass;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -18,6 +21,9 @@ class TaskController extends BaseController
      */
     private $taskRepository;
 
+
+
+    //                                              GET методы
 
     public function __construct()
     {
@@ -51,6 +57,61 @@ class TaskController extends BaseController
 
     }
 
+
+
+    //                                        ПОСТ МЕТОДЫ
+
+    public function create(TaskCreateRequest $request){
+
+        $data = $request->input();
+
+        $isExists = Task::whereGroupId($request->input('group_id'))
+            ->whereMemberId($request->input('member_id'))
+            ->whereTaskTemplateId($request->input('task_template_id'))
+            ->whereDescription($request->input('description'))
+            ->exists();
+
+
+        if ($isExists){
+
+            return 'Такая запись уже существует';
+
+        } else {
+
+            Task::create($data);
+            return 'Запись сохранена';
+        }
+
+    }
+
+
+    public function update(TaskCreateRequest $request){
+
+        $data = $request->input();
+        $item = Task::whereId($request->get('id'))->first();
+
+        $isUpdate = $item->update($data);
+
+        if ($isUpdate){
+            return 'Запись успешно обновлена';
+        }
+
+        return 'Ошибка обновления';
+    }
+
+
+    public function delite(TaskCreateRequest $request){
+
+        $isDelete = Task::whereId($request->input('id'))
+            ->delete();
+
+        if ($isDelete){
+            return 'Запись удалена';
+        }
+
+        return 'Ошибка удаления';
+
+    }
 
 
 }

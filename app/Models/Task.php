@@ -42,9 +42,18 @@ class Task extends Model
 {
 
     protected $table = 'tasks';
-//    protected $fillable = [
-//
-//    ];
+
+    protected $dates = ['deleted_at'];
+
+    protected $fillable = [
+        'admin_id',
+        'task_status_id',
+        'task_template_id',
+        'group_id',
+        'member_id',
+        'description'
+    ];
+
 
     public function group(){
         return $this->belongsTo(Group::class);

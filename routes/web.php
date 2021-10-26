@@ -42,6 +42,11 @@ $router->group(
                 Route::get('/group-task-list', 'Control\TaskController@groupTaskList');
                 Route::get('/member-task-list', 'Control\TaskController@memberTaskList');
 
+
+                Route::post('/task-create', 'Control\TaskController@create');
+                Route::post('/task-update', 'Control\TaskController@update');
+                Route::post('/task-delete', 'Control\TaskController@delite');
+
             }
         );
 

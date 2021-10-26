@@ -7,6 +7,7 @@ use App\Http\Requests\Control\Members\AdminMemberListRequest;
 use App\Http\Resources\Control\Group\PortfolioResource;
 use App\Http\Resources\Control\Member\AdminMemberListResource;
 use App\Http\Resources\Control\Member\GroupMemberListResource;
+use App\Models\Admin;
 use App\Models\Group;
 use App\Models\Member;
 use App\Models\Member as Model;
@@ -22,17 +23,16 @@ class MemberRepository extends BaseRepository
 
     public function getAdminMemberList($request){
 
-        $columns = [
-            'id',
-            'name'
-        ];
+        $adminId = $request->input('admin_id');
+        $admin = Admin::whereId($adminId)->first();
+        $adminMemberList = [];
 
-        $adminMembers = $this->startConditions()
-            ->select($columns)
-            ->where('admin_id', $request->input('admin_id'))
-            ->paginate();
+        foreach ($admin->members as $member){
+            $adminMemberList [] = $member;
 
-        return AdminMemberListResource::collection($adminMembers);
+        }
+
+        return AdminMemberListResource::collection($adminMemberList);
     }
 
 
@@ -40,7 +40,6 @@ class MemberRepository extends BaseRepository
     public function getGroupMemberList($request){
 
         $groupId = $request->get('group_id');
-
         $group = Group::find($groupId);
         $groupMemberList = [];
 
