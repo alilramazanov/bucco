@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,10 @@ class PortfolioSeeder extends Seeder
     {
 
 
-        for ($i = 1; $i <= 100; $i++){
+        $faker = Factory::create();
+
+        for ($i = 1; $i <= 20; $i++){
+            $name = $faker->title();
             $completed_task = rand(1, 40);
             $overdue_task = rand(1, 40);
             $allTask = $completed_task + $overdue_task;

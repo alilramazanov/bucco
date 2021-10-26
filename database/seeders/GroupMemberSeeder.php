@@ -14,11 +14,11 @@ class GroupMemberSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $position = [
                 'group_id' => rand(1, 3),
-                'member_id' => rand(1, 100),
-                'position_template_id' => rand(1, 18)
+                'member_id' => rand(1, 10),
+                'position_template_id' => rand(1, 10)
             ];
             \DB::table('group_members')->insert($position);
 

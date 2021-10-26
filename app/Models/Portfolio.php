@@ -35,7 +35,7 @@ class Portfolio extends Model
     protected $table = 'portfolio';
 
     public function member(){
-        return $this->belongsToMany(Member::class);
+        return $this->belongsTo(Member::class, 'member_id');
     }
 
 

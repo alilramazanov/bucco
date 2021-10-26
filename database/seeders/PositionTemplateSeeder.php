@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class PositionTemplateSeeder extends Seeder
@@ -14,37 +15,18 @@ class PositionTemplateSeeder extends Seeder
     public function run()
     {
 
-        $positions = [
-            'тимлид',
-            'мидл',
-            'сеньор',
-            'стажер',
-            'Специалист по общению с странным заказчиком',
-            'Архитектор',
-            'Проектировщик баз данных',
-            'Програмист 1с',
-            'Верстальщик',
-            'Андроид разработчик(второй верстальщик но дороже)',
-            'Бэкендер',
-            'HR менеджер',
-            'Проект менеджер',
-            '.NET разработчик',
-            'Сетевой администратор',
-            'Тестировщик',
-            'Дизайнер',
-            'boss of this gym'
-        ];
 
-        foreach ($positions as $position){
+        $faker = Factory::create();
+
+        for ($i = 0; $i < 100; $i++){
+            $name = $faker->streetName();
+
             \DB::table('position_templates')->insert([
                 'group_id' => rand(1,3),
-                'name' => $position
+                'name' => $name
             ]);
 
         }
-
-
-
 
 
     }

@@ -18,6 +18,8 @@ class CreateGroupMembersTable extends Migration
             $table->foreignId('group_id')->constrained('groups');
             $table->foreignId('member_id')->constrained('members');
             $table->foreignId('position_template_id')->constrained('position_templates');
+            $table->dateTime('start_working_day')->nullable();
+            $table->dateTime('end_working_day')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

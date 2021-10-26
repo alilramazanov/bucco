@@ -28,8 +28,9 @@ $router->group(
     function (){
         Route::group(
             ['prefix' => 'groups'],
-            function (){
+            function () {
                 Route::get('/list', 'Control\GroupController@list');
+                Route::get('/statistic-list', 'Control\GroupController@statisticList');
 
             }
         );
@@ -37,14 +38,23 @@ $router->group(
         Route::group(
             ['prefix' => 'tasks'],
             function (){
-                Route::get('/all_group_tasks', 'Control\TaskController@getAllGroupTasks');
+                Route::get('/group-task-list', 'Control\TaskController@groupTaskList');
+                Route::get('/member-task-list', 'Control\TaskController@memberTaskList');
+
+
+                Route::post('/task-create', 'Control\TaskController@create');
+                Route::post('/task-update', 'Control\TaskController@update');
+                Route::post('/task-delete', 'Control\TaskController@delite');
+
             }
         );
 
         Route::group(
             ['prefix' => 'members'],
             function (){
-                Route::get('/all_group_members', 'Control\Member@getAllGroupMembers');
+                Route::get('admin-member-list','Control\MemberController@adminMemberList');
+                Route::get('group-member-list', 'Control\MemberController@groupMemberList');
+
             }
         );
 

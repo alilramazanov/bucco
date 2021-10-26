@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Control\Group;
+namespace App\Http\Requests\Control\Groups;
 
 use App\Http\Requests\ApiRequest;
 

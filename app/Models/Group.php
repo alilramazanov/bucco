@@ -40,7 +40,8 @@ class Group extends Model
     ];
 
     public function members(){
-        return $this->belongsToMany(Member::class, 'group_members', 'group_id', 'member_id');
+        return $this->belongsToMany(Member::class, 'group_members', 'group_id', 'member_id')
+            ->withPivot('position_template_id');
     }
 
     public function admin(){
