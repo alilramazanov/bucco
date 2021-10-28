@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
@@ -46,6 +47,7 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
     use Authorizable;
     use Authenticatable;
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'members';
 
@@ -72,17 +74,16 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
     }
 
     public function groups(){
-        return $this->belongsToMany(Group::class, 'group_members', 'member_id', 'group_id')
-      ;
+        return $this->belongsToMany(Group::class, 'group_members', 'member_id', 'group_id');
     }
 
     public function tasks(){
         return $this->hasMany(Task::class);
     }
 
-    public function portfolio(){
-        return $this->hasMany(Portfolio::class);
-    }
+//    public function portfolio(){
+//        return $this->hasMany(Portfolio::class);
+//    }
 
     public function admin(){
         return $this->belongsTo(Admin::class);

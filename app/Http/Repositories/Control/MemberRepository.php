@@ -36,6 +36,7 @@ class MemberRepository extends BaseRepository
     public function getGroupMemberList($request){
 
         $groupId = $request->get('group_id');
+
         $group = Group::find($groupId);
         $groupMemberList = [];
 
@@ -45,31 +46,9 @@ class MemberRepository extends BaseRepository
             }
         }
 
+
+
         return GroupMemberListResource::collection($groupMemberList);
-
-
-
-//            метод который не сработал
-//        (через startCondition не виден pivot)
-
-
-//        $columns = [
-//            'id',
-//            'name'
-//        ];
-//
-//        $member = $this->startConditions()
-//            ->select($columns)
-//            ->where('id', $request->get('member_id'))
-//            ->get();
-//
-//        foreach ($member->groups as $group){
-//            $groupId = $group->pivot->group_id;
-//
-//
-//        }
-//        dd($groupId);
-
 
     }
 }

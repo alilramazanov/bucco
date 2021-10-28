@@ -10,7 +10,7 @@ class AdminMemberListRequest extends ApiRequest
     public function rules()
     {
         return [
-            'admin_id' => 'integer|required|exists:admins,id'
+            'admin_id' => 'integer|exists:admins,id'
         ];
     }
 }

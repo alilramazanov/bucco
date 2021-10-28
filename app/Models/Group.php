@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -33,6 +35,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Group extends Model
 {
+
+    use SoftDeletes;
+
     protected $table = 'groups';
     protected $fillable = [
         'name',
@@ -41,7 +46,7 @@ class Group extends Model
 
     public function members(){
         return $this->belongsToMany(Member::class, 'group_members', 'group_id', 'member_id')
-            ->withPivot('position_template_id');
+            ->withPivot('position');
     }
 
     public function admin(){

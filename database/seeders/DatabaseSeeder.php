@@ -23,13 +23,13 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(GroupSeeder::class);
+//        $this->call(GroupSeeder::class);
         $this->call(MemberSeeder::class);
 //        $this->call(PassportSeeder::class);
 //        $this->call(PortfolioSeeder::class);
-        $this->call(PositionTemplateSeeder::class);
-        $this->call(GroupMemberSeeder::class);
-        $this->call(TaskTemplateSeeder::class);
+//        $this->call(PositionTemplateSeeder::class);
+//        $this->call(GroupMemberSeeder::class);
+//        $this->call(TaskTemplateSeeder::class);
         $this->call(TaskStatusSeeder::class);
 //        $this->call(TaskSeeder::class);
 

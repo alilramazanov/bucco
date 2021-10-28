@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Task
@@ -41,14 +42,14 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
 
-    protected $table = 'tasks';
+    use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
+    protected $table = 'tasks';
 
     protected $fillable = [
         'admin_id',
         'task_status_id',
-        'task_template_id',
+        'name',
         'group_id',
         'member_id',
         'description'
@@ -61,10 +62,6 @@ class Task extends Model
 
     public function member(){
         return $this->belongsTo(Member::class);
-    }
-
-    public function taskTemplate(){
-        return $this->belongsTo(TaskTemplate::class, 'task_template_id', 'id');
     }
 
     public function taskStatus(){

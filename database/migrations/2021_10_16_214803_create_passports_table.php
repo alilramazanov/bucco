@@ -16,10 +16,9 @@ class CreatePassportsTable extends Migration
         Schema::create('passports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained('members');
-            $table->string('first_name', 50);
-            $table->string('last_name', 50);
-            $table->integer('serial');
-            $table->integer('number');
+            $table->integer('serial')->nullable();
+            $table->integer('number')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -17,13 +17,13 @@ class GroupMemberListResource extends JsonResource
 
         $groupMemberPortfolio = (new MemberPortfolio())->getGroupMemberPortfolio($this->id, $this->pivot->group_id);
         $groupMemberRating =  (new MemberRating())->getMemberRating($groupMemberPortfolio);
-        $groupMemberPosition = new PositionTemplateResource(PositionTemplate::find($this->pivot->position_template_id));
+
 
         return [
             'id' => $this->id,
             'groupId' => $this->pivot->group_id,
             'name' => $this->name,
-            'position' => $groupMemberPosition,
+            'position' => $this->pivot->position,
             'rating' => $groupMemberRating,
             'portfolio' => $groupMemberPortfolio
 

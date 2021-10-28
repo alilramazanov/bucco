@@ -10,7 +10,7 @@ class MemberTasksResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->TaskTemplate->name,
+            'name' => $this->name,
             'statusName' => $this->taskStatus->name,
             'description' => $this->description,
             'startAt' => $this->start_at,

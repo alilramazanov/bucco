@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers\Control;
 
+use App\Http\Loader\Control\TaskLoader;
 use App\Http\Repositories\Control\TaskRepository;
+use App\Http\Requests\Control\Tasks\CreateTaskRequest;
+use App\Http\Requests\Control\Tasks\DeleteTaskRequest;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\TaskCreateRequest;
+use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
+use App\Http\Resources\Control\Common\BasicErrorResource;
+use App\Http\Resources\Control\Common\SuccessResource;
 use App\Models\Task;
+use GrahamCampbell\ResultType\Success;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -16,7 +23,8 @@ class TaskController extends BaseController
     /**
      * @var TaskRepository
      */
-    private $taskRepository;
+    protected $taskRepository;
+    protected $taskLoaderObject;
 
 
 
@@ -26,6 +34,7 @@ class TaskController extends BaseController
     {
         parent::__construct();
         $this->taskRepository = app(TaskRepository::class);
+        $this->taskLoaderObject = app(TaskLoader::class);
 
     }
 
@@ -58,55 +67,26 @@ class TaskController extends BaseController
 
     //                                        ПОСТ МЕТОДЫ
 
-    public function create(TaskCreateRequest $request){
-
-        $data = $request->input();
-
-        $isExists = Task::whereGroupId($request->input('group_id'))
-            ->whereMemberId($request->input('member_id'))
-            ->whereTaskTemplateId($request->input('task_template_id'))
-            ->whereDescription($request->input('description'))
-            ->exists();
+    public function create(CreateTaskRequest $request){
 
 
-        if ($isExists){
+        return $this->taskLoaderObject->createTask($request);
 
-            return 'Такая запись уже существует';
 
-        }
-
-        Task::create($data);
-        return 'Запись сохранена';
     }
 
 
-    public function update(TaskCreateRequest $request){
+    public function update(UpdateTaskRequest $request){
 
-        $data = $request->input();
-        $item = Task::whereId($request->get('id'))->first();
-
-        $isUpdate = $item->update($data);
-
-        if ($isUpdate){
-            return 'Запись успешно обновлена';
-        }
-
-        return 'Ошибка обновления';
-    }
-
-
-    public function delete(TaskCreateRequest $request){
-
-        $isDelete = Task::whereId($request->input('id'))
-            ->delete();
-
-        if ($isDelete){
-            return 'Запись удалена';
-        }
-
-        return 'Ошибка удаления';
+        return $this->taskLoaderObject->updateTask($request);
 
     }
 
+
+    public function delete(DeleteTaskRequest $request){
+
+        return $this->taskLoaderObject->deleteTask($request);
+
+    }
 
 }

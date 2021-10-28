@@ -32,6 +32,13 @@ $router->group(
                 Route::get('/list', 'Control\GroupController@list');
                 Route::get('/statistic-list', 'Control\GroupController@statisticList');
 
+                Route::post('/create', 'Control\GroupController@create');
+                Route::post('/update', 'Control\GroupController@update');
+                Route::post('/delete', 'Control\GroupController@delete');
+
+                Route::post('/add-member', 'Control\GroupController@addMember');
+                Route::post('/unsert-member', 'Control\GroupController@unsertMember');
+
             }
         );
 
@@ -44,7 +51,7 @@ $router->group(
 
                 Route::post('/task-create', 'Control\TaskController@create');
                 Route::post('/task-update', 'Control\TaskController@update');
-                Route::post('/task-delete', 'Control\TaskController@delite');
+                Route::post('/task-delete', 'Control\TaskController@delete');
 
             }
         );

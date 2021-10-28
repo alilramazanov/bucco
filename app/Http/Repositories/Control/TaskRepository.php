@@ -17,7 +17,7 @@ class TaskRepository extends BaseRepository
     {
         $columns = [
             'id',
-            'task_template_id',
+            'name',
             'description',
             'start_at',
             'end_at'
@@ -37,7 +37,7 @@ class TaskRepository extends BaseRepository
 
         $columns = [
             'id',
-            'task_template_id',
+            'name',
             'task_status_id',
             'group_id',
             'member_id',

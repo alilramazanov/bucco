@@ -10,7 +10,7 @@ class GroupTasksResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->TaskTemplate->name,
+            'name' => $this->name,
             'description' => $this->description,
             'startAt' => $this->start_at,
             'endAt' => $this->end_at
