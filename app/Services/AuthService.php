@@ -20,6 +20,7 @@ final class AuthService
         $admin->login = $validated['login'];
         $basePassword = $validated['password'];
         $admin->password = app('hash')->make($basePassword);
+        $admin->avatar = Admin::DEFAULT_AVATAR;
 
         $admin->save();
 
@@ -59,6 +60,10 @@ final class AuthService
     public function update(UpdateProfileRequest $request)
     {
         $admin = Auth::user();
+
+        if ($request->hasFile('avatar')) {
+            $admin->avatar = $request->file('avatar')->store('admins', 'public');
+        }
 
         $admin->update($request->validated());
 

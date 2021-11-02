@@ -34,6 +34,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|Admin wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $avatar
+ * @method static \Illuminate\Database\Eloquent\Builder|Admin whereAvatar($value)
  */
 class Admin extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
@@ -42,6 +44,8 @@ class Admin extends Model implements AuthenticatableContract, AuthorizableContra
     use HasFactory;
 
     protected $table = 'admins';
+
+    public const DEFAULT_AVATAR = 'admins/default.png';
 
     /**
      * @var array

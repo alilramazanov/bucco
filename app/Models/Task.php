@@ -38,6 +38,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Task whereTaskTemplateId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Task whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $name
+ * @property int $admin_id
+ * @method static \Illuminate\Database\Query\Builder|Task onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Task whereAdminId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Task whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|Task withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Task withoutTrashed()
  */
 class Task extends Model
 {

@@ -32,6 +32,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Group whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Group whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Query\Builder|Group onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Group withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Group withoutTrashed()
  */
 class Group extends Model
 {

@@ -10,7 +10,8 @@ class UpdateProfileRequest extends ApiRequest
     public function rules()
     {
         return [
-            'login' => 'required|string|max:50'
+            'login' => 'required|string|max:50',
+            'avatar' => 'file|mimes:jpg,jpeg,png'
         ];
     }
 }
