@@ -37,16 +37,18 @@ class MemberRepository extends BaseRepository
 
         $groupId = $request->get('group_id');
 
+
         $group = Group::find($groupId);
+
         $groupMemberList = [];
+
 
         foreach ($group->members as $member){
             if ($member->pivot->group_id == $groupId){
                 $groupMemberList [] = $member;
+
             }
         }
-
-
 
         return GroupMemberListResource::collection($groupMemberList);
 

@@ -52,7 +52,9 @@ class Task extends Model
         'name',
         'group_id',
         'member_id',
-        'description'
+        'description',
+        'start_at',
+        'end_at'
     ];
 
 

@@ -52,7 +52,7 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
     protected $table = 'members';
 
     protected $fillable = [
-        'name', 'login', 'password'
+        'name', 'login', 'password', 'admin_id'
     ];
 
     protected $hidden = [

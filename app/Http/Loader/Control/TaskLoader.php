@@ -27,7 +27,7 @@ class TaskLoader extends BaseLoader
 
 
         if ($isExists){
-            $stdClass->message = 'Такая задача уже есть';
+            $stdClass->message = 'Такая задача уже есть, поменяйте описание';
             return new BasicErrorResource($stdClass);
         }
 

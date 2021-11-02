@@ -6,6 +6,8 @@ use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
 use App\Models\Group;
 use App\Models\GroupMember;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class GroupLoader extends BaseLoader
 {
@@ -17,12 +19,17 @@ class GroupLoader extends BaseLoader
 
         $data = $request->input();
 
-        $isExists = Group::whereAdminId($request->input('admin_id'))
-            ->whereName($request->input('name'))
+        // Удаление ненужных отступов в начале и конце
+        $data['name'] = trim($data['name']);
+
+
+        // Проверка на существование подобного имени группы у админа без учета регистра
+        $isNameExists = Group::whereAdminId($request->input('admin_id'))
+            ->where('name' ,'iLIKE', '%'.$data['name'].'%')
             ->exists();
 
-        if ($isExists) {
-            $stdClass->message = 'Такая группа уже создана';
+        if ($isNameExists) {
+            $stdClass->message = 'Такая группа уже есть';
             return new BasicErrorResource($stdClass);
         }
 
@@ -43,7 +50,18 @@ class GroupLoader extends BaseLoader
         $stdClass = new \stdClass();
 
         $data = $request->input();
-        $group = Group::whereId($request->input('id'))->first();
+        $data['name'] = trim($data['name']);
+
+        $group = Group::whereId($request->input('id'));
+
+        $isNameExists = Group::whereAdminId($request->input('admin_id'))
+            ->where('name' ,'iLIKE', '%'.$data['name'].'%')
+            ->exists();
+
+        if ($isNameExists) {
+            $stdClass->message = 'Такая группа уже есть';
+            return new BasicErrorResource($stdClass);
+        }
 
         $isUpdate = $group->update($data);
 
@@ -80,6 +98,19 @@ class GroupLoader extends BaseLoader
         $stdClass = new \stdClass();
 
         $data = $request->input();
+        $data['position'] = trim($data['position']);
+
+        $isExists = GroupMember::where('position', 'iLIKE', $data['position'])
+        ->where('member_id', $data['member_id'])
+        ->where('group_id', $data['group_id'])
+        ->exists();
+
+        if ($isExists){
+            $stdClass->message = 'Участник уже имеет эту роль в группе';
+            return new BasicErrorResource($stdClass);
+
+        }
+
 
         $isCreate = GroupMember::create($data);
 
@@ -89,31 +120,10 @@ class GroupLoader extends BaseLoader
             return new SuccessResource($stdClass);
         }
 
-
         $stdClass->message =  'Ошибка добавления';
 
         return new BasicErrorResource($stdClass);
 
-    }
-
-    public function unsertMemberFromGroup($request){
-
-        $stdClass = new \stdClass();
-
-        $data = $request->input();
-
-
-        $isDelete = GroupMember::where('member_id', $request->input('member_id'))
-            ->where('group_id', $request->input('group_id'))
-            ->where('position', $request->input('position'))->delete();
-
-        if ($isDelete){
-            $stdClass->message = 'Участник успешно удален из группы';
-            return new SuccessResource($stdClass);
-        }
-
-        $stdClass->message = 'Ошибка удаления участника';
-        return new BasicErrorResource($stdClass);
     }
 
 }

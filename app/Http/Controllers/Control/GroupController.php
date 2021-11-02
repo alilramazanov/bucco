@@ -25,21 +25,23 @@ class GroupController extends BaseController
      */
     protected $groupRepository;
     protected $groupLoaderObject;
+    private $stdClass;
 
     public function __construct()
     {
         parent::__construct();
         $this->groupRepository = app(GroupRepository::class);
         $this->groupLoaderObject = app(GroupLoader::class);
+        $this->stdClass = new \stdClass();
     }
 
     public function list(GroupListRequest $request)
     {
-
         $groupList = $this->groupRepository->getGroupList($request);
 
         if ($groupList->isEmpty()) {
-            throw new BadRequestException('Группы не найдены', 404);
+            $this->stdClass->message = 'Группы не найдены';
+            return new BasicErrorResource($this->stdClass);
         }
 
         return $groupList;
@@ -51,7 +53,8 @@ class GroupController extends BaseController
         $groupList = $this->groupRepository->getGroupStatisticList($request);
 
         if ($groupList->isEmpty()) {
-            throw new BadRequestException('Группы не найдены', 404);
+            $this->stdClass->message = 'Группы не найдены';
+            return new BasicErrorResource($this->stdClass);
         }
 
         return $groupList;
@@ -73,7 +76,7 @@ class GroupController extends BaseController
     public function update(UpdateGroupRequest $request)
     {
 
-        return $this->groupLoaderObject->updateGrup($request);
+        return $this->groupLoaderObject->updateGroup($request);
 
     }
 
@@ -101,13 +104,7 @@ class GroupController extends BaseController
 
     }
 
-    public function unsertMember(UnsertMemberRequest $request){
 
-
-        return $this->groupLoaderObject->unsertMemberFromGroup($request);
-
-
-    }
 
 
 }
