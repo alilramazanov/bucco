@@ -22,7 +22,9 @@ class RegisterResource extends JsonResource
                 'path' => $this->avatar,
             )
         );
-        $avatar = $this->avatar ? \Illuminate\Support\Facades\URL::to('storage' . '/' . $this->avatar) : null;
+
+
+        $avatar = $this->avatar ? \Illuminate\Support\Facades\URL::to('image' . '?' . $query) : null;
 
         return [
             'id' => $this->id,

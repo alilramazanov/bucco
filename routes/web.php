@@ -23,6 +23,9 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+$router->get('/image', 'Control\ImageController@show');
+
+
 $router->group(
     ['prefix' => 'control/v1'],
     function (){

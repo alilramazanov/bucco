@@ -55,9 +55,9 @@ final class AuthService
 
     /**
      * @param UpdateProfileRequest $request
-     * @return mixed
+     * @return Admin
      */
-    public function update(UpdateProfileRequest $request)
+    public function update(UpdateProfileRequest $request): Admin
     {
         $admin = Auth::user();
 
