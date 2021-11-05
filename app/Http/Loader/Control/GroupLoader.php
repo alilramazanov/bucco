@@ -15,15 +15,13 @@ class GroupLoader extends BaseLoader
     public function createGroup($request){
 
         $stdClass = new \stdClass();
-
-
         $data = $request->input();
 
         // Удаление ненужных отступов в начале и конце
         $data['name'] = trim($data['name']);
 
 
-        // Проверка на существование подобного имени группы у админа без учета регистра
+        // Проверка на существование подобного имени группы у админа без учета регистра и возвращение ответа
         $isNameExists = Group::whereAdminId($request->input('admin_id'))
             ->where('name' ,'iLIKE', '%'.$data['name'].'%')
             ->exists();
@@ -33,6 +31,7 @@ class GroupLoader extends BaseLoader
             return new BasicErrorResource($stdClass);
         }
 
+        // Создание группы и возвращение статуса выполнения
         $isCreate = Group::create($data);
 
         if ($isCreate){
@@ -40,7 +39,7 @@ class GroupLoader extends BaseLoader
             return new SuccessResource($stdClass);
         }
 
-        $stdClass->message = 'Ошибка удаления группы';
+        $stdClass->message = 'Ошибка создания группы';
         return new BasicErrorResource($stdClass);
 
     }
@@ -48,12 +47,11 @@ class GroupLoader extends BaseLoader
     public function updateGroup($request){
 
         $stdClass = new \stdClass();
-
         $data = $request->input();
         $data['name'] = trim($data['name']);
 
-        $group = Group::whereId($request->input('id'));
 
+        $group = Group::whereId($request->input('id'));
         $isNameExists = Group::whereAdminId($request->input('admin_id'))
             ->where('name' ,'iLIKE', '%'.$data['name'].'%')
             ->exists();
@@ -96,7 +94,6 @@ class GroupLoader extends BaseLoader
     public function addMemberInGroup($request){
 
         $stdClass = new \stdClass();
-
         $data = $request->input();
         $data['position'] = trim($data['position']);
 
@@ -111,7 +108,6 @@ class GroupLoader extends BaseLoader
 
         }
 
-
         $isCreate = GroupMember::create($data);
 
         if ($isCreate){
@@ -125,5 +121,4 @@ class GroupLoader extends BaseLoader
         return new BasicErrorResource($stdClass);
 
     }
-
 }

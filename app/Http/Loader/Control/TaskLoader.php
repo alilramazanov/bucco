@@ -19,12 +19,15 @@ class TaskLoader extends BaseLoader
         $stdClass = new \stdClass();
         $data = $request->input();
 
+
+        // Проверка существования задачи
         $isExists = Task::whereGroupId($request->input('group_id'))
             ->whereMemberId($request->input('member_id'))
             ->whereName($request->input('name'))
             ->whereDescription($request->input('description'))
+            ->whereStartAt($request->input('start_at'))
+            ->whereEndAt($request->input('end_at'))
             ->exists();
-
 
         if ($isExists){
             $stdClass->message = 'Такая задача уже есть, поменяйте описание';
@@ -47,7 +50,6 @@ class TaskLoader extends BaseLoader
     public function updateTask($request){
 
         $stdClass = new \stdClass();
-
         $data = $request->input();
         $task = Task::whereId($request->get('id'))->first();
 
@@ -69,7 +71,6 @@ class TaskLoader extends BaseLoader
 
         $isDelete = Task::whereId($request->input('id'))
             ->delete();
-
 
         if ($isDelete){
             $stdClass->message = 'Задача успешно удалена';

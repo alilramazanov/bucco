@@ -17,6 +17,7 @@ class GroupRepository extends BaseRepository
     }
 
     public function getGroupList($request){
+
         $columns = [
             'id',
             'name',
@@ -32,6 +33,7 @@ class GroupRepository extends BaseRepository
     }
 
     public function getGroupStatisticList($request){
+
         $columns = [
             'id',
             'name',

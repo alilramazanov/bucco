@@ -7,9 +7,8 @@ use App\Models\Task;
 class MemberPortfolio
 {
 
-    //  Filter is group or admin
-
-    public function getPortfolio($tasks){
+    // Общая функция получения портфолио из задач
+    public  function getPortfolio($tasks){
 
         $completedTasks = $tasks
             ->where('task_status_id', 2)
