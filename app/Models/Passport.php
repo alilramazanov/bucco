@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Passport whereSerial($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Passport whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $address
+ * @method static \Illuminate\Database\Eloquent\Builder|Passport whereAddress($value)
  */
 class Passport extends Model
 {

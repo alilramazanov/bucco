@@ -41,6 +41,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|Member wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $avatar
+ * @method static \Illuminate\Database\Query\Builder|Member onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereAvatar($value)
+ * @method static \Illuminate\Database\Query\Builder|Member withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Member withoutTrashed()
  */
 class Member extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
@@ -50,6 +55,8 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
     use SoftDeletes;
 
     protected $table = 'members';
+
+    protected const DEFAULT_AVATAR = 'members/default.png';
 
     protected $fillable = [
         'name', 'login', 'password', 'admin_id'
