@@ -45,9 +45,9 @@ class MemberLoader extends BaseLoader
 
             // Подготовка данных для добавления участника в группу и добавление
             $data= [
-                'group_id' => $request->input('group_id'),
+                'group_id' => $data['group_id'],
                 'member_id' => Member::whereLogin($request->input('login'))->first('id')['id'],
-                'position' => $request->input('position')
+                'position' => $data['position']
             ];
 
             $isAddInGroup = GroupMember::create($data);
