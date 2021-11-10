@@ -56,10 +56,10 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
 
     protected $table = 'members';
 
-    protected const DEFAULT_AVATAR = 'members/default.png';
+    public const DEFAULT_AVATAR = 'members/default.png';
 
     protected $fillable = [
-        'name', 'login', 'password', 'admin_id'
+        'name', 'login', 'password', 'admin_id', 'avatar'
     ];
 
     protected $hidden = [

@@ -19,8 +19,12 @@
 
 use Illuminate\Support\Facades\Route;
 
+//$router->get('/', function () use ($router) {
+//    return $router->app->version();
+//});
+
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    throw new \Symfony\Component\HttpFoundation\Exception\BadRequestException();
 });
 
 $router->get('/image', 'Control\ImageController@show');

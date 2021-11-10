@@ -10,7 +10,6 @@ use App\Http\Requests\Control\Members\CreateMemberRequest;
 use App\Http\Requests\Control\Members\GroupMemberListRequest;
 use App\Http\Requests\Control\Members\UpdateMemberRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class MemberController extends BaseController
 {

@@ -4,11 +4,8 @@ namespace App\Http\Loader\Control;
 
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
-use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Member;
-use Lcobucci\JWT\Claim\Basic;
-use function Symfony\Component\Translation\t;
 
 class MemberLoader extends BaseLoader
 {
@@ -22,7 +19,7 @@ class MemberLoader extends BaseLoader
 
 
     //          По наказу великого и всемогущего, этот метод сначала создает
-    //          участника а потом добавляет его в группу
+    //          участника, а потом добавляет его в группу
         public function createMemberInGroup($request){
 
             /*
@@ -31,16 +28,22 @@ class MemberLoader extends BaseLoader
              */
             $data = $request->input();
             $data['name'] = trim($data['name']);
-
+            $data['password'] = app('hash')->make($data['password']);
 
             // Проверка на существования участника с вводимым логином и создание участника
             $isExists = Member::whereLogin($request->input('login'))->exists();
             if ($isExists){
-                $this->stdClass->message = 'Пользователь с такиим логином уже существует';
+                $this->stdClass->message = 'Пользователь с таким логином уже существует';
                 return new BasicErrorResource($this->stdClass);
             }
 
-            $isCreateMember = Member::create($data);
+            $isCreateMember = Member::create([
+                'name' => $data['name'],
+                'login' => $data['login'],
+                'password' => $data['password'],
+                'avatar' => Member::DEFAULT_AVATAR,
+                'admin_id' => $data['admin_id'],
+                ]);
 
 
             // Подготовка данных для добавления участника в группу и добавление
@@ -54,12 +57,9 @@ class MemberLoader extends BaseLoader
 
 
             // Ответ успешности создания участника и добавления его в группу
-            if ($isCreateMember) {
-                if ($isAddInGroup){
-                    $this->stdClass->message = 'Участник успешно создан и добавлен в группу';
-                    return new SuccessResource($this->stdClass);
-
-                }
+            if ($isCreateMember && $isAddInGroup) {
+                $this->stdClass->message = 'Участник успешно создан и добавлен в группу';
+                return new SuccessResource($this->stdClass);
 
             }
 
@@ -83,7 +83,7 @@ class MemberLoader extends BaseLoader
         // Обновление и вывод статуса обновления
         $isUpdate = Member::whereId($request->input('id'))->update(request()->input());
         if ($isUpdate){
-            $this->stdClass->message = 'Участник усспешно обновлен';
+            $this->stdClass->message = 'Участник успешно обновлен';
             return new SuccessResource($this->stdClass);
 
         }
@@ -113,7 +113,7 @@ class MemberLoader extends BaseLoader
         $data = $request->input();
 
 
-        // Уддаление записи о связи участника с группой и возвращение статуса удаления
+        // Удаление записи о связи участника с группой и возвращение статуса удаления
         $isDelete = GroupMember::where('member_id', $request->input('member_id'))
             ->where('group_id', $request->input('group_id'))
             ->where('position', $request->input('position'))->delete();
