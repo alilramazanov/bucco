@@ -7,16 +7,9 @@ use App\Http\Loader\Control\GroupLoader;
 use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Requests\Control\Groups\AddMemberRequest;
 use App\Http\Requests\Control\Groups\CreateGroupRequest;
-use App\Http\Requests\Control\Groups\GroupListRequest;
-use App\Http\Requests\Control\Groups\UnsertMemberRequest;
 use App\Http\Requests\Control\Groups\UpdateGroupRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
-use App\Http\Resources\Control\Common\SuccessResource;
-use App\Models\Group;
-use App\Models\GroupMember;
-use App\Models\PositionTemplate;
-use GrahamCampbell\ResultType\Success;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Illuminate\Http\Request;
 
 class GroupController extends BaseController
 {
@@ -33,9 +26,10 @@ class GroupController extends BaseController
         $this->groupRepository = app(GroupRepository::class);
         $this->groupLoaderObject = app(GroupLoader::class);
         $this->stdClass = new \stdClass();
+        $this->middleware('auth');
     }
 
-    public function list(GroupListRequest $request)
+    public function list(Request $request)
     {
         $groupList = $this->groupRepository->getGroupList($request);
 
@@ -47,7 +41,7 @@ class GroupController extends BaseController
         return $groupList;
     }
 
-    public function statisticList(GroupListRequest $request)
+    public function statisticList(Request $request)
     {
 
         $groupList = $this->groupRepository->getGroupStatisticList($request);
@@ -83,9 +77,7 @@ class GroupController extends BaseController
     public function delete(UpdateGroupRequest $request)
     {
 
-
         return $this->groupLoaderObject->deleteGroup($request);
-
 
     }
 

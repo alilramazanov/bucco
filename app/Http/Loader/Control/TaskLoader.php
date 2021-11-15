@@ -2,45 +2,24 @@
 
 namespace App\Http\Loader\Control;
 
-use App\Http\Requests\Control\Tasks\CreateTaskRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
 use App\Models\Task;
-use http\Client\Request;
 
 class TaskLoader extends BaseLoader
 {
-
-
-
 
     public function createTask($request){
 
         $stdClass = new \stdClass();
         $data = $request->input();
-
-
-        // Проверка существования задачи
-        $isExists = Task::whereGroupId($request->input('group_id'))
-            ->whereMemberId($request->input('member_id'))
-            ->whereName($request->input('name'))
-            ->whereDescription($request->input('description'))
-            ->whereStartAt($request->input('start_at'))
-            ->whereEndAt($request->input('end_at'))
-            ->exists();
-
-        if ($isExists){
-            $stdClass->message = 'Такая задача уже есть, поменяйте описание';
-            return new BasicErrorResource($stdClass);
-        }
+        $data['admin_id'] = \Auth::user()->id;
 
         $isCreate = Task::create($data);
 
         if ($isCreate){
-
             $stdClass->message = 'Задача успешно создана';
             return new SuccessResource($stdClass);
-
         }
 
         $stdClass->message = 'Ошибка создания задачи';
@@ -49,9 +28,12 @@ class TaskLoader extends BaseLoader
 
     public function updateTask($request){
 
+        $adminId = \Auth::user()->id;
         $stdClass = new \stdClass();
         $data = $request->input();
-        $task = Task::whereId($request->get('id'))->first();
+        $task = Task::whereId($request->get('id'))
+            ->whereAdminId($adminId)
+            ->first();
 
         $isUpdate = $task->update($data);
 
@@ -68,8 +50,10 @@ class TaskLoader extends BaseLoader
     public function deleteTask($request){
 
         $stdClass = new \stdClass();
+        $adminId = \Auth::user()->id;
 
         $isDelete = Task::whereId($request->input('id'))
+            ->whereAdminId($adminId)
             ->delete();
 
         if ($isDelete){

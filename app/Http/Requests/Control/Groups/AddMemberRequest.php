@@ -12,7 +12,9 @@ class AddMemberRequest extends ApiRequest
         return [
             'member_id' => 'integer|exists:members,id',
             'group_id' => 'integer|exists:groups,id',
-            'position' => 'string|max:50'
+            'position' => 'string|max:50|min:3',
+            'start_working_day' => 'date_format:H:i',
+            'end_working_day' => 'date_format:H:i'
         ];
     }
 

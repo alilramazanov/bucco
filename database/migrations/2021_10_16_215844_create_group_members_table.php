@@ -16,8 +16,8 @@ class CreateGroupMembersTable extends Migration
         Schema::create('group_members', function (Blueprint $table) {
             $table->id();
             $table->string('position', 50);
-            $table->dateTime('start_working_day')->nullable();
-            $table->dateTime('end_working_day')->nullable();
+            $table->time('start_working_day')->nullable();
+            $table->time('end_working_day')->nullable();
             $table->foreignId('group_id')->constrained('groups');
             $table->foreignId('member_id')->constrained('members');
             $table->timestamps();

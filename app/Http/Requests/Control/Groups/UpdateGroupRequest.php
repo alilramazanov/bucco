@@ -9,8 +9,8 @@ class UpdateGroupRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'integer|exists:groups,id'
-
+            'id' => 'integer|exists:groups,id',
+            'name' => 'string|min:3|max:50'
         ];
     }
 

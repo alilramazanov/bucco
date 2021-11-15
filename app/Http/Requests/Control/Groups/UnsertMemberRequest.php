@@ -10,9 +10,9 @@ class UnsertMemberRequest extends ApiRequest
     public function rules()
     {
         return [
-            'member_id' => 'integer|exists:members,id',
-            'group_id' =>'integer|exists:groups,id'
-
+            'member_id' => 'required|integer|exists:members,id',
+            'group_id' =>'required|integer|exists:groups,id',
+            'position' => 'required|string'
         ];
     }
 }

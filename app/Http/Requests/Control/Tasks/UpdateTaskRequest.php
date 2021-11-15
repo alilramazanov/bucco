@@ -11,8 +11,12 @@ class UpdateTaskRequest extends ApiRequest
     public function rules()
     {
         return [
-            'id' => 'integer|exists:tasks,id',
-            'task_status_id' => 'integer|exists:task_statuses,id'
+            'id' => 'required|integer|exists:tasks,id',
+            'name' => 'string|min:2|max:50',
+            'description' => 'string',
+            'task_status_id' => 'integer|exists:task_statuses,id',
+            'start_at' => 'date',
+            'end_at' => 'date'
         ];
     }
 

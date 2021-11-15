@@ -5,15 +5,10 @@ namespace App\Http\Controllers\Control;
 use App\Http\Loader\Control\TaskLoader;
 use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Tasks\CreateTaskRequest;
-use App\Http\Requests\Control\Tasks\DeleteTaskRequest;
+use App\Http\Requests\Control\Tasks\DetailTaskRequest;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
-use App\Http\Requests\Control\Tasks\TaskCreateRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
-use App\Http\Resources\Control\Common\BasicErrorResource;
-use App\Http\Resources\Control\Common\SuccessResource;
-use App\Models\Task;
-use GrahamCampbell\ResultType\Success;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -35,7 +30,7 @@ class TaskController extends BaseController
         parent::__construct();
         $this->taskRepository = app(TaskRepository::class);
         $this->taskLoaderObject = app(TaskLoader::class);
-
+        $this->middleware('auth');
     }
 
 
@@ -69,9 +64,7 @@ class TaskController extends BaseController
 
     public function create(CreateTaskRequest $request){
 
-
         return $this->taskLoaderObject->createTask($request);
-
 
     }
 
@@ -83,7 +76,7 @@ class TaskController extends BaseController
     }
 
 
-    public function delete(DeleteTaskRequest $request){
+    public function delete(DetailTaskRequest $request){
 
         return $this->taskLoaderObject->deleteTask($request);
 

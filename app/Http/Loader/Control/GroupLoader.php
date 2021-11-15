@@ -6,24 +6,23 @@ use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
 use App\Models\Group;
 use App\Models\GroupMember;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class GroupLoader extends BaseLoader
 {
 
     public function createGroup($request){
 
+        $adminId = \Auth::user()->id;
         $stdClass = new \stdClass();
         $data = $request->input();
 
         // Удаление ненужных отступов в начале и конце
         $data['name'] = trim($data['name']);
-
+        $data['admin_id'] = $adminId;
 
         // Проверка на существование подобного имени группы у админа без учета регистра и возвращение ответа
-        $isNameExists = Group::whereAdminId($request->input('admin_id'))
-            ->where('name' ,'iLIKE', '%'.$data['name'].'%')
+        $isNameExists = Group::whereAdminId($adminId)
+            ->where('name' ,'iLIKE', $data['name'])
             ->exists();
 
         if ($isNameExists) {
@@ -33,6 +32,7 @@ class GroupLoader extends BaseLoader
 
         // Создание группы и возвращение статуса выполнения
         $isCreate = Group::create($data);
+
 
         if ($isCreate){
             $stdClass->message = 'Группа успешно создана';
@@ -46,14 +46,15 @@ class GroupLoader extends BaseLoader
 
     public function updateGroup($request){
 
+        $adminId = \Auth::user()->id;
         $stdClass = new \stdClass();
         $data = $request->input();
         $data['name'] = trim($data['name']);
 
 
         $group = Group::whereId($request->input('id'));
-        $isNameExists = Group::whereAdminId($request->input('admin_id'))
-            ->where('name' ,'iLIKE', '%'.$data['name'].'%')
+        $isNameExists = Group::whereAdminId($adminId)
+            ->where('name' ,'iLIKE', $data['name'])
             ->exists();
 
         if ($isNameExists) {
@@ -76,8 +77,10 @@ class GroupLoader extends BaseLoader
     public function deleteGroup($request){
 
         $stdClass = new \stdClass();
+        $adminId = \Auth::user()->id;
 
         $isDelete = Group::whereId($request->input('id'))
+            ->whereAdminId($adminId)
             ->delete();
 
         if ($isDelete) {
@@ -97,8 +100,7 @@ class GroupLoader extends BaseLoader
         $data = $request->input();
         $data['position'] = trim($data['position']);
 
-        $isExists = GroupMember::where('position', 'iLIKE', $data['position'])
-        ->where('member_id', $data['member_id'])
+        $isExists = GroupMember::where('member_id', $data['member_id'])
         ->where('group_id', $data['group_id'])
         ->exists();
 

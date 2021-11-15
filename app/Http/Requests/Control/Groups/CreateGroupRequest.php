@@ -9,9 +9,8 @@ class CreateGroupRequest extends ApiRequest
     public function rules()
     {
         return [
-            [
-                'admin_id' => 'integer|exists:admins,id'
-            ]
+            'name' => 'string|max:50|min:3',
+            'admin_id' => 'integer|exists:admins,id'
         ];
     }
 

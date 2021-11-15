@@ -4,13 +4,13 @@ namespace App\Http\Requests\Control\Members;
 
 use App\Http\Requests\ApiRequest;
 
-class AdminMemberListRequest extends ApiRequest
+class DetailMemberRequest extends ApiRequest
 {
-
     public function rules()
     {
         return [
-            'admin_id' => 'integer|exists:admins,id'
+            'id' => 'integer|required|exists:members,id'
         ];
     }
+
 }

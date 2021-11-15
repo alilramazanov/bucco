@@ -4,8 +4,9 @@ namespace App\Http\Requests\Control\Members;
 
 use App\Http\Requests\ApiRequest;
 
-class CreateMemberRequest extends ApiRequest
+class CreateMemberInGroupRequest extends ApiRequest
 {
+
     public function rules()
     {
         return [
@@ -13,6 +14,13 @@ class CreateMemberRequest extends ApiRequest
             'login' => 'string|max:50|min:3|required',
             'password' => 'required|string|max:255|min:6|confirmed',
             'password_confirmation' => 'required|string|max:255|min:6',
+            'admin_id' => 'integer|exists:admins,id',
+            'group_id' => 'integer|exists:groups,id',
+            'position' => 'string|max:50',
+            'start_working_day' => 'date_format:H:i',
+            'end_working_day' => 'date_format:H:i'
         ];
     }
+
+
 }

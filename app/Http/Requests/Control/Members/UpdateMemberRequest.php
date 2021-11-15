@@ -11,8 +11,9 @@ class UpdateMemberRequest extends ApiRequest
     {
         return [
             'id' => 'integer|exists:members,id',
-            'name' => 'string|max:50',
-            'login' => 'string|max:50'
+            'name' => 'string|max:50|min:2',
+            'login' => 'string|max:50|min:3',
+            'avatar' => 'file|mimes:jpg,jpeg,png'
         ];
     }
 }

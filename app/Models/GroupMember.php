@@ -34,10 +34,14 @@ class GroupMember extends Model
 {
 
     protected $table = 'group_members';
+
+
     protected $fillable = [
         'member_id',
         'group_id',
-        'position'
+        'position',
+        'start_working_day',
+        'end_working_day'
     ];
 
 

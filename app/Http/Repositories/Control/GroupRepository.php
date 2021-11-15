@@ -18,6 +18,8 @@ class GroupRepository extends BaseRepository
 
     public function getGroupList($request){
 
+        $adminId = \Auth::user()->id;
+
         $columns = [
             'id',
             'name',
@@ -26,7 +28,7 @@ class GroupRepository extends BaseRepository
 
         $groups = $this->startConditions()
             ->select($columns)
-            ->where('admin_id', $request->get('admin_id'))
+            ->whereAdminId($adminId)
             ->get();
 
         return GroupListResource::collection($groups);
@@ -34,6 +36,7 @@ class GroupRepository extends BaseRepository
 
     public function getGroupStatisticList($request){
 
+        $adminId = \Auth::user()->id;
         $columns = [
             'id',
             'name',
@@ -42,7 +45,7 @@ class GroupRepository extends BaseRepository
 
         $groups = $this->startConditions()
             ->select($columns)
-            ->where('admin_id', $request->get('admin_id'))
+            ->whereAdminId($adminId)
             ->get();
 
         return GroupStatisticListResource::collection($groups);

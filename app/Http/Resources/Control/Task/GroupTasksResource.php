@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Control\Task;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupTasksResource extends JsonResource
@@ -12,8 +13,8 @@ class GroupTasksResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'startAt' => $this->start_at,
-            'endAt' => $this->end_at
+            'startAt' => Carbon::parse($this->start_at)->format('d-m-Y H:i:s'),
+            'endAt' => Carbon::parse($this->end_at)->format('d-m-Y H:i:s')
 
         ];
     }

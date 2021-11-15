@@ -59,7 +59,7 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
     public const DEFAULT_AVATAR = 'members/default.png';
 
     protected $fillable = [
-        'name', 'login', 'password', 'admin_id', 'avatar'
+        'name', 'login', 'password', 'admin_id', 'avatar',
     ];
 
     protected $hidden = [
@@ -88,9 +88,6 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
         return $this->hasMany(Task::class);
     }
 
-//    public function portfolio(){
-//        return $this->hasMany(Portfolio::class);
-//    }
 
     public function admin(){
         return $this->belongsTo(Admin::class);

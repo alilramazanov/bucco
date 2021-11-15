@@ -2,12 +2,6 @@
 
 namespace App\Resources\Control\Rating;
 
-use App\Http\Resources\Control\Portfolio\PortfolioResource;
-use App\Models\Portfolio;
-use App\Resources\Control\Rating;
-use App\Models\Member as Model;
-use function React\Promise\all;
-
 class MemberRating
 {
 

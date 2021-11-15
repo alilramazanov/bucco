@@ -12,20 +12,20 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-//
+
 //$router->get('/key', function() {
 //    return \Illuminate\Support\Str::random(32);
 //});
 
 use Illuminate\Support\Facades\Route;
 
-//$router->get('/', function () use ($router) {
-//    return $router->app->version();
-//});
-
 $router->get('/', function () use ($router) {
-    throw new \Symfony\Component\HttpFoundation\Exception\BadRequestException();
+    return $router->app->version();
 });
+
+//$router->get('/', function () use ($router) {
+//    throw new \Symfony\Component\HttpFoundation\Exception\BadRequestException();
+//});
 
 $router->get('/image', 'Control\ImageController@show');
 
@@ -38,13 +38,10 @@ $router->group(
             function () {
                 Route::get('/list', 'Control\GroupController@list');
                 Route::get('/statistic-list', 'Control\GroupController@statisticList');
-
                 Route::post('/create', 'Control\GroupController@create');
                 Route::post('/update', 'Control\GroupController@update');
                 Route::post('/delete', 'Control\GroupController@delete');
-
                 Route::post('/add-member', 'Control\GroupController@addMember');
-
             }
         );
 
@@ -53,11 +50,9 @@ $router->group(
             function (){
                 Route::get('/group-task-list', 'Control\TaskController@groupTaskList');
                 Route::get('/member-task-list', 'Control\TaskController@memberTaskList');
-
-
-                Route::post('/task-create', 'Control\TaskController@create');
-                Route::post('/task-update', 'Control\TaskController@update');
-                Route::post('/task-delete', 'Control\TaskController@delete');
+                Route::post('/create', 'Control\TaskController@create');
+                Route::post('/update', 'Control\TaskController@update');
+                Route::post('/delete', 'Control\TaskController@delete');
 
             }
         );
@@ -67,13 +62,11 @@ $router->group(
             function (){
                 Route::get('/admin-member-list','Control\MemberController@adminMemberList');
                 Route::get('/group-member-list', 'Control\MemberController@groupMemberList');
-
                 Route::post('/create-member-in-group', 'Control\MemberController@create');
+                Route::post('create', 'Control\MemberController@createMember');
                 Route::post('/unsert-member', 'Control\MemberController@unsert');
                 Route::post('/update', 'Control\MemberController@update');
                 Route::post('/delete', 'Control\MemberController@delete');
-
-
 
             }
         );

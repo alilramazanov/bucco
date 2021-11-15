@@ -3,7 +3,6 @@
 namespace App\Resources\Control\Statistic;
 
 use App\Models\Task;
-use function React\Promise\all;
 
 class Statistic
 {
