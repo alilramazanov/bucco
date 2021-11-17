@@ -7,10 +7,11 @@
     "require": {
         "php": "7.4.3",
         "ext-json": "*",
+        "berkayk/onesignal-laravel": "^1.0",
         "laravel/lumen-framework": "^8.0",
+        "league/flysystem": "1.*",
         "tymon/jwt-auth": "dev-develop",
-        "urameshibr/lumen-form-request": "^1.5",
-        "league/flysystem": "1.*"
+        "urameshibr/lumen-form-request": "^1.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",
@@ -23,7 +24,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "bootstrap/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [
