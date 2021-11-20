@@ -17,6 +17,7 @@ class CreateGroupsTable extends Migration
             $table->id();
             $table->string('name', 50);
             $table->foreignId('admin_id')->constrained('admins');
+            $table->string('avatar')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

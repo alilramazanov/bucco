@@ -13,13 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('login', 50)->unique();
-            $table->string('password', 50);
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        Schema::dropIfExists('users');
     }
 
     /**

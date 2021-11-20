@@ -7,6 +7,7 @@ use App\Http\Loader\Control\GroupLoader;
 use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Requests\Control\Groups\AddMemberRequest;
 use App\Http\Requests\Control\Groups\CreateGroupRequest;
+use App\Http\Requests\Control\Groups\DetailGroupRequest;
 use App\Http\Requests\Control\Groups\UpdateGroupRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use Illuminate\Http\Request;
@@ -56,29 +57,27 @@ class GroupController extends BaseController
     }
 
 
-    //                  POST методы таблицы groups
 
 
     public function create(CreateGroupRequest $request)
     {
-
         return $this->groupLoaderObject->createGroup($request);
+    }
 
+    public function detail(DetailGroupRequest $request)
+    {
+        return $this->groupLoaderObject->detailGroup($request);
     }
 
 
     public function update(UpdateGroupRequest $request)
     {
-
         return $this->groupLoaderObject->updateGroup($request);
-
     }
 
-    public function delete(UpdateGroupRequest $request)
+    public function delete(DetailGroupRequest $request)
     {
-
         return $this->groupLoaderObject->deleteGroup($request);
-
     }
 
 
@@ -90,10 +89,7 @@ class GroupController extends BaseController
 
     public function addMember(AddMemberRequest $request)
     {
-
         return $this->groupLoaderObject->addMemberInGroup($request);
-
-
     }
 
 

@@ -10,7 +10,8 @@ class CreateGroupRequest extends ApiRequest
     {
         return [
             'name' => 'string|max:50|min:3',
-            'admin_id' => 'integer|exists:admins,id'
+            'admin_id' => 'integer|exists:admins,id',
+            'avatar' => 'file|mimes:jpg,jpeg,png,svg'
         ];
     }
 

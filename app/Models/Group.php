@@ -35,6 +35,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|Group onlyTrashed()
  * @method static \Illuminate\Database\Query\Builder|Group withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Group withoutTrashed()
+ * @property string|null $avatar
+ * @method static \Illuminate\Database\Eloquent\Builder|Group whereAvatar($value)
  */
 class Group extends Model
 {

@@ -46,6 +46,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereAvatar($value)
  * @method static \Illuminate\Database\Query\Builder|Member withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Member withoutTrashed()
+ * @property int|null $serial
+ * @property int|null $number
+ * @property string|null $address
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereSerial($value)
  */
 class Member extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {

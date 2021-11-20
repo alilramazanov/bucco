@@ -4,6 +4,8 @@ namespace App\Http\Loader\Control;
 
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
+use App\Http\Resources\Control\Member\DetailGroupMemberResource;
+use App\Http\Resources\Control\Member\DetailMemberResource;
 use App\Models\GroupMember;
 use App\Models\Member;
 
@@ -38,13 +40,22 @@ class MemberLoader extends BaseLoader
                 return new BasicErrorResource($this->stdClass);
             }
 
-            $isCreateMember = Member::create([
-                'name' => $data['name'],
-                'login' => $data['login'],
-                'password' => $data['password'],
-                'avatar' => Member::DEFAULT_AVATAR,
-                'admin_id' => $adminId,
-                ]);
+            $member = new Member;
+            $member->name = $data['name'];
+            $member->login = $data['login'];
+            $member->password = $data['password'];
+            $member->avatar = Member::DEFAULT_AVATAR;
+            $member->admin_id = $adminId;
+            $member->serial = $data['serial'];
+            $member->number = $data['number'];
+            $member->address = $data['address'];
+
+
+            if ($request->hasFile('avatar')) {
+                $member->avatar = $request->file('avatar')->store('members', 'public');
+            }
+
+            $isCreateMember = $member->save();
 
 
             // Подготовка данных для добавления участника в группу и добавление
@@ -79,15 +90,25 @@ class MemberLoader extends BaseLoader
             return new BasicErrorResource($this->stdClass);
         }
 
-        $isCreateMember = Member::create([
-            'name' => $data['name'],
-            'login' => $data['login'],
-            'password' => $data['password'],
-            'avatar' => Member::DEFAULT_AVATAR,
-            'admin_id' => $adminId,
-        ]);
 
-        if ($isCreateMember) {
+        $member = new Member;
+        $member->name = $data['name'];
+        $member->login = $data['login'];
+        $member->password = $data['password'];
+        $member->avatar = Member::DEFAULT_AVATAR;
+        $member->admin_id = $adminId;
+        $member->serial = $data['serial'];
+        $member->number = $data['number'];
+        $member->address = $data['address'];
+
+        if ($request->hasFile('avatar')) {
+            $member->avatar = $request->file('avatar')->store('members', 'public');
+        }
+
+        $isSave = $member->save();
+
+
+        if ($isSave) {
             $this->stdClass->message = 'Пользователь успешно создан';
             return new SuccessResource($this->stdClass);
         }
@@ -114,6 +135,37 @@ class MemberLoader extends BaseLoader
 
         $stdClass->message = 'Ошибка удаления участника';
         return new BasicErrorResource($stdClass);
+    }
+
+    public function detailGroupMember($request)
+    {
+        $groupMember = GroupMember::whereId($request->input('id'))->first();
+
+        return new DetailGroupMemberResource($groupMember);
+    }
+
+    public function updateGroupMember($request)
+    {
+        $groupMember = GroupMember::whereId($request->input('id'))->first();
+
+        $isUpdate = $groupMember->update($request->input());
+
+        if ($isUpdate){
+            $this->stdClass->message = 'Участник успешно обновлен';
+            return new SuccessResource($this->stdClass);
+        }
+
+        $this->stdClass->message = 'Ошибка обновления участника';
+        return new BasicErrorResource($this->stdClass);
+    }
+
+    public function detailMember($request)
+    {
+        $user = Member::whereId($request->input('id'))
+        ->whereAdminId(\Auth::user()->id)
+        ->first();
+
+        return new DetailMemberResource($user);
     }
 
 

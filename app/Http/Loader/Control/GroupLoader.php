@@ -4,6 +4,7 @@ namespace App\Http\Loader\Control;
 
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
+use App\Http\Resources\Control\Group\DetailGroupResource;
 use App\Models\Group;
 use App\Models\GroupMember;
 
@@ -16,9 +17,6 @@ class GroupLoader extends BaseLoader
         $stdClass = new \stdClass();
         $data = $request->input();
 
-        // Удаление ненужных отступов в начале и конце
-        $data['name'] = trim($data['name']);
-        $data['admin_id'] = $adminId;
 
         // Проверка на существование подобного имени группы у админа без учета регистра и возвращение ответа
         $isNameExists = Group::whereAdminId($adminId)
@@ -31,7 +29,14 @@ class GroupLoader extends BaseLoader
         }
 
         // Создание группы и возвращение статуса выполнения
-        $isCreate = Group::create($data);
+        $group = new Group;
+        $group->name = trim($data['name']);
+        $group->admin_id = $adminId;
+        if ($request->hasFile('avatar')) {
+            $group->avatar = $request->file('avatar')->store('groups', 'public');
+        }
+
+        $isCreate = $group->save();
 
 
         if ($isCreate){
@@ -44,6 +49,15 @@ class GroupLoader extends BaseLoader
 
     }
 
+    public function detailGroup($request)
+    {
+        $group = Group::whereId($request->input('id'))
+            ->whereAdminId(\Auth::user()->id)
+            ->first();
+
+        return new DetailGroupResource($group);
+    }
+
     public function updateGroup($request){
 
         $adminId = \Auth::user()->id;
@@ -52,7 +66,9 @@ class GroupLoader extends BaseLoader
         $data['name'] = trim($data['name']);
 
 
-        $group = Group::whereId($request->input('id'));
+        $group = Group::whereId($request->input('id'))
+            ->whereAdminId($adminId)
+            ->first();
         $isNameExists = Group::whereAdminId($adminId)
             ->where('name' ,'iLIKE', $data['name'])
             ->exists();
@@ -60,6 +76,10 @@ class GroupLoader extends BaseLoader
         if ($isNameExists) {
             $stdClass->message = 'Такая группа уже есть';
             return new BasicErrorResource($stdClass);
+        }
+
+        if ($request->hasFile('avatar')) {
+            $group->avatar = $request->file('avatar')->store('groups', 'public');
         }
 
         $isUpdate = $group->update($data);

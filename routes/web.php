@@ -37,6 +37,7 @@ $router->group(
             ['prefix' => 'groups'],
             function () {
                 Route::get('/list', 'Control\GroupController@list');
+                Route::get('/detail', 'Control\GroupController@detail');
                 Route::get('/statistic-list', 'Control\GroupController@statisticList');
                 Route::post('/create', 'Control\GroupController@create');
                 Route::post('/update', 'Control\GroupController@update');
@@ -62,9 +63,12 @@ $router->group(
             function (){
                 Route::get('/admin-member-list','Control\MemberController@adminMemberList');
                 Route::get('/group-member-list', 'Control\MemberController@groupMemberList');
+                Route::get('/detail-group-member', 'Control\MemberController@detailGroupMember');
+                Route::post('/update-group-member', 'Control\MemberController@updateGroupMember');
                 Route::post('/create-member-in-group', 'Control\MemberController@create');
-                Route::post('create', 'Control\MemberController@createMember');
+                Route::post('/create', 'Control\MemberController@createMember');
                 Route::post('/unsert-member', 'Control\MemberController@unsert');
+                Route::get('/detail', 'Control\MemberController@detail');
                 Route::post('/update', 'Control\MemberController@update');
                 Route::post('/delete', 'Control\MemberController@delete');
 

@@ -13,15 +13,7 @@ class CreatePassportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('passports', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('member_id')->constrained('members');
-            $table->integer('serial')->nullable();
-            $table->integer('number')->nullable();
-            $table->string('address')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-        });
+        Schema::dropIfExists('passports');
     }
 
     /**
