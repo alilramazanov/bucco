@@ -65,7 +65,7 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
     public const DEFAULT_AVATAR = 'members/default.png';
 
     protected $fillable = [
-        'name', 'login', 'password', 'admin_id', 'avatar',
+        'name', 'login', 'password', 'admin_id', 'avatar', 'serial', 'number', 'address'
     ];
 
     protected $hidden = [

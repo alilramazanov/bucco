@@ -40,22 +40,15 @@ class MemberLoader extends BaseLoader
                 return new BasicErrorResource($this->stdClass);
             }
 
-            $member = new Member;
-            $member->name = $data['name'];
-            $member->login = $data['login'];
-            $member->password = $data['password'];
-            $member->avatar = Member::DEFAULT_AVATAR;
-            $member->admin_id = $adminId;
-            $member->serial = $data['serial'];
-            $member->number = $data['number'];
-            $member->address = $data['address'];
+            $data['avatar'] = Member::DEFAULT_AVATAR;
+            $data['admin_id'] = $adminId;
 
 
             if ($request->hasFile('avatar')) {
-                $member->avatar = $request->file('avatar')->store('members', 'public');
+                $data['avatar'] = $request->file('avatar')->store('members', 'public');
             }
 
-            $isCreateMember = $member->save();
+            $isCreateMember = Member::create($data);
 
 
             // Подготовка данных для добавления участника в группу и добавление
@@ -91,21 +84,15 @@ class MemberLoader extends BaseLoader
         }
 
 
-        $member = new Member;
-        $member->name = $data['name'];
-        $member->login = $data['login'];
-        $member->password = $data['password'];
-        $member->avatar = Member::DEFAULT_AVATAR;
-        $member->admin_id = $adminId;
-        $member->serial = $data['serial'];
-        $member->number = $data['number'];
-        $member->address = $data['address'];
+        $data['avatar'] = Member::DEFAULT_AVATAR;
+        $data['admin_id'] = $adminId;
+
 
         if ($request->hasFile('avatar')) {
-            $member->avatar = $request->file('avatar')->store('members', 'public');
+            $data['avatar'] = $request->file('avatar')->store('members', 'public');
         }
 
-        $isSave = $member->save();
+        $isSave = Member::create($data);
 
 
         if ($isSave) {
