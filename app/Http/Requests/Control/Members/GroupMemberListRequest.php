@@ -11,7 +11,6 @@ class GroupMemberListRequest extends ApiRequest
     {
         return [
             'group_id' => 'integer|required|exists:groups,id'
-
         ];
     }
 }
