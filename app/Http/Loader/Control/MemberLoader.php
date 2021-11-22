@@ -8,6 +8,7 @@ use App\Http\Resources\Control\Member\DetailGroupMemberResource;
 use App\Http\Resources\Control\Member\DetailMemberResource;
 use App\Models\GroupMember;
 use App\Models\Member;
+use App\Models\Task;
 
 class MemberLoader extends BaseLoader
 {
@@ -17,7 +18,10 @@ class MemberLoader extends BaseLoader
     public function __construct(){
         $this->groupLoader = app(GroupLoader::class);
         $this->stdClass = new \stdClass();
+
     }
+
+
 
 
     //          По наказу великого и всемогущего, этот метод сначала создает
@@ -206,6 +210,8 @@ class MemberLoader extends BaseLoader
         return new BasicErrorResource($this->stdClass);
 
     }
+
+
 
 
 }

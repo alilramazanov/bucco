@@ -72,6 +72,8 @@ $router->group(
                 Route::post('/update', 'Control\MemberController@update');
                 Route::post('/delete', 'Control\MemberController@delete');
 
+
+
             }
         );
 
@@ -95,7 +97,9 @@ $router->group(
                 Route::post('/logout', 'Control\MemberProfileController@logout');
                 Route::get('/profile/show', 'Control\MemberProfileController@show');
                 Route::post('/refresh-token', 'Control\MemberProfileController@refresh');
+
                 Route::get('/tasks-list', 'Control\MemberTaskController@taskList');
+                Route::post('/update-status', 'Control\MemberTaskController@updateStatusTask');
 
             }
         );

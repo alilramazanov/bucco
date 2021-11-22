@@ -11,6 +11,7 @@ use App\Http\Requests\Control\Groups\DetailGroupRequest;
 use App\Http\Requests\Control\Groups\UpdateGroupRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use Illuminate\Http\Request;
+use OneSignal;
 
 class GroupController extends BaseController
 {
@@ -34,10 +35,13 @@ class GroupController extends BaseController
     {
         $groupList = $this->groupRepository->getGroupList($request);
 
+
+
         if ($groupList->isEmpty()) {
             $this->stdClass->message = 'Группы не найдены';
             return new BasicErrorResource($this->stdClass);
         }
+
 
         return $groupList;
     }

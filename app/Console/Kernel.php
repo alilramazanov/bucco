@@ -2,8 +2,13 @@
 
 namespace App\Console;
 
+use App\Console\Commands\TimerCommand;
+use App\Http\Repositories\Control\TaskRepository;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
+use Laravel\Lumen\Application;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
+use OneSignal;
 
 class Kernel extends ConsoleKernel
 {
@@ -12,7 +17,9 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
+
     protected $commands = [
+        TimerCommand::class
         //
     ];
 
@@ -24,6 +31,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+
+        $schedule->call(new TimerCommand)->everyMinute();
+
     }
 }
