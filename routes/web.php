@@ -95,6 +95,8 @@ $router->group(
                 Route::post('/logout', 'Control\MemberProfileController@logout');
                 Route::get('/profile/show', 'Control\MemberProfileController@show');
                 Route::post('/refresh-token', 'Control\MemberProfileController@refresh');
+                Route::get('/tasks-list', 'Control\MemberTaskController@taskList');
+
             }
         );
     }

@@ -46,12 +46,26 @@ class TaskRepository extends BaseRepository
             'end_at'
         ];
 
+        if ($request->get('status_id') == 1) {
+            $tasks = $this->startConditions()
+                ->select($columns)
+                ->where('group_id', $request->get('group_id'))
+                ->where('member_id', $request->get('member_id'))
+                ->whereIn('task_status_id', [1, 4])
+                ->orderByDesc('id')
+                ->get();
+
+            return MemberTasksResource::collection($tasks);
+
+        }
+
         $currentTasks = $this->startConditions()
             ->select($columns)
-            ->where('group_id', $request->get('group_id') )
+            ->where('group_id', $request->get('group_id'))
             ->where('member_id', $request->get('member_id'))
             ->where('task_status_id', $request->get('status_id'))
-            ->paginate();
+            ->orderByDesc('id')
+            ->get();
 
         return MemberTasksResource::collection($currentTasks);
     }

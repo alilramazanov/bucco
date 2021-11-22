@@ -14,9 +14,10 @@ class TaskStatusSeeder extends Seeder
     public function run()
     {
         $names = [
-            'Текущие',
-            'Выполненные',
-            'Просроченные'
+            'В очереди',
+            'Выполняется',
+            'Выполненная',
+            'Просроченная'
         ];
         foreach ($names as $name){
             $statuses = [

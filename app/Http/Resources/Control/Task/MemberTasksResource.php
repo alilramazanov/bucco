@@ -12,11 +12,13 @@ class MemberTasksResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'statusName' => $this->taskStatus->name,
+            'status' => [
+                'statusId' => $this->task_status_id,
+                'statusName' => $this->taskStatus->name,
+            ],
             'description' => $this->description,
             'startAt' => Carbon::parse($this->start_at)->format('d-m-Y H:i:s'),
             'endAt' => Carbon::parse($this->end_at)->format('d-m-Y H:i:s')
-
         ];
     }
 

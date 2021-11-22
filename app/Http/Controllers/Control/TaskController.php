@@ -9,6 +9,7 @@ use App\Http\Requests\Control\Tasks\DetailTaskRequest;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
+use App\Http\Resources\Control\Common\BasicErrorResource;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -51,7 +52,9 @@ class TaskController extends BaseController
         $memberTasks = $this->taskRepository->getMemberTaskList($request);
 
         if ($memberTasks->isEmpty()) {
-            throw new BadRequestException('Задачи участника не найдены', 404);
+            $stdClass = new \stdClass();
+            $stdClass->message = 'Задачи участника не найдены';
+            return new BasicErrorResource($stdClass);
         }
 
         return $memberTasks;

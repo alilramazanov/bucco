@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
         return [
             'token' => $this->token,
             'tokenType' => 'bearer',
-            'expiresIn' => Auth::factory()->getTTL() * env('EXPIRES_IN')
+            'expiresIn' => Auth::factory()->getTTL() * config('auth.expires_in')
         ];
     }
 
