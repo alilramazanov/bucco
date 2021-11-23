@@ -98,9 +98,11 @@ $router->group(
                 Route::get('/profile/show', 'Control\MemberProfileController@show');
                 Route::post('/refresh-token', 'Control\MemberProfileController@refresh');
 
-                Route::get('/tasks-list', 'Control\MemberTaskController@taskList');
+
                 Route::post('/update-status', 'Control\MemberTaskController@updateStatusTask');
+                Route::get('/tasks-list', 'Control\MemberTaskController@taskList');
                 Route::get('/member-group-list', 'Control\MemberTaskController@memberGroupList');
+                Route::get('/member-task-list', 'Control\MemberTaskController@memberTaskList');
 
 
             }

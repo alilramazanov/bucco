@@ -67,6 +67,8 @@ class TaskLoader extends BaseLoader
 
     public function updateStatusTask($request){
 
+
+
         $stdClass = new \stdClass();
 
         $task = Task::whereId($request->input('id'))

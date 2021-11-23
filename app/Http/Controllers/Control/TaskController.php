@@ -9,6 +9,7 @@ use App\Http\Requests\Control\Tasks\DetailTaskRequest;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
+use App\Resources\Control\Notification\Admin\AdminNotification;
 use OneSignal;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -22,6 +23,7 @@ class TaskController extends BaseController
      */
     protected $taskRepository;
     protected $taskLoaderObject;
+    protected $notification;
 
 
 
@@ -32,6 +34,7 @@ class TaskController extends BaseController
         parent::__construct();
         $this->taskRepository = app(TaskRepository::class);
         $this->taskLoaderObject = app(TaskLoader::class);
+        $this->notification = app(AdminNotification::class);
         $this->middleware('auth');
     }
 
@@ -72,6 +75,9 @@ class TaskController extends BaseController
 
 
     public function update(UpdateTaskRequest $request){
+        $userId = 'userNotification';
+
+        $this->notification->updateTask($userId);
 
         return $this->taskLoaderObject->updateTask($request);
 

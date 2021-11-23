@@ -70,4 +70,26 @@ class TaskRepository extends BaseRepository
         return MemberTasksResource::collection($currentTasks);
     }
 
+
+    public function getAdminMemberTaskList($statusId){
+
+        $columns = [
+            'id',
+            'name',
+            'task_status_id',
+            'group_id',
+            'member_id',
+            'description',
+            'start_at',
+            'end_at'
+        ];
+
+        $tasks = $this->startConditions()
+            ->select($columns)
+            ->where('task_status_id', $statusId)
+            ->get();
+
+        return MemberTasksResource::collection($tasks);
+    }
+
 }
