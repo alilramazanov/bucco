@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Control;
 use App\Http\Controllers\Controller;
 use App\Http\Loader\Control\MemberLoader;
 use App\Http\Loader\Control\TaskLoader;
+use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Repositories\Control\MemberTaskRepository;
 use App\Http\Requests\Control\Members\MemberTasksRequest;
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class MemberTaskController extends Controller
@@ -17,6 +19,7 @@ class MemberTaskController extends Controller
      */
     protected $memberTaskRepository;
     protected $memberTaskLoader;
+    protected $groupRepository;
 
     /**
      * MemberTaskController constructor
@@ -25,6 +28,7 @@ class MemberTaskController extends Controller
     {
         $this->memberTaskLoader = app(TaskLoader::class);
         $this->memberTaskRepository = app(MemberTaskRepository::class);
+        $this->groupRepository = app(GroupRepository::class);
         $this->middleware('auth:member');
     }
 
@@ -40,6 +44,14 @@ class MemberTaskController extends Controller
     public function updateStatusTask(Request $request){
 
         return $this->memberTaskLoader->updateStatusTask($request);
+
+    }
+
+    public function memberGroupList(Request $request){
+
+
+
+        return $this->groupRepository->getMemberGroup();
 
     }
 

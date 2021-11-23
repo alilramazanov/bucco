@@ -100,6 +100,8 @@ $router->group(
 
                 Route::get('/tasks-list', 'Control\MemberTaskController@taskList');
                 Route::post('/update-status', 'Control\MemberTaskController@updateStatusTask');
+                Route::get('/member-group-list', 'Control\MemberTaskController@memberGroupList');
+
 
             }
         );

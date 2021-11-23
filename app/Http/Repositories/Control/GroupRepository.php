@@ -4,7 +4,11 @@ namespace App\Http\Repositories\Control;
 
 use App\Http\Resources\Control\Group\GroupListResource;
 use App\Http\Resources\Control\Group\GroupStatisticListResource;
+use App\Models\Admin;
+use App\Models\Group;
 use App\Models\Group as Model;
+use App\Models\Member;
+use Illuminate\Support\Facades\Auth;
 
 
 class GroupRepository extends BaseRepository
@@ -16,14 +20,15 @@ class GroupRepository extends BaseRepository
         return Model::class;
     }
 
-    public function getGroupList($request){
+    public function getGroupList(){
 
         $adminId = \Auth::user()->id;
 
         $columns = [
             'id',
             'name',
-            'admin_id'
+            'admin_id',
+            'avatar'
         ];
 
         $groups = $this->startConditions()
@@ -34,7 +39,7 @@ class GroupRepository extends BaseRepository
         return GroupListResource::collection($groups);
     }
 
-    public function getGroupStatisticList($request){
+    public function getGroupStatisticList(){
 
         $adminId = \Auth::user()->id;
         $columns = [
@@ -50,6 +55,18 @@ class GroupRepository extends BaseRepository
 
         return GroupStatisticListResource::collection($groups);
 
+    }
+
+    public function getMemberGroup(){
+
+        $memberId = \Auth::guard('member')->user()->id;
+
+
+        $groups = Member::whereId($memberId)
+            ->first()
+            ->groups;
+
+        return GroupListResource::collection($groups);
     }
 
 }
