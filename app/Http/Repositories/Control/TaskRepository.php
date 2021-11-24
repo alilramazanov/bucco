@@ -73,6 +73,8 @@ class TaskRepository extends BaseRepository
 
     public function getAdminMemberTaskList($statusId){
 
+        $memberId = \Auth::guard('member')->user()->id;
+
         $columns = [
             'id',
             'name',
@@ -87,6 +89,7 @@ class TaskRepository extends BaseRepository
         $tasks = $this->startConditions()
             ->select($columns)
             ->where('task_status_id', $statusId)
+            ->whereMemberId($memberId)
             ->get();
 
         return MemberTasksResource::collection($tasks);
