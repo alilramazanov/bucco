@@ -30,6 +30,7 @@ class TaskLoader extends BaseLoader
 
         $adminId = \Auth::user()->id;
         $stdClass = new \stdClass();
+
         $data = $request->input();
         $task = Task::whereId($request->get('id'))
             ->whereAdminId($adminId)
