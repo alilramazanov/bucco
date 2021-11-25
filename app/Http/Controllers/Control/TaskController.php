@@ -9,6 +9,7 @@ use App\Http\Requests\Control\Tasks\DetailTaskRequest;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
+use App\Models\Task;
 use App\Resources\Control\Notification\Admin\AdminNotification;
 use OneSignal;
 use App\Http\Resources\Control\Common\BasicErrorResource;
@@ -68,7 +69,9 @@ class TaskController extends BaseController
     //                                        ПОСТ МЕТОДЫ
 
     public function create(CreateTaskRequest $request){
+        $userId = 'userId';
 
+        $this->notification->createTask($userId);
         return $this->taskLoaderObject->createTask($request);
 
     }
@@ -76,8 +79,8 @@ class TaskController extends BaseController
 
     public function update(UpdateTaskRequest $request){
         $userId = 'userNotification';
-
-        $this->notification->updateTask($userId);
+        $name = Task::whereId($request->input('id'))->first()->name;
+        $this->notification->updateTask($userId, $name);
 
         return $this->taskLoaderObject->updateTask($request);
 

@@ -34,9 +34,16 @@ class AdminNotification extends Notification
         }
     }
 
-    public function updateTask($notificationId){
-        $message = 'Задача обновлена';
+    public function updateTask($notificationId, $name){
+        $message = 'Задача '.'"'.$name.'"'.'Обновлена';
         $this->push($notificationId, $message);
+    }
+
+    public function createTask($notificationId){
+        $message = 'У вас новая задача';
+
+        $this->push($notificationId, $message);
+
     }
 
 }

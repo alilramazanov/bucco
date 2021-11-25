@@ -15,11 +15,13 @@ class MemberRating
 
     public function getMemberRating($portfolio){
 
+
+
         $allTask = $portfolio['all'];
         $completedTask = $portfolio['completed'];
+
 
         return $this->getRating($allTask, $completedTask);
 
     }
-
 }
