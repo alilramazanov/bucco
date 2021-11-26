@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources\Control\Member;
 
-use App\Resources\Control\Portfolio\MemberPortfolio;
-use App\Resources\Control\Rating\MemberRating;
+use App\Resources\Control\Portfolio\Member\MemberPortfolio;
+use App\Resources\Control\Rating\Member\MemberRating;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AdminMemberListResource extends JsonResource

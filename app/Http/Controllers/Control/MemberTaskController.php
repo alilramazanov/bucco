@@ -10,7 +10,8 @@ use App\Http\Repositories\Control\MemberTaskRepository;
 use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Members\MemberTasksRequest;
 use App\Models\Group;
-use App\Resources\Control\Notification\Admin\AdminNotification;
+use App\Resources\Control\Notification\Admin\AdminNotificationCore;
+use App\Resources\Control\Notification\Member\MemberNotificationCore;
 use Illuminate\Http\Request;
 
 class MemberTaskController extends Controller
@@ -33,7 +34,7 @@ class MemberTaskController extends Controller
         $this->taskLoader = app(TaskLoader::class);
         $this->memberTaskRepository = app(MemberTaskRepository::class);
         $this->groupRepository = app(GroupRepository::class);
-        $this->notification = app(AdminNotification::class);
+        $this->notification = app(MemberNotificationCore::class);
         $this->taskRepository = app(TaskRepository::class);
 
         $this->middleware('auth:member');
@@ -57,7 +58,7 @@ class MemberTaskController extends Controller
 
     }
 
-    public function memberGroupList(Request $request){
+    public function memberGroupList(){
         return $this->groupRepository->getMemberGroup();
 
     }

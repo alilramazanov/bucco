@@ -99,4 +99,9 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
         return $this->belongsTo(Admin::class);
     }
 
+    public function penalties(){
+        return $this->hasMany(Penalties::class);
+
+    }
+
 }

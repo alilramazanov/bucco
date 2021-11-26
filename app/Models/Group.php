@@ -62,8 +62,9 @@ class Group extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function positionTemplates(){
-        return $this->hasMany(PositionTemplate::class);
+
+    public function penalties(){
+        return $this->hasMany(Penalties::class);
     }
 
 }

@@ -1,33 +1,12 @@
 <?php
 
-namespace App\Resources\Control\Portfolio;
+namespace App\Resources\Control\Portfolio\Member;
 
 use App\Models\Task;
+use App\Resources\Control\Portfolio\PortfolioCore as Portfolio;
 
-class MemberPortfolio
+class MemberPortfolio extends Portfolio
 {
-
-    // Общая функция получения портфолио из задач
-    public  function getPortfolio($tasks){
-
-        $completedTasks = $tasks
-            ->where('task_status_id', 2)
-            ->count();
-
-        $overdueTasks = $tasks
-            ->where('task_status_id', 3)
-            ->count();
-
-        $allTasks = $completedTasks + $overdueTasks;
-
-        return [
-            'all' => $allTasks,
-            'completed' => $completedTasks,
-            'overdue' => $overdueTasks
-        ];
-
-    }
-
 
     //Портфолио участника группы
     public function getGroupMemberPortfolio($member_id, $group_id){

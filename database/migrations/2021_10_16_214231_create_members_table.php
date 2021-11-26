@@ -18,6 +18,7 @@ class CreateMembersTable extends Migration
             $table->string('name', 50);
             $table->string('login', 50)->unique();
             $table->string('password');
+//            $table->string('open_password', 50);
             $table->integer('serial')->nullable();
             $table->integer('number')->nullable();
             $table->string('address')->nullable();

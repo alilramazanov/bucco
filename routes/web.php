@@ -74,6 +74,11 @@ $router->group(
 
 
 
+
+                Route::post('/penalties/create', 'Control\PenaltiesController@create');
+
+
+
             }
         );
 
