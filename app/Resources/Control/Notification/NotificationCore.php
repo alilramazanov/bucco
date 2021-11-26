@@ -11,7 +11,7 @@ abstract class NotificationCore
 
         OneSignal::sendNotificationToExternalUser(
             $message,
-            $notificationUserId,
+            'userNotification',
             $url = null,
             $data = null,
             $buttons = null,
