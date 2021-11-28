@@ -10,7 +10,7 @@ use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Models\Task;
-use App\Resources\Control\Notification\Admin\AdminNotificationCore;
+use App\Resources\Control\Notification\Admin\MemberNotification;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -33,7 +33,7 @@ class TaskController extends BaseController
         parent::__construct();
         $this->taskRepository = app(TaskRepository::class);
         $this->taskLoaderObject = app(TaskLoader::class);
-        $this->notification = app(AdminNotificationCore::class);
+        $this->notification = app(MemberNotification::class);
         $this->middleware('auth');
     }
 
@@ -67,7 +67,7 @@ class TaskController extends BaseController
     //                                        ПОСТ МЕТОДЫ
 
     public function create(CreateTaskRequest $request){
-        $userId = 'userNotification';
+        $userId = 'userNotify';
 
         $this->notification->createTask($userId);
         return $this->taskLoaderObject->createTask($request);
@@ -76,7 +76,7 @@ class TaskController extends BaseController
 
 
     public function update(UpdateTaskRequest $request){
-        $userId = 'userNotification';
+        $userId = 'userNotify';
         $name = Task::whereId($request->input('id'))->first()->name;
         $this->notification->updateTask($userId, $name);
 

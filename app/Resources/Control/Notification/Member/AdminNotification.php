@@ -4,7 +4,7 @@ namespace App\Resources\Control\Notification\Member;
 
 use App\Resources\Control\Notification\NotificationCore as Notification;
 
-class MemberNotificationCore extends Notification
+class AdminNotification extends Notification
 {
 
 
@@ -14,6 +14,17 @@ class MemberNotificationCore extends Notification
                 $message = 'К задаче приступили';
                 $this->pushToUser($notificationUserId, $message);
                 break;
+            case 3:
+                $message = 'Задача выполнена';
+                $this->pushToUser($notificationUserId, $message);
+                break;
+
+            case 4:
+                $message = 'Задача просрочена';
+                $this->pushToUser($notificationUserId, $message);
+                break;
         }
     }
+
+
 }

@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Control;
 
 use App\Http\Controllers\Controller;
+use App\Http\Loader\Control\MemberLoader;
 use App\Http\Loader\Control\TaskLoader;
 use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Repositories\Control\MemberTaskRepository;
 use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Members\MemberTasksRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskStatusRequest;
-use App\Resources\Control\Notification\Member\MemberNotificationCore;
+use App\Resources\Control\Notification\Member\AdminNotification;
 use Illuminate\Http\Request;
 
 class MemberTaskController extends Controller
@@ -36,7 +37,7 @@ class MemberTaskController extends Controller
         $this->taskLoader = app(TaskLoader::class);
         $this->memberTaskRepository = app(MemberTaskRepository::class);
         $this->groupRepository = app(GroupRepository::class);
-        $this->notification = app(MemberNotificationCore::class);
+        $this->notification = app(AdminNotification::class);
         $this->taskRepository = app(TaskRepository::class);
 
         $this->middleware('auth:member');
@@ -51,10 +52,10 @@ class MemberTaskController extends Controller
         return $this->memberTaskRepository->getTaskListInGroup($request);
     }
 
-    public function updateStatusTask(UpdateTaskStatusRequest $request){
+    public function updateStatusTask(Request $request){
 
         $userId = 'adminNotification';
-        $this->notification->updateStatusTask($request->input('task_status_id'), $userId);
+        $this->notification->updateStatusTask( $request->input('task_status_id'), $userId);
 
         return $this->taskLoader->updateStatusTask($request);
 

@@ -5,7 +5,7 @@ namespace App\Resources\Control\Notification\Admin;
 use App\Resources\Control\Notification\NotificationCore as Notification;
 use OneSignal;
 
-class AdminNotificationCore extends Notification
+class MemberNotification extends Notification
 {
 
 
@@ -24,6 +24,17 @@ class AdminNotificationCore extends Notification
         $message = 'У вас новая задача';
         $this->pushToUser($notificationId, $message);
 
+    }
+
+    public function startTask($notificationId, $name){
+        $message = 'Приступите к задаче';
+        $this->pushToUser($notificationId, $message);
+
+    }
+
+    public function endTask($notificationId, $name){
+        $message = 'Завершите задачу';
+        $this->pushToUser($notificationId, $message);
     }
 
 }
