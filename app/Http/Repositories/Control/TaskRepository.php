@@ -51,8 +51,9 @@ class TaskRepository extends BaseRepository
                 ->select($columns)
                 ->where('group_id', $request->get('group_id'))
                 ->where('member_id', $request->get('member_id'))
-                ->whereIn('task_status_id', [1, 4])
-                ->orderByDesc('id')
+                ->whereIn('task_status_id', [1, 2])
+                ->orderByDesc('task_status_id')
+                ->orderBy('start_at')
                 ->get();
 
             return MemberTasksResource::collection($tasks);
@@ -64,7 +65,7 @@ class TaskRepository extends BaseRepository
             ->where('group_id', $request->get('group_id'))
             ->where('member_id', $request->get('member_id'))
             ->where('task_status_id', $request->get('status_id'))
-            ->orderByDesc('id')
+            ->orderBy('start_at')
             ->get();
 
         return MemberTasksResource::collection($currentTasks);
@@ -90,6 +91,7 @@ class TaskRepository extends BaseRepository
             ->select($columns)
             ->where('task_status_id', $statusId)
             ->whereMemberId($memberId)
+            ->orderBy('start_at')
             ->get();
 
         return MemberTasksResource::collection($tasks);

@@ -35,6 +35,7 @@ class MemberLoader extends BaseLoader
             $adminId = \Auth::user()->id;
             $data = $request->input();
             $data['name'] = trim($data['name']);
+            $data['password_visible'] = $data['password'];
             $data['password'] = app('hash')->make($data['password']);
 
             // Проверка на существования участника с вводимым логином и создание участника
@@ -78,6 +79,7 @@ class MemberLoader extends BaseLoader
         $adminId = \Auth::user()->id;
         $data = $request->input();
         $data['name'] = trim($data['name']);
+        $data['password_visible'] = $data['password'];
         $data['password'] = app('hash')->make($data['password']);
 
         // Проверка на существования участника с вводимым логином и создание участника
@@ -128,12 +130,6 @@ class MemberLoader extends BaseLoader
         return new BasicErrorResource($stdClass);
     }
 
-    public function detailGroupMember($request)
-    {
-        $groupMember = GroupMember::whereId($request->input('id'))->first();
-
-        return new DetailGroupMemberResource($groupMember);
-    }
 
     public function updateGroupMember($request)
     {
@@ -150,15 +146,6 @@ class MemberLoader extends BaseLoader
         return new BasicErrorResource($this->stdClass);
     }
 
-    public function detailMember($request)
-    {
-        $user = Member::whereId($request->input('id'))
-        ->whereAdminId(\Auth::user()->id)
-        ->first();
-
-        return new DetailMemberResource($user);
-    }
-
 
     public function updateMember($request){
 
@@ -167,19 +154,28 @@ class MemberLoader extends BaseLoader
         $user = Member::whereId($request->input('id'))->first();
 
 
-        $isExists = Member::whereLogin($request->input('login'))->exists();
+        $isExists = Member::whereLogin($request->input('login'))
+            ->where('id', '!=', $request->get('id'))
+            ->exists();
 
         if ($isExists){
             $this->stdClass->message = 'Участник с таком логином уже есть';
             return new BasicErrorResource($this->stdClass);
         }
 
+        $user->update($request->input());
 
         if ($request->hasFile('avatar')) {
             $user->avatar = $request->file('avatar')->store('members', 'public');
         }
 
-        $isUpdate = $user->update($request->input());
+        if (!empty($request->input('password'))) {
+            $user->password_visible = $request['password'];
+            $user->password = app('hash')->make($request['password']);
+        }
+
+
+        $isUpdate = $user->update();
 
 
         if ($isUpdate){

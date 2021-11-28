@@ -68,11 +68,9 @@ class TaskLoader extends BaseLoader
 
     public function updateStatusTask($request){
 
-
-
         $stdClass = new \stdClass();
 
-        $task = Task::whereId($request->input('id'))
+        $task = Task::whereId($request->input('task_id'))
         ->update($request->input());
         if ($task){
             $stdClass->message = 'Статус успешно обновлен';
@@ -81,9 +79,6 @@ class TaskLoader extends BaseLoader
 
         $stdClass->message = 'Ошибка обновления';
         return new BasicErrorResource($stdClass);
-
-
-
 
     }
 

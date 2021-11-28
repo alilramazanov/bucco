@@ -3,27 +3,30 @@
 namespace App\Http\Controllers\Control;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Control\Penalties\CreatePenaltiesRequest;
+use App\Http\Resources\Control\Common\BasicErrorResource;
+use App\Http\Resources\Control\Common\SuccessResource;
 use App\Models\Penalties;
-use Illuminate\Http\Request;
-
 
 class PenaltiesController extends Controller
 {
 
 
-    public function create(Request $request){
-
-        Penalties::create($request->input());
-
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
-    public function allGroupMemberPenalties($groupId, $memberId){
-
-        $sumOfPenalties = Penalties::where('group_id', $groupId)
-            ->where('member_id', $memberId)
-            ->sum('amount_of_penalty');
-
-        return $sumOfPenalties;
+    public function create(CreatePenaltiesRequest $request)
+    {
+        $stdClass = new \stdClass();
+        if (Penalties::create($request->input())){
+            $stdClass->message = 'Успешно';
+            return new SuccessResource($stdClass);
+        }
+            $stdClass->message = 'Ошибка при добавлении штрафа';
+            return new BasicErrorResource($stdClass);
     }
+
 
 }

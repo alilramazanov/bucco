@@ -10,7 +10,7 @@ class MemberNotificationCore extends Notification
 
     public function updateStatusTask($statusId, $notificationUserId){
         switch ($statusId){
-            case 4:
+            case 2:
                 $message = 'К задаче приступили';
                 $this->pushToUser($notificationUserId, $message);
                 break;

@@ -9,7 +9,7 @@ class MemberRating extends Rating
 
     public function getMemberRating($portfolio){
 
-        $allTask = $portfolio['all'];
+        $allTask = $portfolio['completed'] + $portfolio['overdue'];
         $completedTask = $portfolio['completed'];
 
         return $this->getRating($allTask, $completedTask);

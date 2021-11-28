@@ -8,27 +8,28 @@ abstract class PortfolioCore
     public  function getPortfolio($tasks){
 
         $completedTasks = $tasks
-            ->where('task_status_id', 2)
-            ->count();
-
-        $overdueTasks = $tasks
             ->where('task_status_id', 3)
             ->count();
 
-        $currentTask = $tasks
+        $overdueTasks = $tasks
             ->where('task_status_id', 4)
             ->count();
 
-        $inProgressTask = $tasks
+        $inProgressTasks = $tasks
+            ->where('task_status_id', 2)
+            ->count();
+
+        $onQueueTasks = $tasks
             ->where('task_status_id', 1)
             ->count();
 
-        $allTasks = $completedTasks + $overdueTasks + $currentTask + $inProgressTask;
+        $allTasks = $completedTasks + $overdueTasks + $onQueueTasks + $inProgressTasks;
 
         return [
             'all' => $allTasks,
             'completed' => $completedTasks,
-            'overdue' => $overdueTasks
+            'overdue' => $overdueTasks,
+
         ];
 
     }

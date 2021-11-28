@@ -37,6 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Query\Builder|Group withoutTrashed()
  * @property string|null $avatar
  * @method static \Illuminate\Database\Eloquent\Builder|Group whereAvatar($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Penalties[] $penalties
+ * @property-read int|null $penalties_count
  */
 class Group extends Model
 {

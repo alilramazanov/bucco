@@ -36,9 +36,10 @@ class MemberTaskRepository extends BaseRepository
         if ($request->input('status_id') == 1) {
             $tasksWithDouble = Task::whereMemberId($userId)
                 ->whereGroupId($request->input('group_id'))
-                ->whereIn('task_status_id', [1, 4])
+                ->whereIn('task_status_id', [1, 2])
                 ->select($columns)
-                ->orderByDesc('id')
+                ->orderByDesc('task_status_id')
+                ->orderBy('start_at')
                 ->get();
 
             return MemberTasksResource::collection($tasksWithDouble);
@@ -48,7 +49,7 @@ class MemberTaskRepository extends BaseRepository
             ->whereGroupId($request->input('group_id'))
             ->whereTaskStatusId($request->input('status_id'))
             ->select($columns)
-            ->orderByDesc('id')
+            ->orderBy('start_at')
             ->get();
 
         return MemberTasksResource::collection($tasks);

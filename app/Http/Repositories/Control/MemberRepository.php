@@ -5,8 +5,9 @@ namespace App\Http\Repositories\Control;
 
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Member\AdminMemberListResource;
+use App\Http\Resources\Control\Member\DetailGroupMemberResource;
+use App\Http\Resources\Control\Member\DetailMemberResource;
 use App\Http\Resources\Control\Member\GroupMemberListResource;
-use App\Models\Admin;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Member;
@@ -15,12 +16,18 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberRepository extends BaseRepository
 {
-    protected function getModelClass()
+    /**
+     * @return string
+     */
+    protected function getModelClass(): string
     {
         return Model::class;
     }
 
 
+    /**
+     * @return BasicErrorResource|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getAdminMemberList(){
 
         $adminId = Auth::user()->id;
@@ -40,7 +47,10 @@ class MemberRepository extends BaseRepository
     }
 
 
-
+    /**
+     * @param $request
+     * @return BasicErrorResource|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getGroupMemberList($request){
 
         $groupId = $request->get('group_id');
@@ -66,5 +76,30 @@ class MemberRepository extends BaseRepository
 
         return GroupMemberListResource::collection($groupMemberList);
 
+    }
+
+    /**
+     * @param $request
+     * @return DetailGroupMemberResource
+     */
+    public function detailGroupMember($request): DetailGroupMemberResource
+    {
+        $groupMember = GroupMember::whereId($request->input('id'))->first();
+
+        return new DetailGroupMemberResource($groupMember);
+    }
+
+
+    /**
+     * @param $request
+     * @return DetailMemberResource
+     */
+    public function detailMember($request): DetailMemberResource
+    {
+        $user = Member::whereId($request->input('id'))
+            ->whereAdminId(\Auth::user()->id)
+            ->first();
+
+        return new DetailMemberResource($user);
     }
 }

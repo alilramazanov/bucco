@@ -48,7 +48,7 @@ class MemberController extends BaseController
 
     public function detailGroupMember(DetailGroupMemberRequest $request)
     {
-        return $this->memberLoader->detailGroupMember($request);
+        return $this->membersRepository->detailGroupMember($request);
     }
 
     public function updateGroupMember(UpdateGroupMemberRequest $request)
@@ -76,7 +76,7 @@ class MemberController extends BaseController
 
     public function detail(DetailMemberRequest $request)
     {
-        return $this->memberLoader->detailMember($request);
+        return $this->membersRepository->detailMember($request);
     }
 
     public function update(UpdateMemberRequest $request){

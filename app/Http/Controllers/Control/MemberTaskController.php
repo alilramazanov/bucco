@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Control;
 
 use App\Http\Controllers\Controller;
-use App\Http\Loader\Control\MemberLoader;
 use App\Http\Loader\Control\TaskLoader;
 use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Repositories\Control\MemberTaskRepository;
 use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Members\MemberTasksRequest;
-use App\Models\Group;
-use App\Resources\Control\Notification\Admin\AdminNotificationCore;
+use App\Http\Requests\Control\Tasks\UpdateTaskStatusRequest;
 use App\Resources\Control\Notification\Member\MemberNotificationCore;
 use Illuminate\Http\Request;
 
@@ -21,6 +19,10 @@ class MemberTaskController extends Controller
      * @var \Laravel\Lumen\Application|mixed
      */
     protected $memberTaskRepository;
+
+    /**
+     * @var TaskLoader
+     */
     protected $taskLoader;
     protected $groupRepository;
     protected $notification;
@@ -49,10 +51,10 @@ class MemberTaskController extends Controller
         return $this->memberTaskRepository->getTaskListInGroup($request);
     }
 
-    public function updateStatusTask(Request $request){
+    public function updateStatusTask(UpdateTaskStatusRequest $request){
 
         $userId = 'adminNotification';
-        $this->notification->updateStatusTask( $request->input('task_status_id'), $userId);
+        $this->notification->updateStatusTask($request->input('task_status_id'), $userId);
 
         return $this->taskLoader->updateStatusTask($request);
 

@@ -2,8 +2,12 @@
 
 namespace App\Http\Resources\Control\Member;
 
+use App\Models\Member;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Member
+ */
 class DetailMemberResource extends JsonResource
 {
     public function toArray($request)
@@ -20,7 +24,11 @@ class DetailMemberResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'login' => $this->login,
-            'avatar' => $avatar
+            'avatar' => $avatar,
+            'password' => $this->password_visible,
+            'serial' => $this->serial,
+            'number' => $this->number,
+            'address' => $this->address,
         ];
     }
 }

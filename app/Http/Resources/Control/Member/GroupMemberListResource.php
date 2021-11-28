@@ -2,10 +2,14 @@
 
 namespace App\Http\Resources\Control\Member;
 
+use App\Models\Member;
 use App\Resources\Control\Portfolio\Member\MemberPortfolio;
 use App\Resources\Control\Rating\Member\MemberRating;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Member
+ */
 class GroupMemberListResource extends JsonResource
 {
 
