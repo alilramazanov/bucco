@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Resources\Control\Notification\Member;
+namespace App\Resources\Control\Notification\Admin;
 
 use App\Resources\Control\Notification\NotificationCore as Notification;
 

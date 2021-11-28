@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Resources\Control\Notification\Admin;
+namespace App\Resources\Control\Notification\Member;
 
 use App\Resources\Control\Notification\NotificationCore as Notification;
 use OneSignal;

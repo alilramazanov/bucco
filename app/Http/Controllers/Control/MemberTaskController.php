@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Control;
 
 use App\Http\Controllers\Controller;
-use App\Http\Loader\Control\MemberLoader;
 use App\Http\Loader\Control\TaskLoader;
 use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Repositories\Control\MemberTaskRepository;
 use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Members\MemberTasksRequest;
-use App\Http\Requests\Control\Tasks\UpdateTaskStatusRequest;
-use App\Resources\Control\Notification\Member\AdminNotification;
+use App\Resources\Control\Notification\Admin\AdminNotification;
 use Illuminate\Http\Request;
 
 class MemberTaskController extends Controller

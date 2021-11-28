@@ -10,7 +10,7 @@ use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Models\Task;
-use App\Resources\Control\Notification\Admin\MemberNotification;
+use App\Resources\Control\Notification\Member\MemberNotification;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
