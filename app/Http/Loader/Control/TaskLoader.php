@@ -70,7 +70,7 @@ class TaskLoader extends BaseLoader
 
         $stdClass = new \stdClass();
 
-        $task = Task::whereId($request->input('task_id'))
+        $task = Task::whereId($request->input('id'))
         ->update($request->input());
         if ($task){
             $stdClass->message = 'Статус успешно обновлен';
