@@ -8,6 +8,8 @@ use App\Http\Repositories\Control\GroupRepository;
 use App\Http\Repositories\Control\MemberTaskRepository;
 use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Members\MemberTasksRequest;
+use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
+use App\Http\Requests\Control\Tasks\UpdateTaskStatusRequest;
 use App\Resources\Control\Notification\Admin\AdminNotification;
 use Illuminate\Http\Request;
 
@@ -50,7 +52,7 @@ class MemberTaskController extends Controller
         return $this->memberTaskRepository->getTaskListInGroup($request);
     }
 
-    public function updateStatusTask(Request $request){
+    public function updateStatusTask(UpdateTaskStatusRequest $request){
 
         $userId = 'adminNotify';
         $this->notification->updateStatusTask( $request->input('task_status_id'), $userId);
@@ -64,7 +66,7 @@ class MemberTaskController extends Controller
 
     }
 
-    public function memberTaskList(Request $request){
+    public function memberTaskList(MemberTaskListRequest $request){
 
         return $this->taskRepository->getAdminMemberTaskList($request->input('task_status_id'));
 
