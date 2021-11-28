@@ -52,7 +52,7 @@ class MemberTaskController extends Controller
 
     public function updateStatusTask(Request $request){
 
-        $userId = 'adminNotification';
+        $userId = 'adminNotify';
         $this->notification->updateStatusTask( $request->input('task_status_id'), $userId);
 
         return $this->taskLoader->updateStatusTask($request);
