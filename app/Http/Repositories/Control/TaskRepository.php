@@ -46,7 +46,7 @@ class TaskRepository extends BaseRepository
             'end_at'
         ];
 
-        if ($request->get('status_id') == 1) {
+        if ($request->get('task_status_id') == 1) {
             $tasks = $this->startConditions()
                 ->select($columns)
                 ->where('group_id', $request->get('group_id'))
@@ -64,7 +64,7 @@ class TaskRepository extends BaseRepository
             ->select($columns)
             ->where('group_id', $request->get('group_id'))
             ->where('member_id', $request->get('member_id'))
-            ->where('task_status_id', $request->get('status_id'))
+            ->where('task_status_id', $request->get('task_status_id'))
             ->orderBy('start_at')
             ->get();
 
