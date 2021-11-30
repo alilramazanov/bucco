@@ -9,8 +9,12 @@ use App\Http\Requests\Control\Tasks\DetailTaskRequest;
 use App\Http\Requests\Control\Tasks\GroupTaskListRequest;
 use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
+use App\Http\Resources\Control\Common\SuccessResource;
+use App\Jobs\NotificationStartTimeJob;
+use App\Jobs\NotificationStartWorkingJob;
 use App\Models\Task;
 use App\Resources\Control\Notification\Member\MemberNotification;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -67,10 +71,19 @@ class TaskController extends BaseController
     //                                        ПОСТ МЕТОДЫ
 
     public function create(CreateTaskRequest $request){
+        $stdClass = new \stdClass();
         $userId = 'userNotify';
 
         $this->notification->createTask($userId);
-        return $this->taskLoaderObject->createTask($request);
+        \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob());
+
+        $isCreate = $this->taskLoaderObject->createTask($request); // Получаем id задачи
+
+        \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(2), new NotificationStartWorkingJob($isCreate));
+        if ($isCreate){
+            $stdClass->message = 'Задача успешно создана';
+            return new SuccessResource($stdClass);
+        }
 
     }
 
