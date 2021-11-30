@@ -12,6 +12,8 @@ use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Http\Resources\Control\Common\SuccessResource;
 use App\Jobs\NotificationStartTimeJob;
 use App\Jobs\NotificationStartWorkingJob;
+use App\Jobs\Task\EndOfTaskJob;
+use App\Jobs\Task\FiveMinutesBeforeTheEndJob;
 use App\Models\Task;
 use App\Resources\Control\Notification\Member\MemberNotification;
 use Carbon\Carbon;
@@ -75,11 +77,14 @@ class TaskController extends BaseController
         $userId = 'userNotify';
 
         $this->notification->createTask($userId);
-        \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob());
 
         $isCreate = $this->taskLoaderObject->createTask($request); // Получаем id задачи
 
+        \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob());
         \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(2), new NotificationStartWorkingJob($isCreate));
+        \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(2), new FiveMinutesBeforeTheEndJob());
+        \Queue::later(Carbon::parse($request->get('end_time')), new EndOfTaskJob($isCreate));
+
         if ($isCreate){
             $stdClass->message = 'Задача успешно создана';
             return new SuccessResource($stdClass);

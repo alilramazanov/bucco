@@ -36,7 +36,7 @@ class MemberNotification extends Notification
 
     }
 
-    public function endTask($notificationId, $name){
+    public function endTask($notificationId){
         $message = 'Завершите задачу';
         $this->pushToUser($notificationId, $message);
     }

@@ -1,22 +1,26 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Task;
 
+use App\Jobs\Job;
 use App\Models\Task;
 use App\Resources\Control\Notification\Member\MemberNotification;
 
-class NotificationStartWorkingJob extends Job
+class EndOfTaskJob extends Job
 {
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
 
-    private $task;
-    protected $memberNotification;
+    /**
 
+     * @var MemberNotification $memberNotification
+     */
+
+    protected $memberNotification;
+    protected $task;
     public function __construct($task)
     {
         $this->task = $task;
@@ -30,19 +34,18 @@ class NotificationStartWorkingJob extends Job
      */
     public function handle()
     {
-        $notifyId = 'userNotify';
-        $message = '';
+        $notUserId = 'userNotify';
 
         switch ($this->task->task_status_id){
-            case 1:
+            case 2:
 
                 $this->task->update([
                     'task_status_id' => 4
                 ]);
 
-                $message = 'Задача просрочена';
-                $this->memberNotification->acceptTask($notifyId, $message);
+                $this->memberNotification->endTask($notUserId);
                 break;
+
         }
     }
 }
