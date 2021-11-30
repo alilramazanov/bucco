@@ -13,7 +13,7 @@ use App\Http\Resources\Control\Common\SuccessResource;
 use App\Jobs\NotificationStartTimeJob;
 use App\Jobs\NotificationStartWorkingJob;
 use App\Jobs\Task\EndOfTaskJob;
-use App\Jobs\Task\FiveMinutesBeforeTheEndJob;
+use App\Jobs\Task\MinutesBeforeTheEndJob;
 use App\Models\Task;
 use App\Resources\Control\Notification\Member\MemberNotification;
 use Carbon\Carbon;
@@ -82,7 +82,7 @@ class TaskController extends BaseController
 
         \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob());
         \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(1), new NotificationStartWorkingJob($isCreate));
-        \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(1), new FiveMinutesBeforeTheEndJob());
+        \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(1), new MinutesBeforeTheEndJob());
         \Queue::later(Carbon::parse($request->get('end_at')), new EndOfTaskJob($isCreate));
 
         if ($isCreate){

@@ -5,7 +5,7 @@ namespace App\Jobs\Task;
 use App\Jobs\Job;
 use App\Resources\Control\Notification\Member\MemberNotification;
 
-class FiveMinutesBeforeTheEndJob extends Job
+class MinutesBeforeTheEndJob extends Job
 {
     /**
      * Create a new job instance.
