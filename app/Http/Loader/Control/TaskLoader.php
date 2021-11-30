@@ -17,9 +17,9 @@ class TaskLoader extends BaseLoader
 
         $isCreate = Task::create($data);
 
+
         if ($isCreate){
-            $stdClass->message = 'Задача успешно создана';
-            return new SuccessResource($stdClass);
+            return $isCreate;
         }
 
         $stdClass->message = 'Ошибка создания задачи';
@@ -32,6 +32,7 @@ class TaskLoader extends BaseLoader
         $stdClass = new \stdClass();
 
         $data = $request->input();
+
         $task = Task::whereId($request->get('id'))
             ->whereAdminId($adminId)
             ->first();

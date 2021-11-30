@@ -2,12 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Resources\Control\Notification\Admin\AdminNotification;
+use App\Resources\Control\Notification\Member\MemberNotification;
 
 class NotificationStartTimeJob extends Job
 {
 
-    protected $adminNotification;
+    protected $memberNotification;
     /**
      * Create a new job instance.
      *
@@ -15,7 +15,7 @@ class NotificationStartTimeJob extends Job
      */
     public function __construct()
     {
-        $this->adminNotification = app(AdminNotification::class);
+        $this->memberNotification = app(MemberNotification::class);
     }
 
     /**
@@ -25,6 +25,6 @@ class NotificationStartTimeJob extends Job
      */
     public function handle()
     {
-        $this->adminNotification->startTime('userNotification');
+        $this->memberNotification->startTask('userNotify');
     }
 }
