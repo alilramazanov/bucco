@@ -16,13 +16,7 @@ class TimerCommand extends Command
 
 
 
-        OneSignal::sendNotificationToAll(
-            "С - страдание",
-            $url = null,
-            $data = null,
-            $buttons = null,
-            $schedule = null
-        );
+
     }
 
 }
