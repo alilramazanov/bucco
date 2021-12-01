@@ -79,11 +79,11 @@ class TaskController extends BaseController
         $this->notification->createTask($userId);
 
         $isCreate = $this->taskLoaderObject->createTask($request); // Получаем id задачи
-
-        \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob());
-        \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(1), new NotificationStartWorkingJob($isCreate));
-        \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(1), new MinutesBeforeTheEndJob());
-        \Queue::later(Carbon::parse($request->get('end_at')), new EndOfTaskJob($isCreate));
+//
+//        \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob());
+//        \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(1), new NotificationStartWorkingJob($isCreate));
+//        \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(1), new MinutesBeforeTheEndJob());
+//        \Queue::later(Carbon::parse($request->get('end_at')), new EndOfTaskJob($isCreate));
 
         if ($isCreate){
             $stdClass->message = 'Задача успешно создана';
