@@ -12,6 +12,8 @@ use App\Http\Requests\Control\Members\DetailMemberRequest;
 use App\Http\Requests\Control\Members\GroupMemberListRequest;
 use App\Http\Requests\Control\Members\UpdateGroupMemberRequest;
 use App\Http\Requests\Control\Members\UpdateMemberRequest;
+use App\Http\Resources\Control\Common\BasicErrorResource;
+use App\Http\Resources\Control\Common\SuccessResource;
 use Illuminate\Http\Request;
 
 class MemberController extends BaseController
@@ -57,7 +59,7 @@ class MemberController extends BaseController
     }
 
 
-    public function create (CreateMemberInGroupRequest $request){
+    public function create(CreateMemberInGroupRequest $request){
 
         return $this->memberLoader->createMemberInGroup($request);
 
@@ -65,7 +67,13 @@ class MemberController extends BaseController
 
     public function createMember(CreateMemberRequest $request)
     {
-        return $this->memberLoader->createMember($request);
+        $isCreateMember = $this->memberLoader->createMember($request);
+        if ($isCreateMember) {
+        $this->stdClass->message = 'Пользователь успешно создан';
+        return new SuccessResource($this->stdClass);
+    }
+        $this->stdClass->message = 'Ошибка при создании пользователя';
+        return new BasicErrorResource($this->stdClass);
     }
 
     public function unsert(UnsertMemberRequest $request){

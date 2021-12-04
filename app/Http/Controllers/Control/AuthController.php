@@ -77,12 +77,10 @@ class AuthController extends Controller
             $stdClass->token = $token;
 
             return (new LoginResource($stdClass));
+
         } catch (\Exception $exception)
         {
             return (new ErrorResource($exception))->response()->setStatusCode(Response::HTTP_BAD_REQUEST);
         }
     }
-
-
-
 }

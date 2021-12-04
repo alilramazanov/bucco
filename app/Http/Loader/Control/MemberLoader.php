@@ -4,11 +4,8 @@ namespace App\Http\Loader\Control;
 
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
-use App\Http\Resources\Control\Member\DetailGroupMemberResource;
-use App\Http\Resources\Control\Member\DetailMemberResource;
 use App\Models\GroupMember;
 use App\Models\Member;
-use App\Models\Task;
 
 class MemberLoader extends BaseLoader
 {
@@ -18,67 +15,46 @@ class MemberLoader extends BaseLoader
     public function __construct(){
         $this->groupLoader = app(GroupLoader::class);
         $this->stdClass = new \stdClass();
-
     }
-
-
-
 
     //          По наказу великого и всемогущего, этот метод сначала создает
     //          участника, а потом добавляет его в группу
-        public function createMemberInGroup($request){
+    /**
+     * @param $request
+     * @return BasicErrorResource|SuccessResource
+     */
+    public function createMemberInGroup($request){
 
-            /*
-             Получение данных и удаление отступов в принимаемом поле 'name'
-             чтобы в базе не было одинаковых значений с разными отступами
-             */
-            $adminId = \Auth::user()->id;
-            $data = $request->input();
-            $data['name'] = trim($data['name']);
-            $data['password_visible'] = $data['password'];
-            $data['password'] = app('hash')->make($data['password']);
+        /**
+         * @var Member $isCreateMember
+         */
 
-            // Проверка на существования участника с вводимым логином и создание участника
-            $isExists = Member::whereLogin($request->input('login'))->exists();
-            if ($isExists){
-                $this->stdClass->message = 'Пользователь с таким логином уже существует';
-                return new BasicErrorResource($this->stdClass);
-            }
+        $isCreateMember = $this->createMember($request);
+        $data = $request->input();
 
-            $data['avatar'] = Member::DEFAULT_AVATAR;
-            $data['admin_id'] = $adminId;
-
-
-            if ($request->hasFile('avatar')) {
-                $data['avatar'] = $request->file('avatar')->store('members', 'public');
-            }
-
-            $isCreateMember = Member::create($data);
-
-
-            // Подготовка данных для добавления участника в группу и добавление
-            $data['member_id'] = Member::whereLogin($request->input('login'))->first('id')['id'];
+        $data['member_id'] = $isCreateMember->id;
 
             $isAddInGroup = GroupMember::create($data);
 
-
-            // Ответ успешности создания участника и добавления его в группу
-            if ($isCreateMember && $isAddInGroup) {
+            if ($isCreateMember && $isAddInGroup){
                 $this->stdClass->message = 'Участник успешно создан и добавлен в группу';
                 return new SuccessResource($this->stdClass);
-
             }
 
             $this->stdClass->message = 'Ошибка в создании участника ';
             return new BasicErrorResource($this->stdClass);
-
     }
 
+    /**
+     * @param $request
+     * @return BasicErrorResource|void
+     */
     public function createMember($request)
     {
         $adminId = \Auth::user()->id;
         $data = $request->input();
         $data['name'] = trim($data['name']);
+        $data['user_notification_id'] = $data['login'];
         $data['password_visible'] = $data['password'];
         $data['password'] = app('hash')->make($data['password']);
 
@@ -100,20 +76,14 @@ class MemberLoader extends BaseLoader
 
         $isSave = Member::create($data);
 
-
         if ($isSave) {
-            $this->stdClass->message = 'Пользователь успешно создан';
-            return new SuccessResource($this->stdClass);
+            return $isSave;
         }
-        $this->stdClass->message = 'Ошибка при создании пользователя';
-        return new BasicErrorResource($this->stdClass);
     }
 
     public function unsertMemberFromGroup($request){
 
         $stdClass = new \stdClass();
-        $data = $request->input();
-
 
         // Удаление записи о связи участника с группой и возвращение статуса удаления
         $isDelete = GroupMember::where('member_id', $request->input('member_id'))
@@ -133,6 +103,9 @@ class MemberLoader extends BaseLoader
 
     public function updateGroupMember($request)
     {
+        /**
+         * @var GroupMember $groupMember
+         */
         $groupMember = GroupMember::whereId($request->input('id'))->first();
 
         $isUpdate = $groupMember->update($request->input());
@@ -149,10 +122,10 @@ class MemberLoader extends BaseLoader
 
     public function updateMember($request){
 
-        // Проверка на существование обновленного логина у другого участника
-
+        /**
+         * @var Member $user
+         */
         $user = Member::whereId($request->input('id'))->first();
-
 
         $isExists = Member::whereLogin($request->input('login'))
             ->where('id', '!=', $request->get('id'))
@@ -206,8 +179,4 @@ class MemberLoader extends BaseLoader
         return new BasicErrorResource($this->stdClass);
 
     }
-
-
-
-
 }

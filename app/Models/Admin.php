@@ -36,6 +36,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @mixin \Eloquent
  * @property string|null $avatar
  * @method static \Illuminate\Database\Eloquent\Builder|Admin whereAvatar($value)
+ * @property string $admin_notification_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Admin whereAdminNotificationId($value)
  */
 class Admin extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
@@ -53,7 +55,9 @@ class Admin extends Model implements AuthenticatableContract, AuthorizableContra
     protected $fillable = [
         'name',
         'login',
-        'password'
+        'password',
+        'avatar',
+        'admin_notification_id',
     ];
 
     /**

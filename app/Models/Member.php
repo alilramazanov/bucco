@@ -56,6 +56,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Penalties[] $penalties
  * @property-read int|null $penalties_count
  * @method static \Illuminate\Database\Eloquent\Builder|Member wherePasswordVisible($value)
+ * @property string $user_notification_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereUserNotificationId($value)
  */
 class Member extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
 {
@@ -69,7 +71,8 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
     public const DEFAULT_AVATAR = 'members/default.png';
 
     protected $fillable = [
-        'name', 'login', 'password', 'admin_id', 'avatar', 'serial', 'number', 'address', 'password_visible'
+        'name', 'login', 'password', 'admin_id',
+        'avatar', 'serial', 'number', 'address', 'password_visible', 'user_notification_id'
     ];
 
     protected $hidden = [

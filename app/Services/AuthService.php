@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Control\Auth\UpdateProfileRequest;
 use App\Models\Admin;
+use App\Models\Member;
 use Illuminate\Support\Facades\Auth;
 
 final class AuthService
@@ -21,6 +22,7 @@ final class AuthService
         $basePassword = $validated['password'];
         $admin->password = app('hash')->make($basePassword);
         $admin->avatar = Admin::DEFAULT_AVATAR;
+        $admin->admin_notification_id = $validated['admin_notification_id'];
 
         $admin->save();
 
@@ -49,7 +51,6 @@ final class AuthService
         if (!$token = Auth::guard('member')->attempt($validated)) {
             throw new \DomainException('Неверный логин или пароль');
         }
-
         return $token;
     }
 

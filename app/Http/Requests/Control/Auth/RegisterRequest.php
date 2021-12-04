@@ -12,7 +12,8 @@ class RegisterRequest extends ApiRequest
             'name' => 'string|min:2|max:50',
             'login' => 'required|string|max:50|unique:admins',
             'password' => 'required|string|max:255|min:6|confirmed',
-            'password_confirmation' => 'required|string|max:255|min:6'
+            'password_confirmation' => 'required|string|max:255|min:6',
+            'admin_notification_id' => 'required|string'
         ];
     }
 

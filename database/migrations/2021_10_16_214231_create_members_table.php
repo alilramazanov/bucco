@@ -24,6 +24,7 @@ class CreateMembersTable extends Migration
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
             $table->foreignId('admin_id')->constrained('admins');
+            $table->string('user_notification_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
