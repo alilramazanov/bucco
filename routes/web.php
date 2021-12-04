@@ -65,7 +65,7 @@ $router->group(
                 Route::get('/group-member-list', 'Control\MemberController@groupMemberList');
                 Route::get('/detail-group-member', 'Control\MemberController@detailGroupMember');
                 Route::post('/update-group-member', 'Control\MemberController@updateGroupMember');
-                Route::post('/create-member-in-group', 'Control\MemberController@create');
+                Route::post('/create-member-in-group', 'Control\MemberController@createMemberInGroup');
                 Route::post('/create', 'Control\MemberController@createMember');
                 Route::post('/unsert-member', 'Control\MemberController@unsert');
                 Route::get('/detail', 'Control\MemberController@detail');

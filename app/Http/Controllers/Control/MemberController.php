@@ -59,9 +59,17 @@ class MemberController extends BaseController
     }
 
 
-    public function create(CreateMemberInGroupRequest $request){
+    public function createMemberInGroup(CreateMemberInGroupRequest $request){
 
-        return $this->memberLoader->createMemberInGroup($request);
+       $isCreate = $this->memberLoader->createMemberInGroup($request);
+
+        if ($isCreate === null){
+            $this->stdClass->message = 'Участник успешно создан и добавлен в группу';
+            return new SuccessResource($this->stdClass);
+        }
+
+        $this->stdClass->message = 'Ошибка в создании участника ';
+        return new BasicErrorResource($this->stdClass);
 
     }
 

@@ -8,7 +8,10 @@ class AdminNotification extends Notification
 {
 
 
-    public function updateStatusTask($statusId, $notificationUserId){
+
+
+
+    public function updateStatusTask($notificationUserId, $statusId){
         switch ($statusId){
             case 2:
                 $message = 'К задаче приступили';

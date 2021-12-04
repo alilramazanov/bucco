@@ -17,8 +17,10 @@ class MinutesBeforeTheEndJob extends Job
      * @var MemberNotification $notification
      */
     protected $notification;
-    public function __construct()
+    protected $memberNotificationId;
+    public function __construct($memberNotificationId)
     {
+        $this->memberNotificationId = $memberNotificationId;
         $this->notification = app(MemberNotification::class);
     }
 
@@ -29,7 +31,6 @@ class MinutesBeforeTheEndJob extends Job
      */
     public function handle()
     {
-        $notUserId = 'userNotify';
-        $this->notification->endTask($notUserId);
+        $this->notification->endTask($this->memberNotificationId);
     }
 }

@@ -20,11 +20,14 @@ class EndOfTaskJob extends Job
      */
 
     protected $memberNotification;
+    protected $memberNotificationId;
     protected $task;
-    public function __construct($task)
+    public function __construct($task, $memberNotificationId)
     {
         $this->task = $task;
+        $this->memberNotificationId = $memberNotificationId;
         $this->memberNotification = app(MemberNotification::class);
+
     }
 
     /**
@@ -34,7 +37,6 @@ class EndOfTaskJob extends Job
      */
     public function handle()
     {
-        $notUserId = 'userNotify';
 
         switch ($this->task->task_status_id){
             case 2:
@@ -43,7 +45,6 @@ class EndOfTaskJob extends Job
                     'task_status_id' => 4
                 ]);
 
-                $this->memberNotification->endTask($notUserId);
                 break;
 
         }

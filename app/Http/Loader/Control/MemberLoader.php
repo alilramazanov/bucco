@@ -24,9 +24,9 @@ class MemberLoader extends BaseLoader
      * @return BasicErrorResource|SuccessResource
      */
     public function createMemberInGroup($request){
-
         /**
          * @var Member $isCreateMember
+         * @var GroupMember $isAddInGroup
          */
 
         $isCreateMember = $this->createMember($request);
@@ -34,15 +34,9 @@ class MemberLoader extends BaseLoader
 
         $data['member_id'] = $isCreateMember->id;
 
-            $isAddInGroup = GroupMember::create($data);
+        $isAddInGroup = GroupMember::create($data);
 
-            if ($isCreateMember && $isAddInGroup){
-                $this->stdClass->message = 'Участник успешно создан и добавлен в группу';
-                return new SuccessResource($this->stdClass);
-            }
-
-            $this->stdClass->message = 'Ошибка в создании участника ';
-            return new BasicErrorResource($this->stdClass);
+        return $isAddInGroup;
     }
 
     /**
@@ -65,10 +59,8 @@ class MemberLoader extends BaseLoader
             return new BasicErrorResource($this->stdClass);
         }
 
-
         $data['avatar'] = Member::DEFAULT_AVATAR;
         $data['admin_id'] = $adminId;
-
 
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->store('members', 'public');

@@ -7,11 +7,12 @@ use OneSignal;
 abstract class NotificationCore
 {
 
-    public function pushToUser($notificationUserId, $message){
+
+    public function pushToUser($notificationId, $message){
 
         OneSignal::sendNotificationToExternalUser(
             $message,
-            $notificationUserId,
+            $notificationId,
             $url = null,
             $data = null,
             $buttons = null,

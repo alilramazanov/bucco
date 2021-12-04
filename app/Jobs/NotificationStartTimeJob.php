@@ -8,13 +8,16 @@ class NotificationStartTimeJob extends Job
 {
 
     protected $memberNotification;
+
+    protected $memberNotificationId;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($memberNotificationId)
     {
+        $this->memberNotificationId = $memberNotificationId;
         $this->memberNotification = app(MemberNotification::class);
     }
 
@@ -25,6 +28,6 @@ class NotificationStartTimeJob extends Job
      */
     public function handle()
     {
-        $this->memberNotification->startTask('userNotify');
+        $this->memberNotification->startTask($this->memberNotificationId);
     }
 }

@@ -16,11 +16,14 @@ class NotificationStartWorkingJob extends Job
 
     private $task;
     protected $memberNotification;
+    protected $memberNotificationId;
 
-    public function __construct($task)
+    public function __construct($task, $memberNotificationId)
     {
         $this->task = $task;
+        $this->memberNotificationId = $memberNotificationId;
         $this->memberNotification = app(MemberNotification::class);
+
     }
 
     /**
@@ -30,7 +33,6 @@ class NotificationStartWorkingJob extends Job
      */
     public function handle()
     {
-        $notifyId = 'userNotify';
         $message = '';
 
         switch ($this->task->task_status_id){
@@ -41,7 +43,7 @@ class NotificationStartWorkingJob extends Job
                 ]);
 
                 $message = 'Задача просрочена';
-                $this->memberNotification->acceptTask($notifyId, $message);
+                $this->memberNotification->acceptTask($this->memberNotificationId, $message);
                 break;
         }
     }
