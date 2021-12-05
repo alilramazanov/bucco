@@ -11,6 +11,7 @@ use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
+use App\Http\Resources\Control\Task\MemberTasksResource;
 use App\Jobs\NotificationStartTimeJob;
 use App\Jobs\NotificationStartWorkingJob;
 use App\Jobs\Task\EndOfTaskJob;
@@ -20,6 +21,7 @@ use App\Models\Task;
 use App\Resources\Control\Notification\Admin\AdminNotification;
 use App\Resources\Control\Notification\Member\MemberNotification;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -29,6 +31,7 @@ class TaskController extends BaseController
     /**
      * @var TaskRepository $taskRepository
      * @var \stdClass $stdClass
+     * @var TaskLoader $taskLoaderObject
      */
     protected $taskRepository;
     protected $taskLoaderObject;
@@ -98,7 +101,7 @@ class TaskController extends BaseController
         \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob($memberNotificationId));
         \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(2), new NotificationStartWorkingJob($newTask, $memberNotificationId));
         \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(2), new MinutesBeforeTheEndJob($memberNotificationId));
-        \Queue::later(Carbon::parse($request->get('end_at')), new EndOfTaskJob($newTask, $memberNotificationId));
+        \Queue::later(Carbon::parse($request->get('end_at'))->addMinutes(2), new EndOfTaskJob($newTask, $memberNotificationId));
 
         if ($newTask === null){
             $stdClass->message = 'Задача успешно создана';
@@ -151,6 +154,21 @@ class TaskController extends BaseController
 
         $this->stdClass->message = 'Ошибка удаления задачи';
         return new BasicErrorResource($this->stdClass);
+
+    }
+
+
+
+
+    // для логики возвращения задачи
+
+    public function returnTask(Request $request){
+
+        $isReturn = $this->taskLoaderObject->returnTask($request);
+
+        return $isReturn;
+
+
 
     }
 

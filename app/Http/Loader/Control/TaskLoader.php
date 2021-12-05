@@ -54,4 +54,9 @@ class TaskLoader extends BaseLoader
         return $isUpdate;
 
     }
+
+    public function returnTask($request){
+        dd($request->input());
+
+    }
 }
