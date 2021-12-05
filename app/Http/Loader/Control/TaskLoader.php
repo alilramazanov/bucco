@@ -14,9 +14,9 @@ class TaskLoader extends BaseLoader
         $data = $request->input();
         $data['admin_id'] = \Auth::user()->id;
 
-        $isCreate = Task::create($data);
+        $newTask = Task::create($data);
 
-        return $isCreate;
+        return $newTask;
 
     }
 
@@ -25,11 +25,10 @@ class TaskLoader extends BaseLoader
         $adminId = \Auth::user()->id;
         $data = $request->input();
 
-        $task = Task::whereId($request->get('id'))
+        $isUpdate = Task::whereId($request->get('id'))
             ->whereAdminId($adminId)
-            ->first();
-
-        $isUpdate = $task->update($data);
+            ->first()
+            ->update($data);
 
         return $isUpdate;
 
@@ -49,12 +48,10 @@ class TaskLoader extends BaseLoader
 
     public function updateStatusTask($request){
 
-        $stdClass = new \stdClass();
-
-        $task = Task::whereId($request->input('id'))
+        $isUpdate = Task::whereId($request->input('id'))
             ->update($request->input());
 
-        return $task;
+        return $isUpdate;
 
     }
 }

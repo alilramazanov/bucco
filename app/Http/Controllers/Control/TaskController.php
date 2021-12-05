@@ -93,14 +93,14 @@ class TaskController extends BaseController
 
         $this->memberNotification->createTask($memberNotificationId);
 
-        $isCreate = $this->taskLoaderObject->createTask($request); // Получаем id задачи
+        $newTask = $this->taskLoaderObject->createTask($request);
 
         \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob($memberNotificationId));
-        \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(2), new NotificationStartWorkingJob($isCreate, $memberNotificationId));
+        \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(2), new NotificationStartWorkingJob($newTask, $memberNotificationId));
         \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(2), new MinutesBeforeTheEndJob($memberNotificationId));
-        \Queue::later(Carbon::parse($request->get('end_at')), new EndOfTaskJob($isCreate, $memberNotificationId));
+        \Queue::later(Carbon::parse($request->get('end_at')), new EndOfTaskJob($newTask, $memberNotificationId));
 
-        if ($isCreate === null){
+        if ($newTask === null){
             $stdClass->message = 'Задача успешно создана';
             return new SuccessResource($stdClass);
         }
