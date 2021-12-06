@@ -11,6 +11,7 @@ use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
+use App\Http\Resources\Control\Task\MemberTasksResource;
 use App\Jobs\NotificationStartTimeJob;
 use App\Jobs\NotificationStartWorkingJob;
 use App\Jobs\Task\EndOfTaskJob;
@@ -100,7 +101,7 @@ class TaskController extends BaseController
         \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(2), new MinutesBeforeTheEndJob($memberNotificationId));
         \Queue::later(Carbon::parse($request->get('end_at')), new EndOfTaskJob($newTask, $memberNotificationId));
 
-        if ($newTask === null){
+        if (!($newTask === null)){
             $stdClass->message = 'Задача успешно создана';
             return new SuccessResource($stdClass);
         }

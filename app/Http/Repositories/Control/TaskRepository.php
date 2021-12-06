@@ -5,6 +5,7 @@ namespace App\Http\Repositories\Control;
 use App\Http\Resources\Control\Task\GroupTasksResource;
 use App\Http\Resources\Control\Task\MemberTasksResource;
 use App\Models\Task as Model;
+use Carbon\Carbon;
 
 class TaskRepository extends BaseRepository
 {
@@ -56,7 +57,9 @@ class TaskRepository extends BaseRepository
                 ->orderBy('start_at')
                 ->get();
 
-            return MemberTasksResource::collection($tasks);
+            return MemberTasksResource::collection($tasks)->groupBy(function ($tasks) {
+                return substr($tasks['start_at'], 0, 10);
+            });
 
         }
 
