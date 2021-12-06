@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Control;
 
+use App\Http\Action\Control\Task\CreateTaskAction;
 use App\Http\Loader\Control\TaskLoader;
 use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Requests\Control\Tasks\CreateTaskRequest;
@@ -12,8 +13,8 @@ use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
 use App\Http\Resources\Control\Task\MemberTasksResource;
-use App\Jobs\NotificationStartTimeJob;
-use App\Jobs\NotificationStartWorkingJob;
+use App\Jobs\Task\NotificationStartTimeJob;
+use App\Jobs\Task\NotificationStartWorkingJob;
 use App\Jobs\Task\EndOfTaskJob;
 use App\Jobs\Task\MinutesBeforeTheEndJob;
 use App\Models\Member;
@@ -38,6 +39,7 @@ class TaskController extends BaseController
     protected $adminNotification;
     protected $memberNotification;
     protected $stdClass;
+    protected $createTaskAction;
 
 
 
@@ -51,6 +53,7 @@ class TaskController extends BaseController
         $this->taskLoaderObject = app(TaskLoader::class);
         $this->memberNotification = app(MemberNotification::class);
         $this->adminNotification = app(AdminNotification::class);
+        $this->createTaskAction = app(CreateTaskAction::class);
         $this->stdClass = app(\stdClass::class);
         $this->middleware('auth');
     }
@@ -94,18 +97,14 @@ class TaskController extends BaseController
         $stdClass = new \stdClass();
         $memberNotificationId = Member::find($request->input('member_id'))->user_notification_id;
 
-        $this->memberNotification->createTask($memberNotificationId);
-
         $newTask = $this->taskLoaderObject->createTask($request);
 
-        \Queue::later(Carbon::parse($request->get('start_at')), new NotificationStartTimeJob($memberNotificationId));
-        \Queue::later(Carbon::parse($request->get('start_at'))->addMinutes(2), new NotificationStartWorkingJob($newTask, $memberNotificationId));
-        \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(2), new MinutesBeforeTheEndJob($memberNotificationId));
-        \Queue::later(Carbon::parse($request->get('end_at'))->addMinutes(2), new EndOfTaskJob($newTask, $memberNotificationId));
+        $this->createTaskAction->addAJob($request, $newTask, $memberNotificationId);
 
         if (!($newTask === null)){
             $stdClass->message = 'Задача успешно создана';
             return new SuccessResource($stdClass);
+            $this->memberNotification->createTask($memberNotificationId);
         }
 
         $stdClass->message = 'Ошибка создания задачи';
@@ -160,6 +159,8 @@ class TaskController extends BaseController
     public function returnTask(Request $request){
 
         $newReturnTask = $this->taskLoaderObject->returnTask($request);
+
+
 
         if (!($newReturnTask === null)){
             $this->stdClass->message = 'Задача успешно возвращена';

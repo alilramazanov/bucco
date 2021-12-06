@@ -63,7 +63,7 @@ class MemberController extends BaseController
 
        $isCreate = $this->memberLoader->createMemberInGroup($request);
 
-        if ($isCreate === null){
+        if (!($isCreate === null)){
             $this->stdClass->message = 'Участник успешно создан и добавлен в группу';
             return new SuccessResource($this->stdClass);
         }

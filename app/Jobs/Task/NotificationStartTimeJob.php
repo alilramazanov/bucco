@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Task;
 
+use App\Jobs\Job;
 use App\Resources\Control\Notification\Member\MemberNotification;
 
 class NotificationStartTimeJob extends Job
