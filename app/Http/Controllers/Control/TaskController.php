@@ -12,17 +12,10 @@ use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
-use App\Http\Resources\Control\Task\MemberTasksResource;
-use App\Jobs\Task\NotificationStartTimeJob;
-use App\Jobs\Task\NotificationStartWorkingJob;
-use App\Jobs\Task\EndOfTaskJob;
-use App\Jobs\Task\MinutesBeforeTheEndJob;
 use App\Models\Member;
 use App\Models\Task;
 use App\Resources\Control\Notification\Admin\AdminNotification;
 use App\Resources\Control\Notification\Member\MemberNotification;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -156,7 +149,7 @@ class TaskController extends BaseController
 
     }
 
-    public function returnTask(Request $request){
+    public function returnTask(DetailTaskRequest $request){
 
         $newReturnTask = $this->taskLoaderObject->returnTask($request);
 

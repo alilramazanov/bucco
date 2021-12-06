@@ -81,7 +81,7 @@ class TaskLoader extends BaseLoader
 
         $theLastTask = $this->taskRepository->getTheLastTask($request);
 
-        // Начало задачи расчитывается от конца самой последней задачи + 5 минут
+        // Начало задачи расcчитывается от конца самой последней задачи + 5 минут
         $data['start_at'] = Carbon::parse($theLastTask->end_at)
             ->addMinutes(5);
 
