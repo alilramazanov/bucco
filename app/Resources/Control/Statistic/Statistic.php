@@ -35,17 +35,17 @@ class Statistic
 
         $currentGroupTasks = $allGroupTasks
             ->where('group_id',$group_id)
-            ->where('task_status_id', 1)
+            ->whereIn('task_status_id', [1,2])
             ->count();
 
         $completedGroupTasks = $allGroupTasks
             ->where('group_id', $group_id)
-            ->where('task_status_id', 2)
+            ->where('task_status_id', 3)
             ->count();
 
         $overdueGroupTasks = $allGroupTasks
             ->where('group_id', $group_id)
-            ->where('task_status_id', 3)
+            ->where('task_status_id', 4)
             ->count();
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Control\Group;
 
+use App\Resources\Control\Statistic\Group\GroupStatistic;
 use App\Resources\Control\Statistic\Statistic;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,7 +15,7 @@ class GroupStatisticListResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'adminId' => $this->admin_id,
-            'statistic' => (new Statistic())->getGroupStatistic($this->id)
+            'statistic' => (new GroupStatistic())->getGroupStatistic($this->id)
 
         ];
     }
