@@ -2,12 +2,24 @@
 
 namespace App\Http\Loader\Control;
 
+use App\Http\Repositories\Control\TaskRepository;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
 use App\Models\Task;
+use Carbon\Carbon;
 
 class TaskLoader extends BaseLoader
 {
+
+
+
+
+    protected $taskRepository;
+
+    public function __construct()
+    {
+        $this->taskRepository = app(TaskRepository::class);
+    }
 
     public function createTask($request){
 
@@ -56,7 +68,24 @@ class TaskLoader extends BaseLoader
     }
 
     public function returnTask($request){
-        dd($request->input());
+
+        $data = $request;
+        $startTime = Carbon::parse($request->input('start_at'));
+        $endTime = Carbon::parse($request->input('end_at'));
+        $timeDifferenceOfTheLastTask = $startTime->diffInMinutes($endTime);
+
+
+        $theLastTask = $this->taskRepository->getTheLastTask($request);
+
+
+        // Начало задачи расчитывается от конца самой последней задачи + 5 минут
+        $data['start_at'] = Carbon::parse($theLastTask->end_at)
+            ->addMinutes(5);
+
+        $data['end_at'] = Carbon::parse($data['start_at'])
+            ->addMinutes($timeDifferenceOfTheLastTask);
+
+        return $this->createTask($data);
 
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Repositories\Control;
 
 use App\Http\Resources\Control\Task\GroupTasksResource;
 use App\Http\Resources\Control\Task\MemberTasksResource;
+use App\Models\Task;
 use App\Models\Task as Model;
 
 class TaskRepository extends BaseRepository
@@ -97,4 +98,14 @@ class TaskRepository extends BaseRepository
         return MemberTasksResource::collection($tasks);
     }
 
+    public function getTheLastTask($request){
+
+        $theLastTask = $this->startConditions()
+            ->whereMemberId($request->input('member_id'))
+            ->whereGroupId($request->input('group_id'))
+            ->orderByDesc('end_at')
+            ->first();
+
+        return$theLastTask;
+    }
 }

@@ -54,8 +54,7 @@ $router->group(
                 Route::post('/create', 'Control\TaskController@create');
                 Route::post('/update', 'Control\TaskController@update');
                 Route::post('/delete', 'Control\TaskController@delete');
-                Route::post('/return', 'Control\TaskController@returnTask');
-
+                Route::post('/return-task', 'Control\TaskController@returnTask');
 
             }
         );

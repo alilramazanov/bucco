@@ -103,7 +103,7 @@ class TaskController extends BaseController
         \Queue::later(Carbon::parse($request->get('end_at'))->subMinutes(2), new MinutesBeforeTheEndJob($memberNotificationId));
         \Queue::later(Carbon::parse($request->get('end_at'))->addMinutes(2), new EndOfTaskJob($newTask, $memberNotificationId));
 
-        if ($newTask === null){
+        if (!($newTask === null)){
             $stdClass->message = 'Задача успешно создана';
             return new SuccessResource($stdClass);
         }
@@ -157,19 +157,19 @@ class TaskController extends BaseController
 
     }
 
+    public function returnTask(CreateTaskRequest $request){
 
+        $newReturnTask = $this->taskLoaderObject->returnTask($request);
 
+        if (!($newReturnTask === null)){
+            $this->stdClass->message = 'Задача успешно возвращена';
+            return new SuccessResource($this->stdClass);
+        }
 
-    // для логики возвращения задачи
-
-    public function returnTask(Request $request){
-
-        $isReturn = $this->taskLoaderObject->returnTask($request);
-
-        return $isReturn;
-
-
+        $this->stdClass->message = 'Ошибка возвращения задачи';
+        return new BasicErrorResource($this->stdClass);
 
     }
+
 
 }
