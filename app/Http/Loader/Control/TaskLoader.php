@@ -69,9 +69,14 @@ class TaskLoader extends BaseLoader
 
     public function returnTask($request){
 
+        $task = Task::whereId($request->input('id'))->first();
         $data = $request;
-        $startTime = Carbon::parse($request->input('start_at'));
-        $endTime = Carbon::parse($request->input('end_at'));
+        $data['name'] = $task->name;
+        $data['description'] = $task->description;
+        $data['group_id'] = $task->group_id;
+        $data['member_id'] = $task->member_id;
+        $startTime = Carbon::parse($task->start_at);
+        $endTime = Carbon::parse($task->end_at);
         $timeDifferenceOfTheLastTask = $startTime->diffInMinutes($endTime);
 
 
@@ -84,6 +89,7 @@ class TaskLoader extends BaseLoader
 
         $data['end_at'] = Carbon::parse($data['start_at'])
             ->addMinutes($timeDifferenceOfTheLastTask);
+
 
         return $this->createTask($data);
 

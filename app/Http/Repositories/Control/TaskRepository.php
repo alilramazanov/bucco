@@ -100,12 +100,15 @@ class TaskRepository extends BaseRepository
 
     public function getTheLastTask($request){
 
+        $task = Task::whereId($request->input('id'))->first();
+
+
         $theLastTask = $this->startConditions()
-            ->whereMemberId($request->input('member_id'))
-            ->whereGroupId($request->input('group_id'))
+            ->whereMemberId($task->member_id)
+            ->whereGroupId($task->group_id)
             ->orderByDesc('end_at')
             ->first();
 
-        return$theLastTask;
+        return $theLastTask;
     }
 }

@@ -157,7 +157,7 @@ class TaskController extends BaseController
 
     }
 
-    public function returnTask(CreateTaskRequest $request){
+    public function returnTask(Request $request){
 
         $newReturnTask = $this->taskLoaderObject->returnTask($request);
 
