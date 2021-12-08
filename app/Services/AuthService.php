@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Http\Requests\Control\Auth\UpdateProfileRequest;
 use App\Models\Admin;
-use App\Models\Member;
 use Illuminate\Support\Facades\Auth;
 
 final class AuthService

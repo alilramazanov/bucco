@@ -113,5 +113,24 @@ $router->group(
 
             }
         );
+
+
+        Route::group(
+            ['prefix' => 'accounting'],
+            function (){
+                Route::get('/category/list', 'Accounting\CategoryProductController@categoryList');
+                Route::post('/category/create', 'Accounting\CategoryProductController@create');
+                Route::post('/category/change-status', 'Accounting\CategoryProductController@changeStatus');
+
+                Route::get('/subcategory/list', 'Accounting\SubcategoryProductController@subcategoryList');
+                Route::post('/subcategory/create', 'Accounting\SubcategoryProductController@create');
+                Route::post('/subcategory/change-status', 'Accounting\SubcategoryProductController@changeStatus');
+
+                Route::get('/product/list', 'Accounting\ProductController@list');
+                Route::post('/product/add', 'Accounting\ProductController@addProduct');
+                Route::post('/product/add-count', 'Accounting\ProductController@addCount');
+                Route::post('/product/minus-count', 'Accounting\ProductController@minusCount');
+            }
+        );
     }
 );

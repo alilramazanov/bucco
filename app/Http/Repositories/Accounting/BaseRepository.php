@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Repositories\Control;
+namespace App\Http\Repositories\Accounting;
 
 use App\Http\Repositories\Repository;
 use Illuminate\Database\Eloquent\Model;

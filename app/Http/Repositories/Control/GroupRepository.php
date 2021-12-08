@@ -4,11 +4,8 @@ namespace App\Http\Repositories\Control;
 
 use App\Http\Resources\Control\Group\GroupListResource;
 use App\Http\Resources\Control\Group\GroupStatisticListResource;
-use App\Models\Admin;
-use App\Models\Group;
 use App\Models\Group as Model;
 use App\Models\Member;
-use Illuminate\Support\Facades\Auth;
 
 
 class GroupRepository extends BaseRepository

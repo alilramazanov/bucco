@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Repositories\Control;
+
 use App\Http\Resources\Control\Task\MemberTasksResource;
 use App\Models\Member as Model;
 use App\Models\Task;

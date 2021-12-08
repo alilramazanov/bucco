@@ -39,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Group whereAvatar($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Penalties[] $penalties
  * @property-read int|null $penalties_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CategoryProduct[] $productCategories
+ * @property-read int|null $product_categories_count
  */
 class Group extends Model
 {
@@ -67,6 +69,11 @@ class Group extends Model
 
     public function penalties(){
         return $this->hasMany(Penalties::class);
+    }
+
+    public function productCategories()
+    {
+        return $this->hasMany(CategoryProduct::class);
     }
 
 }

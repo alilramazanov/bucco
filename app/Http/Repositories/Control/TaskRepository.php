@@ -6,7 +6,6 @@ use App\Http\Resources\Control\Task\GroupTasksResource;
 use App\Http\Resources\Control\Task\MemberTasksResource;
 use App\Models\Task;
 use App\Models\Task as Model;
-use Carbon\Carbon;
 
 class TaskRepository extends BaseRepository
 {
