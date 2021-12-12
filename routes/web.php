@@ -130,6 +130,15 @@ $router->group(
                 Route::post('/product/add', 'Accounting\ProductController@addProduct');
                 Route::post('/product/add-count', 'Accounting\ProductController@addCount');
                 Route::post('/product/minus-count', 'Accounting\ProductController@minusCount');
+
+
+                Route::post('/expense/create-expense-category', 'Accounting\ExpensesController@createExpenseCategory' );
+                Route::post('/expense/create-expense', 'Accounting\ExpensesController@createExpense');
+                Route::post('/expense/update-status-expense', 'Accounting\ExpensesController@updateStatusExpense');
+                Route::get('/expense/detail-expense', 'Accounting\ExpensesController@detailExpense');
+                Route::get('/expense/list-expense', 'Accounting\ExpensesController@listExpense');
+
+
             }
         );
     }

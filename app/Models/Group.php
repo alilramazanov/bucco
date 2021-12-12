@@ -41,6 +41,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $penalties_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CategoryProduct[] $productCategories
  * @property-read int|null $product_categories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Expense[] $expenses
+ * @property-read int|null $expenses_count
  */
 class Group extends Model
 {
@@ -74,6 +76,10 @@ class Group extends Model
     public function productCategories()
     {
         return $this->hasMany(CategoryProduct::class);
+    }
+
+    public function expenses(){
+        return $this->hasMany(Expense::class);
     }
 
 }
