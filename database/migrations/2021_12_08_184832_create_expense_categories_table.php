@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePassportsTable extends Migration
+class CreateExpenseCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,12 @@ class CreatePassportsTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('passports');
+        Schema::create('expense_categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class CreatePassportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('passports');
+        Schema::dropIfExists('expense_categories');
     }
 }
