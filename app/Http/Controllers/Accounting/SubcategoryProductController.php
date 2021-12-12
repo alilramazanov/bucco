@@ -55,5 +55,7 @@ class SubcategoryProductController extends Controller
         $subcategory = SubcategoryProduct::whereId($request->input('id'))->first();
         $subcategory->is_processing === false ? $subcategory->is_processing = true : $subcategory->is_processing = false;
         $subcategory->update();
+        $this->stdClass->message = 'Статус изменён';
+        return new SuccessResource($this->stdClass);
     }
 }

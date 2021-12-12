@@ -57,5 +57,7 @@ class CategoryProductController extends Controller
         $category = CategoryProduct::whereId($request->input('id'))->first();
         $category->is_processing === false ? $category->is_processing = true : $category->is_processing = false;
         $category->update();
+        $this->stdClass->message = 'Статус изменён';
+        return new SuccessResource($this->stdClass);
     }
 }
