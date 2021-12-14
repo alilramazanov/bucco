@@ -26,32 +26,21 @@ class TaskRepository extends BaseRepository
 
         $tasks = $this->startConditions()
             ->select($columns)
-            ->where('group_id', $request->get('group_id'))
+            ->where('group_id', $request->group_id)
             ->paginate();
 
-        return GroupTasksResource::collection($tasks);
+        return $tasks;
 
     }
 
 
     public function getMemberTaskList($request){
 
-        $columns = [
-            'id',
-            'name',
-            'task_status_id',
-            'group_id',
-            'member_id',
-            'description',
-            'start_at',
-            'end_at'
-        ];
 
-        if ($request->get('task_status_id') == 1) {
+        if ($request->task_status_id == 1) {
             $tasks = $this->startConditions()
-                ->select($columns)
-                ->where('group_id', $request->get('group_id'))
-                ->where('member_id', $request->get('member_id'))
+                ->where('group_id', $request->group_id)
+                ->where('member_id', $request->member_id)
                 ->whereIn('task_status_id', [1, 2])
                 ->orderByDesc('task_status_id')
                 ->orderBy('start_at')
@@ -64,10 +53,9 @@ class TaskRepository extends BaseRepository
         }
 
         $currentTasks = $this->startConditions()
-            ->select($columns)
-            ->where('group_id', $request->get('group_id'))
-            ->where('member_id', $request->get('member_id'))
-            ->where('task_status_id', $request->get('task_status_id'))
+            ->where('group_id', $request->group_id)
+            ->where('member_id', $request->member_id)
+            ->where('task_status_id', $request->task_status_id)
             ->orderBy('start_at')
             ->get();
 
@@ -79,31 +67,18 @@ class TaskRepository extends BaseRepository
 
         $memberId = \Auth::guard('member')->user()->id;
 
-        $columns = [
-            'id',
-            'name',
-            'task_status_id',
-            'group_id',
-            'member_id',
-            'description',
-            'start_at',
-            'end_at'
-        ];
-
         $tasks = $this->startConditions()
-            ->select($columns)
             ->where('task_status_id', $statusId)
             ->whereMemberId($memberId)
             ->orderBy('start_at')
             ->get();
 
-        return MemberTasksResource::collection($tasks);
+        return $tasks;
     }
 
     public function getTheLastTask($request){
 
-        $task = Task::whereId($request->input('id'))->first();
-
+        $task = Task::whereId($request->id)->first();
 
         $theLastTask = $this->startConditions()
             ->whereMemberId($task->member_id)

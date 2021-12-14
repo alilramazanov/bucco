@@ -14,13 +14,15 @@ use App\Http\Requests\Control\Members\UpdateGroupMemberRequest;
 use App\Http\Requests\Control\Members\UpdateMemberRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
+use App\Http\Resources\Control\Member\AdminMemberListResource;
+use App\Http\Resources\Control\Member\DetailGroupMemberResource;
+use App\Http\Resources\Control\Member\DetailMemberResource;
+use App\Http\Resources\Control\Member\GroupMemberListResource;
+use App\Models\Member;
 use Illuminate\Http\Request;
 
 class MemberController extends BaseController
 {
-        /**
-         * @var $MembersRepository
-         */
 
     protected $membersRepository;
     protected $memberLoader;
@@ -38,32 +40,77 @@ class MemberController extends BaseController
 
     public function adminMemberList(Request $request){
 
-        return $this->membersRepository->getAdminMemberList($request);
+       $adminMemberList = $this->membersRepository->getAdminMemberList($request);
+
+       if ($adminMemberList == null){
+           $this->stdClass->message = 'Участников админа нет';
+           return new SuccessResource($this->stdClass);
+       }
+
+       return AdminMemberListResource::collection($adminMemberList);
 
     }
 
     public function groupMemberList(GroupMemberListRequest $request){
 
-        return $this->membersRepository->getGroupMemberList($request);
+        $groupMemberList = $this->membersRepository->getGroupMemberList($request);
+
+        if ($groupMemberList == null){
+            $this->stdClass->message = 'Участников группы нет';
+            return new SuccessResource($this->stdClass);
+        }
+
+        return GroupMemberListResource::collection($groupMemberList);
 
     }
 
     public function detailGroupMember(DetailGroupMemberRequest $request)
     {
-        return $this->membersRepository->detailGroupMember($request);
+        $groupMember = $this->membersRepository->detailGroupMember($request);
+
+        return new DetailGroupMemberResource($groupMember);
+
     }
+
+
+    public function detail(DetailMemberRequest $request)
+    {
+        $member = $this->membersRepository->detailMember($request);
+
+        return new DetailMemberResource($member);
+
+    }
+
 
     public function updateGroupMember(UpdateGroupMemberRequest $request)
     {
-        return $this->memberLoader->updateGroupMember($request);
+        $isUpdate = $this->memberLoader->updateGroupMember($request);
+
+        if ($isUpdate){
+            $this->stdClass->message = 'Участник группы успешно обновлен';
+            return new SuccessResource($this->stdClass);
+        }
+
+        $this->stdClass->message = 'Ошибка обновления участника группы';
+        return new BasicErrorResource($this->stdClass);
+
     }
 
 
     public function createMemberInGroup(CreateMemberInGroupRequest $request){
 
-       $isCreate = $this->memberLoader->createMemberInGroup($request);
 
-        if (!($isCreate === null)){
+        // Проверка на существования участника с вводимым логином и создание участника
+        $isExists = Member::whereLogin($request->input('login'))->exists();
+
+        if ($isExists){
+            $this->stdClass->message = 'Пользователь с таким логином уже существует';
+            return new BasicErrorResource($this->stdClass);
+        }
+
+       $newMember = $this->memberLoader->createMemberInGroup($request);
+
+        if (!($newMember == null)){
             $this->stdClass->message = 'Участник успешно создан и добавлен в группу';
             return new SuccessResource($this->stdClass);
         }
@@ -79,32 +126,51 @@ class MemberController extends BaseController
         if ($isCreateMember) {
         $this->stdClass->message = 'Пользователь успешно создан';
         return new SuccessResource($this->stdClass);
-    }
+        }
+
         $this->stdClass->message = 'Ошибка при создании пользователя';
         return new BasicErrorResource($this->stdClass);
     }
 
     public function unsert(UnsertMemberRequest $request){
 
-        return $this->memberLoader->unsertMemberFromGroup($request);
+        $isDelete = $this->memberLoader->unsertMemberFromGroup($request);
 
-    }
+        if ($isDelete){
+            $this->stdClass->message = 'Участник успешно удален из группы';
+            return new SuccessResource($this->stdClass);
+        }
 
-    public function detail(DetailMemberRequest $request)
-    {
-        return $this->membersRepository->detailMember($request);
+        $this->stdClass->message = 'Ошибка удаления участника';
+        return new BasicErrorResource($this->stdClass);
+
     }
 
     public function update(UpdateMemberRequest $request){
 
-        return $this->memberLoader->updateMember($request);
+        $isUpdate = $this->memberLoader->updateMember($request);
+
+        if ($isUpdate){
+            $this->stdClass->message = 'Участник успешно обновлен';
+            return new SuccessResource($this->stdClass);
+        }
+
+        $this->stdClass->message = 'Ошибка обновления участника';
+        return new BasicErrorResource($this->stdClass);
+
     }
 
     public function delete(DetailMemberRequest $request){
 
-        return $this->memberLoader->deleteMember($request);
+        $isDelete = $this->memberLoader->deleteMember($request);
+
+        if ($isDelete){
+            $this->stdClass->message = 'Участник успешно удален';
+            return new SuccessResource($this->stdClass);
+        }
+
+        $this->stdClass->message = 'Ошибка удаления участника';
+        return new BasicErrorResource($this->stdClass);
 
     }
-
-
 }

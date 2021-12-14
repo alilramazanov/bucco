@@ -12,6 +12,7 @@ use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
+use App\Http\Resources\Control\Task\GroupTasksResource;
 use App\Models\Member;
 use App\Models\Task;
 use App\Resources\Control\Notification\Admin\AdminNotification;
@@ -22,18 +23,18 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 class TaskController extends BaseController
 {
 
+
     /**
+     * @var \Laravel\Lumen\Application|mixed
      * @var TaskRepository $taskRepository
-     * @var \stdClass $stdClass
-     * @var TaskLoader $taskLoaderObject
      */
     protected $taskRepository;
     protected $taskLoaderObject;
     protected $adminNotification;
     protected $memberNotification;
-    protected $stdClass;
     protected $createTaskAction;
 
+    protected $stdClass;
 
 
     //                                              GET методы
@@ -57,10 +58,11 @@ class TaskController extends BaseController
        $groupTasks = $this->taskRepository->getGroupTaskList($request);
 
         if ($groupTasks->isEmpty()) {
-            throw new BadRequestException('Задачи группы не найдены', 404);
+            $this->stdClass->message = 'Задачи группы не найдены';
+            return new SuccessResource($this->stdClass);
         }
 
-        return $groupTasks;
+        return GroupTasksResource::collection($groupTasks);
 
     }
 
@@ -69,7 +71,8 @@ class TaskController extends BaseController
         $memberTasks = $this->taskRepository->getMemberTaskList($request);
 
         if ($memberTasks->isEmpty()) {
-            throw new BadRequestException('Задачи участника не найдены', 404);
+            $this->stdClass->message = 'Задачи участника не найдены';
+            return new SuccessResource($this->stdClass);
         }
 
         return $memberTasks;
@@ -78,7 +81,7 @@ class TaskController extends BaseController
 
 
 
-    //                                        ПОСТ МЕТОДЫ
+
 
     /**
      * @param CreateTaskRequest $request
@@ -87,21 +90,19 @@ class TaskController extends BaseController
      */
     public function create(CreateTaskRequest $request){
 
-        $stdClass = new \stdClass();
-        $memberNotificationId = Member::find($request->input('member_id'))->user_notification_id;
-
         $newTask = $this->taskLoaderObject->createTask($request);
+        $memberNotificationId = Member::find($request->member_id)->user_notification_id;
 
-        $this->createTaskAction->addAJob($request, $newTask, $memberNotificationId);
+        $this->createTaskAction->addAJob($newTask, $memberNotificationId);
 
-        if (!($newTask === null)){
-            $stdClass->message = 'Задача успешно создана';
-            return new SuccessResource($stdClass);
+        if (!($newTask == null)){
+            $this->stdClass->message = 'Задача успешно создана';
             $this->memberNotification->createTask($memberNotificationId);
+            return new SuccessResource($this->stdClass);
         }
 
-        $stdClass->message = 'Ошибка создания задачи';
-        return new BasicErrorResource($stdClass);
+        $this->stdClass->message = 'Ошибка создания задачи';
+        return new BasicErrorResource($this->stdClass);
 
     }
 
@@ -115,7 +116,7 @@ class TaskController extends BaseController
      */
     public function update(UpdateTaskRequest $request){
 
-        $task = Task::whereId($request->input('id'))->first();
+        $task = Task::whereId($request->id)->first();
         $memberNotificationId = Member::find($task->member_id)->login;
 
         $name = $task->name;
@@ -152,7 +153,9 @@ class TaskController extends BaseController
     public function returnTask(DetailTaskRequest $request){
 
         $newReturnTask = $this->taskLoaderObject->returnTask($request);
+        $memberNotificationId = Member::whereId($newReturnTask->member_id)->first()->user_notification_id;
 
+        $this->createTaskAction->addAJob($newReturnTask, $memberNotificationId);
 
 
         if (!($newReturnTask === null)){
@@ -164,6 +167,4 @@ class TaskController extends BaseController
         return new BasicErrorResource($this->stdClass);
 
     }
-
-
 }

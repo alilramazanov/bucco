@@ -11,9 +11,6 @@ use Carbon\Carbon;
 class TaskLoader extends BaseLoader
 {
 
-
-
-
     protected $taskRepository;
 
     public function __construct()
@@ -37,7 +34,7 @@ class TaskLoader extends BaseLoader
         $adminId = \Auth::user()->id;
         $data = $request->input();
 
-        $isUpdate = Task::whereId($request->get('id'))
+        $isUpdate = Task::whereId($request->id)
             ->whereAdminId($adminId)
             ->first()
             ->update($data);
@@ -50,7 +47,7 @@ class TaskLoader extends BaseLoader
 
         $adminId = \Auth::user()->id;
 
-        $isDelete = Task::whereId($request->input('id'))
+        $isDelete = Task::whereId($request->id)
             ->whereAdminId($adminId)
             ->delete();
 
@@ -60,7 +57,7 @@ class TaskLoader extends BaseLoader
 
     public function updateStatusTask($request){
 
-        $isUpdate = Task::whereId($request->input('id'))
+        $isUpdate = Task::whereId($request->id)
             ->update($request->input());
 
         return $isUpdate;
@@ -69,7 +66,7 @@ class TaskLoader extends BaseLoader
 
     public function returnTask($request){
 
-        $task = Task::whereId($request->input('id'))->first();
+        $task = Task::whereId($request->id)->first();
         $data = $request;
         $data['name'] = $task->name;
         $data['description'] = $task->description;

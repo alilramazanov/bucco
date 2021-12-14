@@ -24,13 +24,13 @@ class MemberSeeder extends Seeder
             $name = $faker->firstName();
 
 
-            $members = [
+            $member = [
                 'admin_id' => rand(1,3),
                 'name' => $name,
                 'password' => '12345'.$i,
                 'login' => Str::slug($name).$i
             ];
-            DB::table('members')->insert($members);
+            DB::table('members')->insert($member);
         }
     }
 }

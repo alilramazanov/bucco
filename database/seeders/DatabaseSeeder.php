@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(GroupMemberSeeder::class);
 //        $this->call(TaskTemplateSeeder::class);
         $this->call(TaskStatusSeeder::class);
+        $this->call(ExpenseCategorySeeder::class);
 //        $this->call(TaskSeeder::class);
 
 

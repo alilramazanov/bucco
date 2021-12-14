@@ -10,6 +10,8 @@ use App\Http\Requests\Control\Groups\CreateGroupRequest;
 use App\Http\Requests\Control\Groups\DetailGroupRequest;
 use App\Http\Requests\Control\Groups\UpdateGroupRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
+use App\Http\Resources\Control\Group\GroupListResource;
+use App\Http\Resources\Control\Group\GroupStatisticListResource;
 use Illuminate\Http\Request;
 use OneSignal;
 
@@ -33,30 +35,30 @@ class GroupController extends BaseController
 
     public function list(Request $request)
     {
-        $groupList = $this->groupRepository->getGroupList($request);
+        $groups = $this->groupRepository->getGroupList($request);
 
 
 
-        if ($groupList->isEmpty()) {
+        if ($groups->isEmpty()) {
             $this->stdClass->message = 'Группы не найдены';
             return new BasicErrorResource($this->stdClass);
         }
 
+        return GroupListResource::collection($groups);
 
-        return $groupList;
     }
 
     public function statisticList(Request $request)
     {
 
-        $groupList = $this->groupRepository->getGroupStatisticList($request);
+        $groups = $this->groupRepository->getGroupStatisticList($request);
 
-        if ($groupList->isEmpty()) {
+        if ($groups->isEmpty()) {
             $this->stdClass->message = 'Группы не найдены';
             return new BasicErrorResource($this->stdClass);
         }
 
-        return $groupList;
+        return GroupStatisticListResource::collection($groups);
 
     }
 

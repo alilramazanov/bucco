@@ -16,90 +16,61 @@ use Illuminate\Support\Facades\Auth;
 
 class MemberRepository extends BaseRepository
 {
-    /**
-     * @return string
-     */
+
     protected function getModelClass(): string
     {
         return Model::class;
     }
 
 
-    /**
-     * @return BasicErrorResource|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
+
     public function getAdminMemberList(){
 
         $adminId = Auth::user()->id;
+
         $adminMemberList = Member::whereAdminId($adminId)
             ->orderByDesc('id')
             ->get();
 
-        $checkAdminMembers = Model::whereAdminId($adminId)->exists();
-
-        if (!$checkAdminMembers) {
-            $stdClass = new \StdClass();
-            $stdClass->message = 'Участники не найдены';
-            return new BasicErrorResource($stdClass);
-        }
-
-        return AdminMemberListResource::collection($adminMemberList);
+        return $adminMemberList;
     }
 
 
-    /**
-     * @param $request
-     * @return BasicErrorResource|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
     public function getGroupMemberList($request){
 
-        $groupId = $request->get('group_id');
-        $stdClass = new \stdClass();
+        $groupId = $request->group_id;
         $group = Group::find($groupId);
 
         $groupMemberList = [];
 
-
         foreach ($group->members as $member){
             if ($member->pivot->group_id == $groupId){
                 $groupMemberList [] = $member;
-
             }
         }
 
         $groupMemberList = array_reverse($groupMemberList);
 
-        if (!$groupMemberList) {
-            $stdClass->message = 'Участники группы не найдены';
-            return new BasicErrorResource($stdClass);
-        }
-
-        return GroupMemberListResource::collection($groupMemberList);
+        return $groupMemberList;
 
     }
 
-    /**
-     * @param $request
-     * @return DetailGroupMemberResource
-     */
-    public function detailGroupMember($request): DetailGroupMemberResource
-    {
-        $groupMember = GroupMember::whereId($request->input('id'))->first();
 
-        return new DetailGroupMemberResource($groupMember);
+    public function detailGroupMember($request)
+    {
+        $groupMember = GroupMember::whereId($request->id)->first();
+
+        return $groupMember;
     }
 
 
-    /**
-     * @param $request
-     * @return DetailMemberResource
-     */
-    public function detailMember($request): DetailMemberResource
+
+    public function detailMember($request)
     {
-        $user = Member::whereId($request->input('id'))
+        $member = Member::whereId($request->input('id'))
             ->whereAdminId(\Auth::user()->id)
             ->first();
 
-        return new DetailMemberResource($user);
+        return $member;
     }
 }

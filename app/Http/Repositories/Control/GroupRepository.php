@@ -33,7 +33,8 @@ class GroupRepository extends BaseRepository
             ->whereAdminId($adminId)
             ->get();
 
-        return GroupListResource::collection($groups);
+        return $groups;
+
     }
 
     public function getGroupStatisticList(){
@@ -50,7 +51,7 @@ class GroupRepository extends BaseRepository
             ->whereAdminId($adminId)
             ->get();
 
-        return GroupStatisticListResource::collection($groups);
+        return $groups;
 
     }
 

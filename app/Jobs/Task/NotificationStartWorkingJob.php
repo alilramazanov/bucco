@@ -5,6 +5,7 @@ namespace App\Jobs\Task;
 use App\Jobs\Job;
 use App\Models\Task;
 use App\Resources\Control\Notification\Member\MemberNotification;
+use Carbon\Carbon;
 
 class NotificationStartWorkingJob extends Job
 {
@@ -46,6 +47,10 @@ class NotificationStartWorkingJob extends Job
                 $message = 'Задача просрочена';
                 $this->memberNotification->acceptTask($this->memberNotificationId, $message);
                 break;
+
+            case 2:
+                \Queue::later(Carbon::parse($this->task->end_at)->subMinutes(2), new MinutesBeforeTheEndJob($this->memberNotificationId));
+                \Queue::later(Carbon::parse($this->task->end_at)->addMinutes(2), new EndOfTaskJob($this->task, $this->memberNotificationId));
         }
     }
 }
