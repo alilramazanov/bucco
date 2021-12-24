@@ -6,7 +6,6 @@ use App\Models\GroupMember;
 use App\Models\Member;
 use App\Resources\Control\Penalties\PenaltiesMember;
 use App\Resources\Control\Portfolio\Member\GroupMemberTasksStatistic;
-use App\Resources\Control\Portfolio\Member\MemberPortfolio;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -22,7 +21,6 @@ class DetailGroupMemberResource extends JsonResource
         $groupMemberTaskStatistic->setFields(['member_id' => $this->id, 'group_id' => $this->group_id]);
         $groupMemberTaskStatistic->makeStatistic();
 
-//        $groupMemberPortfolio = (new MemberPortfolio())->getGroupMemberPortfolio($this->id, $this->group_id);
         $penalties = (new PenaltiesMember())->allGroupMemberPenalties($this->group_id, $this->member_id);
 
         return [

@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources\Control\Group;
 
-use App\Resources\Control\Statistic\Group\GroupStatistic;
-use App\Resources\Control\Statistic\Statistic;
+use App\Resources\Control\Portfolio\Group\GroupPercentageTaskStatistic;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupStatisticListResource extends JsonResource
@@ -11,11 +10,16 @@ class GroupStatisticListResource extends JsonResource
 
     public function toArray($request): array
     {
+
+        $groupPercentageTaskStatistic = new GroupPercentageTaskStatistic();
+        $groupPercentageTaskStatistic->setFields(['group_id' => $this->id]);
+        $groupPercentageTaskStatistic->makeStatistic();
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'adminId' => $this->admin_id,
-            'statistic' => (new GroupStatistic())->getGroupStatistic($this->id)
+            'statistic' => $groupPercentageTaskStatistic->getStatistic()
 
         ];
     }
