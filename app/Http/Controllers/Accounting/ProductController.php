@@ -64,5 +64,22 @@ class ProductController extends Controller
         return ProductListResource::collection($products);
     }
 
+    public function changeCount(Request $request){
 
+        $products = json_decode($request->input('values'), true);
+
+        $numOfUpdated = 0;
+        foreach ($products as $product) {
+            $isUpdate = Product::whereId($product['id'])
+                ->update(['count' => $product['count']]);
+
+            if ($isUpdate){
+                $numOfUpdated += 1;
+            }
+        }
+
+        $this->stdClass->message = 'Обновлено продуктов: ' . $numOfUpdated;
+        return new SuccessResource($this->stdClass);
+
+    }
 }

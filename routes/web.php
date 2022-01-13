@@ -131,6 +131,8 @@ $router->group(
                 Route::post('/product/add-count', 'Accounting\ProductController@addCount');
                 Route::post('/product/minus-count', 'Accounting\ProductController@minusCount');
 
+                Route::post('/product/change-count', 'Accounting\ProductController@changeCount');
+
 
                 Route::post('/expense/create-expense-category', 'Accounting\ExpensesController@createExpenseCategory' );
                 Route::post('/expense/create-expense', 'Accounting\ExpensesController@createExpense');
