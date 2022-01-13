@@ -72,14 +72,15 @@ class TaskLoader extends BaseLoader
         $data['description'] = $task->description;
         $data['group_id'] = $task->group_id;
         $data['member_id'] = $task->member_id;
-        $startTime = Carbon::parse($task->start_at);
-        $endTime = Carbon::parse($task->end_at);
-        $timeDifferenceOfTheLastTask = $startTime->diffInMinutes($endTime);
+        $data['start_at'] = $task->start_at;
+
 
         $theLastTask = $this->taskRepository->getTheLastTask($request);
 
+        $timeDifferenceOfTheLastTask = $this->diffInMinutesInTasks($task);
+
         // Начало задачи расcчитывается от конца самой последней задачи + 5 минут
-        $data['start_at'] = Carbon::parse($theLastTask->end_at)
+        $data['start_at'] = Carbon::parse($theLastTask->end_at < Carbon::now() ? Carbon::now() : $theLastTask->end_at )
             ->addMinutes(5);
 
         $data['end_at'] = Carbon::parse($data['start_at'])
@@ -87,5 +88,12 @@ class TaskLoader extends BaseLoader
 
         return $this->createTask($data);
 
+    }
+
+    protected function diffInMinutesInTasks($task){
+        $startTime = Carbon::parse($task->start_at);
+        $endTime = Carbon::parse($task->end_at);
+
+        return $startTime->diffInMinutes($endTime);
     }
 }
