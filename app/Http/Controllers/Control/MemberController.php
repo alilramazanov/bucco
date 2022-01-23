@@ -15,9 +15,11 @@ use App\Http\Requests\Control\Members\UpdateMemberRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
 use App\Http\Resources\Control\Member\AdminMemberListResource;
+use App\Http\Resources\Control\Member\AdminPhoneResource;
 use App\Http\Resources\Control\Member\DetailGroupMemberResource;
 use App\Http\Resources\Control\Member\DetailMemberResource;
 use App\Http\Resources\Control\Member\GroupMemberListResource;
+use App\Models\Admin;
 use App\Models\Member;
 use Illuminate\Http\Request;
 
@@ -173,4 +175,20 @@ class MemberController extends BaseController
         return new BasicErrorResource($this->stdClass);
 
     }
+
+    public function updateAdmin(Request $request){
+
+        $admin = Admin::whereId(\Auth::user()->id)->first();
+
+        $isUpdate = $admin->update($request->input());
+
+        if ($isUpdate){
+            $this->stdClass->message = 'Админ успешно обновлен';
+            return new SuccessResource($this->stdClass);
+        }
+
+
+    }
+
+
 }

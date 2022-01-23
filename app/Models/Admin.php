@@ -58,6 +58,7 @@ class Admin extends Model implements AuthenticatableContract, AuthorizableContra
         'password',
         'avatar',
         'admin_notification_id',
+        'phone_number'
     ];
 
     /**

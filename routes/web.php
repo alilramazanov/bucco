@@ -73,6 +73,10 @@ $router->group(
                 Route::post('/update', 'Control\MemberController@update');
                 Route::post('/delete', 'Control\MemberController@delete');
 
+                Route::post('/update-admin', 'Control\MemberController@updateAdmin');
+
+
+
 
 
 
@@ -109,6 +113,9 @@ $router->group(
                 Route::get('/tasks-list', 'Control\MemberTaskController@taskList');
                 Route::get('/member-group-list', 'Control\MemberTaskController@memberGroupList');
                 Route::get('/member-task-list', 'Control\MemberTaskController@memberTaskList');
+
+
+                Route::get('/get-admin-phone', 'Control\MemberTaskController@getAdminPhone');
 
 
             }

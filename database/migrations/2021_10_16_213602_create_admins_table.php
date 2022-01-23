@@ -20,6 +20,7 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->string('avatar')->nullable();
             $table->string('admin_notification_id');
+            $table->string('phone_number')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

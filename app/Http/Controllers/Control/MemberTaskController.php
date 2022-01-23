@@ -12,6 +12,7 @@ use App\Http\Requests\Control\Tasks\MemberTaskListRequest;
 use App\Http\Requests\Control\Tasks\UpdateTaskStatusRequest;
 use App\Http\Resources\Control\Common\BasicErrorResource;
 use App\Http\Resources\Control\Common\SuccessResource;
+use App\Http\Resources\Control\Member\AdminPhoneResource;
 use App\Http\Resources\Control\Task\MemberTasksResource;
 use App\Models\Admin;
 use App\Models\Member;
@@ -88,6 +89,17 @@ class MemberTaskController extends Controller
         $memberTaskList = $this->taskRepository->getAdminMemberTaskList($request->input('task_status_id'));
 
         return MemberTasksResource::collection($memberTaskList);
+
+    }
+
+    public function getAdminPhone(){
+        $memberId = \Auth::guard('member')->user()->id;
+        $member = Member::query()
+            ->where('id', $memberId)
+            ->first();
+
+        return new AdminPhoneResource($member->admin);
+
 
     }
 
