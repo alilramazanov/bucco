@@ -17,6 +17,7 @@ use App\Models\Member;
 use App\Models\Task;
 use App\Resources\Control\Notification\Admin\AdminNotification;
 use App\Resources\Control\Notification\Member\MemberNotification;
+use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 
@@ -90,7 +91,42 @@ class TaskController extends BaseController
      */
     public function create(CreateTaskRequest $request){
 
+        $isExistTaskTime = Task::query()
+            ->where('start_at', $request->get('start_at'))
+            ->exists();
+
+        if ($isExistTaskTime){
+            $this->stdClass->message = 'Задача на это время уже существует';
+            return new BasicErrorResource($this->stdClass);
+        }
+
+
+        $isTaskTimeBusy = Task::query()
+            ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->exists();
+
+        if ($isTaskTimeBusy){
+            $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
+            return new BasicErrorResource($this->stdClass);
+
+        }
+
+        $isTaskTimeBusy = Task::query()
+            ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->exists();
+
+        if ($isTaskTimeBusy){
+            $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
+            return new BasicErrorResource($this->stdClass);
+
+        }
+
+
+
+
         $newTask = $this->taskLoaderObject->createTask($request);
+
+
         $memberNotificationId = Member::find($request->member_id)->user_notification_id;
 
         $this->createTaskAction->addAJob($newTask, $memberNotificationId);
@@ -115,6 +151,37 @@ class TaskController extends BaseController
      *
      */
     public function update(UpdateTaskRequest $request){
+
+        $isExistTaskTime = Task::query()
+            ->where('start_at', $request->get('start_at'))
+            ->exists();
+
+        if ($isExistTaskTime){
+            $this->stdClass->message = 'Задача на это время уже существует';
+            return new BasicErrorResource($this->stdClass);
+        }
+
+
+        $isTaskTimeBusy = Task::query()
+            ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->exists();
+
+        if ($isTaskTimeBusy){
+            $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
+            return new BasicErrorResource($this->stdClass);
+
+        }
+
+        $isTaskTimeBusy = Task::query()
+            ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->exists();
+
+        if ($isTaskTimeBusy){
+            $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
+            return new BasicErrorResource($this->stdClass);
+
+        }
+
 
         $task = Task::whereId($request->id)->first();
         $memberNotificationId = Member::find($task->member_id)->login;
@@ -151,6 +218,7 @@ class TaskController extends BaseController
     }
 
     public function returnTask(DetailTaskRequest $request){
+
 
         $newReturnTask = $this->taskLoaderObject->returnTask($request);
         $memberNotificationId = Member::whereId($newReturnTask->member_id)->first()->user_notification_id;
