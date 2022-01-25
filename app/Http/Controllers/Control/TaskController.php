@@ -93,6 +93,7 @@ class TaskController extends BaseController
 
         $isExistTaskTime = Task::query()
             ->where('start_at', $request->get('start_at'))
+            ->where('task_status_id', 1)
             ->exists();
 
         if ($isExistTaskTime){
@@ -103,6 +104,7 @@ class TaskController extends BaseController
 
         $isTaskTimeBusy = Task::query()
             ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->where('task_status_id', 1)
             ->exists();
 
         if ($isTaskTimeBusy){
@@ -113,6 +115,7 @@ class TaskController extends BaseController
 
         $isTaskTimeBusy = Task::query()
             ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->where('task_status_id', 1)
             ->exists();
 
         if ($isTaskTimeBusy){
@@ -154,6 +157,7 @@ class TaskController extends BaseController
 
         $isExistTaskTime = Task::query()
             ->where('start_at', $request->get('start_at'))
+            ->where('task_status_id', 1)
             ->exists();
 
         if ($isExistTaskTime){
@@ -164,6 +168,7 @@ class TaskController extends BaseController
 
         $isTaskTimeBusy = Task::query()
             ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->where('task_status_id', 1)
             ->exists();
 
         if ($isTaskTimeBusy){
@@ -174,6 +179,7 @@ class TaskController extends BaseController
 
         $isTaskTimeBusy = Task::query()
             ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
+            ->where('task_status_id', 1)
             ->exists();
 
         if ($isTaskTimeBusy){
