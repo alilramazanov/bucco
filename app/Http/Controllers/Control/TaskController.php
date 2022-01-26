@@ -91,7 +91,9 @@ class TaskController extends BaseController
      */
     public function create(CreateTaskRequest $request){
 
+        $userId = \Auth::guard('member')->user()->id;
         $isExistTaskTime = Task::query()
+            ->where('member_id', $userId)
             ->where('start_at', $request->get('start_at'))
             ->where('task_status_id', 1)
             ->exists();
@@ -103,6 +105,7 @@ class TaskController extends BaseController
 
 
         $isTaskTimeBusy = Task::query()
+            ->where('member_id', $userId)
             ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
@@ -114,6 +117,7 @@ class TaskController extends BaseController
         }
 
         $isTaskTimeBusy = Task::query()
+            ->where('member_id', $userId)
             ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
@@ -132,7 +136,9 @@ class TaskController extends BaseController
 
         $memberNotificationId = Member::find($request->member_id)->user_notification_id;
 
+
         $this->createTaskAction->addAJob($newTask, $memberNotificationId);
+
 
         if (!($newTask === null)){
             $this->stdClass->message = 'Задача успешно создана';
@@ -155,7 +161,10 @@ class TaskController extends BaseController
      */
     public function update(UpdateTaskRequest $request){
 
+        $userId = \Auth::guard('member')->user()->id;
+
         $isExistTaskTime = Task::query()
+            ->where('member_id', $userId)
             ->where('start_at', $request->get('start_at'))
             ->where('task_status_id', 1)
             ->exists();
@@ -167,6 +176,7 @@ class TaskController extends BaseController
 
 
         $isTaskTimeBusy = Task::query()
+            ->where('member_id', $userId)
             ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
@@ -178,6 +188,7 @@ class TaskController extends BaseController
         }
 
         $isTaskTimeBusy = Task::query()
+            ->where('member_id', $userId)
             ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
