@@ -134,7 +134,7 @@ class TaskController extends BaseController
 
         $this->createTaskAction->addAJob($newTask, $memberNotificationId);
 
-        if (!($newTask == null)){
+        if (!($newTask === null)){
             $this->stdClass->message = 'Задача успешно создана';
             $this->memberNotification->createTask($memberNotificationId);
             return new SuccessResource($this->stdClass);
