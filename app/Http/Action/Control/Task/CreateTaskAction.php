@@ -15,10 +15,10 @@ class CreateTaskAction extends ActionCore
     // для совершения над задачей какой то логики (обновления статуса)
 
     // memberNotificationId используется для отправки пуш уведомления
-    public function addAJob( $task, $memberNotificationId){
+    public function addAJob( $task, $memberNotificationParameters){
 
-        \Queue::later(Carbon::parse($task->start_at), new NotificationStartTimeJob($memberNotificationId));
-        \Queue::later(Carbon::parse($task->start_at)->addMinutes(2), new NotificationStartWorkingJob($task, $memberNotificationId));
+        \Queue::later(Carbon::parse($task->start_at), new NotificationStartTimeJob($memberNotificationParameters));
+        \Queue::later(Carbon::parse($task->start_at)->addMinutes(2), new NotificationStartWorkingJob($task, $memberNotificationParameters));
 
     }
 }

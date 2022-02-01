@@ -14,19 +14,11 @@ class EndOfTaskJob extends Job
      * @return void
      */
 
-    /**
 
-     * @var MemberNotification $memberNotification
-     */
-
-    protected $memberNotification;
-    protected $memberNotificationId;
     protected $task;
-    public function __construct($task, $memberNotificationId)
+    public function __construct($task)
     {
         $this->task = $task;
-        $this->memberNotificationId = $memberNotificationId;
-        $this->memberNotification = app(MemberNotification::class);
 
     }
 

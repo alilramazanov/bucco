@@ -10,34 +10,36 @@ class MemberNotification extends Notification
 
 
 
-    public function startTask($memberNotificationId){
+    public function startTask($memberNotificationParameters){
 
         $message = 'Приступите к задаче';
-        $this->pushToUser($memberNotificationId, $message);
+        $this->pushToUser($memberNotificationParameters, $message);
 
     }
 
-    public function acceptTask($memberNotificationId, $message){
+    public function acceptTask($memberNotificationParametres, $message){
 
-        $this->pushToUser($memberNotificationId, $message);
+        $this->pushToUser($memberNotificationParametres, $message);
     }
 
-    public function updateTask($memberNotificationId, $name){
+    public function updateTask($memberNotificationParametres, $name){
 
         $message = 'Задача '.'"'.$name.'"'.' Обновлена';
-        $this->pushToUser($memberNotificationId, $message);
+        $this->pushToUser($memberNotificationParametres, $message);
     }
 
-    public function createTask($memberNotificationId){
+    public function createTask($notificationParameters){
 
         $message = 'У вас новая задача';
-        $this->pushToUser($memberNotificationId, $message);
+        $this->pushToUser($notificationParameters, $message);
 
     }
 
-    public function endTask($memberNotificationId){
+    public function endTask($memberNotificationParameters){
         $message = 'Завершите задачу';
-        $this->pushToUser($memberNotificationId, $message);
+        $this->pushToUser($memberNotificationParameters, $message);
     }
+
+
 
 }

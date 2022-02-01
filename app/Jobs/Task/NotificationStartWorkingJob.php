@@ -18,12 +18,12 @@ class NotificationStartWorkingJob extends Job
 
     private $task;
     protected $memberNotification;
-    protected $memberNotificationId;
+    protected $memberNotificationParameters;
 
-    public function __construct($task, $memberNotificationId)
+    public function __construct($task, $memberNotificationParameters)
     {
         $this->task = $task;
-        $this->memberNotificationId = $memberNotificationId;
+        $this->memberNotificationParameters = $memberNotificationParameters;
         $this->memberNotification = app(MemberNotification::class);
 
     }
@@ -35,8 +35,6 @@ class NotificationStartWorkingJob extends Job
      */
     public function handle()
     {
-        $message = '';
-
         switch ($this->task->task_status_id){
             case 1:
 
@@ -45,12 +43,12 @@ class NotificationStartWorkingJob extends Job
                 ]);
 
                 $message = 'Задача просрочена';
-                $this->memberNotification->acceptTask($this->memberNotificationId, $message);
+                $this->memberNotification->acceptTask($this->memberNotificationParameters, $message);
                 break;
 
             case 2:
-                \Queue::later(Carbon::parse($this->task->end_at)->subMinutes(2), new MinutesBeforeTheEndJob($this->memberNotificationId));
-                \Queue::later(Carbon::parse($this->task->end_at)->addMinutes(2), new EndOfTaskJob($this->task, $this->memberNotificationId));
+                \Queue::later(Carbon::parse($this->task->end_at)->subMinutes(2), new MinutesBeforeTheEndJob($this->memberNotificationParameters));
+                \Queue::later(Carbon::parse($this->task->end_at)->addMinutes(2), new EndOfTaskJob($this->task));
         }
     }
 }

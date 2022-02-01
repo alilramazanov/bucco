@@ -57,8 +57,9 @@ class Admin extends Model implements AuthenticatableContract, AuthorizableContra
         'login',
         'password',
         'avatar',
+        'phone_number',
         'admin_notification_id',
-        'phone_number'
+        'onesignal_app',
     ];
 
     /**

@@ -8,6 +8,9 @@ use App\Http\Requests\Control\Auth\RegisterRequest;
 use App\Http\Resources\Control\Auth\LoginResource;
 use App\Http\Resources\Control\Auth\RegisterResource;
 use App\Http\Resources\Control\Common\ErrorResource;
+use App\Models\Admin;
+use App\Models\Member;
+use App\Resources\Control\Notification\NotificationCoreSingleton;
 use App\Services\AuthService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Response;
@@ -51,6 +54,9 @@ class AuthController extends Controller
             $credentials = $request->only(['login', 'password']);
 
             $token = $this->authService->login($credentials);
+
+            $isUpdate = Admin::whereId(\Auth::user()->id)->update(['onesignal_app' => $request->get('onesignal_app')]);
+
             $stdClass = new \StdClass();
             $stdClass->token = $token;
 
@@ -73,6 +79,9 @@ class AuthController extends Controller
             $credentials = $request->only(['login', 'password']);
 
             $token = $this->authService->loginMember($credentials);
+
+            $isUpdate = Member::whereId(\Auth::guard('member')->id())->update(['onesignal_app' => $request->get('onesignal_app')]);
+
             $stdClass = new \StdClass();
             $stdClass->token = $token;
 

@@ -11,20 +11,20 @@ class AdminNotification extends Notification
 
 
 
-    public function updateStatusTask($notificationUserId, $statusId){
+    public function updateStatusTask($notificationParameters, $statusId){
         switch ($statusId){
             case 2:
                 $message = 'К задаче приступили';
-                $this->pushToUser($notificationUserId, $message);
+                $this->pushToUser($notificationParameters, $message);
                 break;
             case 3:
                 $message = 'Задача выполнена';
-                $this->pushToUser($notificationUserId, $message);
+                $this->pushToUser($notificationParameters, $message);
                 break;
 
             case 4:
                 $message = 'Задача просрочена';
-                $this->pushToUser($notificationUserId, $message);
+                $this->pushToUser($notificationParameters, $message);
                 break;
         }
     }

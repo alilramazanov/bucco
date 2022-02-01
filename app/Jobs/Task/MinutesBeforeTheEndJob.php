@@ -16,12 +16,12 @@ class MinutesBeforeTheEndJob extends Job
     /**
      * @var MemberNotification $notification
      */
-    protected $notification;
-    protected $memberNotificationId;
-    public function __construct($memberNotificationId)
+    protected $memberNotification;
+    protected $memberNotificationParameters;
+    public function __construct($memberNotificationParameters)
     {
-        $this->memberNotificationId = $memberNotificationId;
-        $this->notification = app(MemberNotification::class);
+        $this->memberNotificationParameters = $memberNotificationParameters;
+        $this->memberNotification = app(MemberNotification::class);
     }
 
     /**
@@ -31,6 +31,6 @@ class MinutesBeforeTheEndJob extends Job
      */
     public function handle()
     {
-        $this->notification->endTask($this->memberNotificationId);
+        $this->memberNotification->endTask($this->memberNotificationParameters);
     }
 }

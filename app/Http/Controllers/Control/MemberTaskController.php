@@ -33,7 +33,7 @@ class MemberTaskController extends Controller
      */
     protected $taskLoader;
     protected $groupRepository;
-    protected $notification;
+    protected $adminNotification;
     protected $taskRepository;
 
     protected $stdClass;
@@ -45,7 +45,7 @@ class MemberTaskController extends Controller
         $this->taskLoader = app(TaskLoader::class);
         $this->memberTaskRepository = app(MemberTaskRepository::class);
         $this->groupRepository = app(GroupRepository::class);
-        $this->notification = app(AdminNotification::class);
+        $this->adminNotification = app(AdminNotification::class);
         $this->taskRepository = app(TaskRepository::class);
         $this->stdClass = app(\stdClass::class);
 
@@ -63,9 +63,15 @@ class MemberTaskController extends Controller
 
     public function updateStatusTask(UpdateTaskStatusRequest $request){
 
-        $notificationAdminId = Admin::find(Task::find($request->id)->member->admin_id)->admin_notification_id;
+        $adminNotificationId = Admin::find(Task::find($request->id)->member->admin_id)->admin_notification_id;
+        $adminOnesignalApp = Admin::find(Task::find($request->id)->member->admin_id)->onesignal_app;
 
-        $this->notification->updateStatusTask($notificationAdminId, $request->task_status_id);
+        $notificationParameters = [
+          'onesignalApp' => $adminOnesignalApp,
+          'notificationId' => $adminNotificationId
+        ];
+
+        $this->adminNotification->updateStatusTask($notificationParameters, $request->task_status_id);
 
         $isUpdate = $this->taskLoader->updateStatusTask($request);
 

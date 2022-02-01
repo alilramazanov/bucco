@@ -72,7 +72,7 @@ class Member extends Model implements AuthenticatableContract, AuthorizableContr
 
     protected $fillable = [
         'name', 'login', 'password', 'admin_id',
-        'avatar', 'serial', 'number', 'address', 'password_visible', 'user_notification_id'
+        'avatar', 'serial', 'number', 'address', 'password_visible', 'user_notification_id', 'onesignal_app'
     ];
 
     protected $hidden = [

@@ -17,6 +17,7 @@ use App\Models\Member;
 use App\Models\Task;
 use App\Resources\Control\Notification\Admin\AdminNotification;
 use App\Resources\Control\Notification\Member\MemberNotification;
+use App\Resources\Control\Notification\NotificationCoreSingleton;
 use phpDocumentor\Reflection\Types\Object_;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
@@ -91,6 +92,7 @@ class TaskController extends BaseController
      */
     public function create(CreateTaskRequest $request){
 
+
         $memberId = $request->get('member_id');
         $isExistTaskTime = Task::query()
             ->where('member_id', $memberId)
@@ -138,14 +140,21 @@ class TaskController extends BaseController
 
 
         $memberNotificationId = Member::find($request->member_id)->user_notification_id;
+        $memberOnesignalApp = Member::find($request->member_id)->onesignal_app;
+        $memberNotificationParameters = [
+            'onesignalApp' => $memberOnesignalApp,
+            'notificationId' => $memberNotificationId
+        ];
 
 
-        $this->createTaskAction->addAJob($newTask, $memberNotificationId);
+        $this->createTaskAction->addAJob($newTask, $memberNotificationParameters);
+
+
 
 
         if (!($newTask === null)){
             $this->stdClass->message = 'Задача успешно создана';
-            $this->memberNotification->createTask($memberNotificationId);
+            $this->memberNotification->createTask($memberNotificationParameters);
             return new SuccessResource($this->stdClass);
         }
 
@@ -208,11 +217,17 @@ class TaskController extends BaseController
 
 
         $task = Task::whereId($request->id)->first();
-        $memberNotificationId = Member::find($task->member_id)->login;
+
+        $memberNotificationId = Member::find($task->member_id)->user_notification_id;
+        $memberOnesignalApp = Member::find($task->member_id)->onesignal_app;
+        $memberNotificationParameters = [
+            'onesignalApp' => $memberOnesignalApp,
+            'notificationId' => $memberNotificationId
+        ];
 
         $name = $task->name;
 
-        $this->memberNotification->updateTask($memberNotificationId, $name);
+        $this->memberNotification->updateTask($memberNotificationParameters, $name);
 
         $isUpdate = $this->taskLoaderObject->updateTask($request);
 
@@ -245,9 +260,18 @@ class TaskController extends BaseController
 
 
         $newReturnTask = $this->taskLoaderObject->returnTask($request);
-        $memberNotificationId = Member::whereId($newReturnTask->member_id)->first()->user_notification_id;
 
-        $this->createTaskAction->addAJob($newReturnTask, $memberNotificationId);
+        $memberNotificationId = Member::find($newReturnTask->member_id)->user_notification_id;
+        $memberOnesignalApp = Member::find($newReturnTask->member_id)->onesignal_app;
+        $memberNotificationParameters = [
+            'onesignalApp' => $memberOnesignalApp,
+            'notificationId' => $memberNotificationId
+        ];
+
+
+        $this->memberNotification->createTask($memberNotificationParameters);
+
+        $this->createTaskAction->addAJob($newReturnTask, $memberNotificationParameters);
 
 
         if (!($newReturnTask === null)){
