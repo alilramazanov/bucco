@@ -94,41 +94,45 @@ class TaskController extends BaseController
 
 
         $memberId = $request->get('member_id');
-        $isExistTaskTime = Task::query()
+        $isExistStartTaskTime = Task::query()
             ->where('member_id', $memberId)
             ->where('group_id', $request->get('group_id'))
             ->where('start_at', $request->get('start_at'))
             ->where('task_status_id', 1)
             ->exists();
 
-        if ($isExistTaskTime){
+        if ($isExistStartTaskTime){
             $this->stdClass->message = 'Задача на это время уже существует';
             return new BasicErrorResource($this->stdClass);
         }
 
 
-        $isTaskTimeBusy = Task::query()
+        $isStartTaskTimeBusy = Task::query()
             ->where('member_id', $memberId)
             ->where('group_id', $request->get('group_id'))
             ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
 
-        if ($isTaskTimeBusy){
+
+
+        if ($isStartTaskTimeBusy){
             $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
             return new BasicErrorResource($this->stdClass);
 
         }
 
-        $isTaskTimeBusy = Task::query()
+        $isEndTaskTimeBusy = Task::query()
             ->where('member_id', $memberId)
             ->where('group_id', $request->get('group_id'))
             ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
 
-        if ($isTaskTimeBusy){
-            $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
+
+
+        if ($isEndTaskTimeBusy){
+            $this->stdClass->message = 'Время начала или окончания конфликтует с другой задачей';
             return new BasicErrorResource($this->stdClass);
 
         }
@@ -176,44 +180,49 @@ class TaskController extends BaseController
         $memberId = Task::whereId($request->get('id'))->first()->member_id;
         $groupId = Task::whereId($request->get('id'))->first()->group_id;
 
-        $isExistTaskTime = Task::query()
+        $isExistStartTaskTime = Task::query()
             ->where('member_id', $memberId)
             ->where('group_id', $groupId)
             ->where('start_at', $request->get('start_at'))
             ->where('task_status_id', 1)
             ->exists();
 
-        if ($isExistTaskTime){
+        if ($isExistStartTaskTime){
             $this->stdClass->message = 'Задача на это время уже существует';
             return new BasicErrorResource($this->stdClass);
         }
 
 
-        $isTaskTimeBusy = Task::query()
+
+        $isStartTaskTimeBusy = Task::query()
             ->where('member_id', $memberId)
             ->where('group_id', $groupId)
             ->whereBetween('start_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
 
-        if ($isTaskTimeBusy){
+
+        if ($isStartTaskTimeBusy){
             $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
             return new BasicErrorResource($this->stdClass);
 
         }
 
-        $isTaskTimeBusy = Task::query()
+        $isEndTaskTimeBusy = Task::query()
             ->where('member_id', $memberId)
             ->where('group_id', $groupId)
             ->whereBetween('end_at', [$request->get('start_at'), $request->get('end_at') ])
             ->where('task_status_id', 1)
             ->exists();
 
-        if ($isTaskTimeBusy){
-            $this->stdClass->message = 'Время окончания или начала конфликтует с другой задачей';
+
+
+        if ($isEndTaskTimeBusy){
+            $this->stdClass->message = 'Время начала или окончания конфликтует с другой задачей';
             return new BasicErrorResource($this->stdClass);
 
         }
+
 
 
         $task = Task::whereId($request->id)->first();
@@ -272,6 +281,8 @@ class TaskController extends BaseController
         $this->memberNotification->createTask($memberNotificationParameters);
 
         $this->createTaskAction->addAJob($newReturnTask, $memberNotificationParameters);
+
+        $this->taskLoaderObject->deleteTask($request);
 
 
         if (!($newReturnTask === null)){

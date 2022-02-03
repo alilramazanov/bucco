@@ -48,7 +48,6 @@ class TaskLoader extends BaseLoader
         $adminId = \Auth::user()->id;
 
         $isDelete = Task::whereId($request->id)
-            ->whereAdminId($adminId)
             ->delete();
 
         return $isDelete;
