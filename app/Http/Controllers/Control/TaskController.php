@@ -234,9 +234,8 @@ class TaskController extends BaseController
             'notificationId' => $memberNotificationId
         ];
 
-        $name = $task->name;
 
-        $this->memberNotification->updateTask($memberNotificationParameters, $name);
+        $this->memberNotification->updateTask($memberNotificationParameters);
 
         $isUpdate = $this->taskLoaderObject->updateTask($request);
 
@@ -272,10 +271,12 @@ class TaskController extends BaseController
 
         $memberNotificationId = Member::find($newReturnTask->member_id)->user_notification_id;
         $memberOnesignalApp = Member::find($newReturnTask->member_id)->onesignal_app;
+
         $memberNotificationParameters = [
             'onesignalApp' => $memberOnesignalApp,
             'notificationId' => $memberNotificationId
         ];
+
 
 
         $this->memberNotification->createTask($memberNotificationParameters);

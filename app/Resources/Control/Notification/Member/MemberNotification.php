@@ -22,10 +22,10 @@ class MemberNotification extends Notification
         $this->pushToUser($memberNotificationParametres, $message);
     }
 
-    public function updateTask($memberNotificationParametres, $name){
+    public function updateTask($memberNotificationParameters){
 
-        $message = 'Задача '.'"'.$name.'"'.' Обновлена';
-        $this->pushToUser($memberNotificationParametres, $message);
+        $message = 'Задача обновлена';
+        $this->pushToUser($memberNotificationParameters, $message);
     }
 
     public function createTask($notificationParameters){
