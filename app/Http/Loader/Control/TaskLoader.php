@@ -35,7 +35,6 @@ class TaskLoader extends BaseLoader
         $data = $request->input();
 
         $isUpdate = Task::whereId($request->id)
-            ->whereAdminId($adminId)
             ->first()
             ->update($data);
 
