@@ -177,8 +177,11 @@ class TaskController extends BaseController
      */
     public function update(UpdateTaskRequest $request){
 
-        $memberId = Task::whereId($request->get('id'))->first()->member_id;
-        $groupId = Task::whereId($request->get('id'))->first()->group_id;
+        $updateTask = Task::whereId($request->get('id'))->first();
+        $isDelete  = Task::whereId($request->get('id'))->first()->delete();
+
+        $memberId = $updateTask->member_id;
+        $groupId = $updateTask->group_id;
 
         $isExistStartTaskTime = Task::query()
             ->where('member_id', $memberId)
@@ -225,10 +228,9 @@ class TaskController extends BaseController
 
 
 
-        $task = Task::whereId($request->id)->first();
 
-        $memberNotificationId = Member::find($task->member_id)->user_notification_id;
-        $memberOnesignalApp = Member::find($task->member_id)->onesignal_app;
+        $memberNotificationId = Member::find($updateTask->member_id)->user_notification_id;
+        $memberOnesignalApp = Member::find($updateTask->member_id)->onesignal_app;
         $memberNotificationParameters = [
             'onesignalApp' => $memberOnesignalApp,
             'notificationId' => $memberNotificationId
@@ -237,15 +239,21 @@ class TaskController extends BaseController
 
         $this->memberNotification->updateTask($memberNotificationParameters);
 
-        $isUpdate = $this->taskLoaderObject->updateTask($request);
 
-        if ($isUpdate){
-            $this->stdClass->message = 'Задача успешно обновлена';
-            return new SuccessResource($this->stdClass);
-        }
+        $updateTask->start_at = $request->get('start_at') === null ? $updateTask->start_at : $request->get('start_at');
+        $updateTask->end_at = $request->get('and_at') === null ? $updateTask->end_at : $request->get('and_at');
 
-        $this->stdClass->messge = 'Ошибка обновления задачи';
-        return new BasicErrorResource($this->stdClass);
+
+        $this->createTaskAction->addAJob($updateTask, $memberNotificationParameters);
+
+
+//        if ($isUpdate){
+//            $this->stdClass->message = 'Задача успешно обновлена';
+//            return new SuccessResource($this->stdClass);
+//        }
+//
+//        $this->stdClass->messge = 'Ошибка обновления задачи';
+//        return new BasicErrorResource($this->stdClass);
 
     }
 
