@@ -21,7 +21,7 @@ class CreateAdminsTable extends Migration
             $table->string('avatar')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('admin_notification_id');
-            $table->string('onesignal_app')->nullable();
+            $table->string('onesignal_app')->nullable()->default('none');
             $table->timestamps();
             $table->softDeletes();
 
