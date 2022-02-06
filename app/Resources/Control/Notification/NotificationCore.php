@@ -22,11 +22,6 @@ abstract class NotificationCore
             'app_id' => 'e17f2816-0dbf-4ca8-8c43-b2f7dd0fd9da',
             'api_key' => 'ZmE3OThiM2YtMTUxYy00NTU0LThhMjEtODIyYjM0ZDkzODdl'
         ],
-        'none' => [
-            'app_id' => 'e17f2816-0dbf-4ca8-8c43-b2f7dd0fd',
-            'api_key' => 'ZmE3OThiM2YtMTUxYy00NTU0LThhMjEtODIyYjM0ZD'
-
-        ]
     ];
 
     /*
