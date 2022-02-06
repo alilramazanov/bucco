@@ -241,7 +241,7 @@ class TaskController extends BaseController
 
 
         $updateTask->start_at = $request->get('start_at') === null ? $updateTask->start_at : $request->get('start_at');
-        $updateTask->end_at = $request->get('and_at') === null ? $updateTask->end_at : $request->get('and_at');
+        $updateTask->end_at = $request->get('end_at') === null ? $updateTask->end_at : $request->get('end_at');
 
 
         $task = collect([
