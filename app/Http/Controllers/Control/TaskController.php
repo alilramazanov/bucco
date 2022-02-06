@@ -244,16 +244,28 @@ class TaskController extends BaseController
         $updateTask->end_at = $request->get('and_at') === null ? $updateTask->end_at : $request->get('and_at');
 
 
+        $task = collect([
+           'name' => $updateTask->name,
+            'description' => $updateTask->description,
+            'admin_id' => $updateTask->admin_id,
+            'group_id' => $updateTask->group_id,
+            'member_id' => $updateTask->member_id,
+            'start_at' => $updateTask->start_at,
+            'end_at' => $updateTask->end_at
+        ]);
+
+
+
+        $newTask = Task::create($task->toArray());
+
         $this->createTaskAction->addAJob($updateTask, $memberNotificationParameters);
+        if (!($newTask === null)){
+            $this->stdClass->message = 'Задача успешно обновлена';
+            return new SuccessResource($this->stdClass);
+        }
 
-
-//        if ($isUpdate){
-//            $this->stdClass->message = 'Задача успешно обновлена';
-//            return new SuccessResource($this->stdClass);
-//        }
-//
-//        $this->stdClass->messge = 'Ошибка обновления задачи';
-//        return new BasicErrorResource($this->stdClass);
+        $this->stdClass->messge = 'Ошибка обновления задачи';
+        return new BasicErrorResource($this->stdClass);
 
     }
 
