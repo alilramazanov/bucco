@@ -25,7 +25,7 @@ class CreateMembersTable extends Migration
             $table->string('avatar')->nullable();
             $table->foreignId('admin_id')->constrained('admins');
             $table->string('user_notification_id');
-            $table->string('onesignal_app')->nullable()->default('none');
+            $table->string('onesignal_app')->nullable()->default('android');
             $table->timestamps();
             $table->softDeletes();
         });
