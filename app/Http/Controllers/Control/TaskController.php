@@ -258,7 +258,7 @@ class TaskController extends BaseController
 
         $newTask = Task::create($task->toArray());
 
-        $this->createTaskAction->addAJob($updateTask, $memberNotificationParameters);
+        $this->createTaskAction->addAJob($newTask, $memberNotificationParameters);
         if (!($newTask === null)){
             $this->stdClass->message = 'Задача успешно обновлена';
             return new SuccessResource($this->stdClass);
