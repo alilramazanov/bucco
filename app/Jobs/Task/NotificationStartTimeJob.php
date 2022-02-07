@@ -3,12 +3,14 @@
 namespace App\Jobs\Task;
 
 use App\Jobs\Job;
+use App\Models\Task;
 use App\Resources\Control\Notification\Member\MemberNotification;
 
 class NotificationStartTimeJob extends Job
 {
 
     protected $memberNotification;
+    protected $task;
 
     protected $memberNotificationParameters;
     /**
@@ -16,9 +18,10 @@ class NotificationStartTimeJob extends Job
      *
      * @return void
      */
-    public function __construct($memberNotificationParameters)
+    public function __construct($task, $memberNotificationParameters)
     {
         $this->memberNotificationParameters = $memberNotificationParameters;
+        $this->task = $task;
         $this->memberNotification = app(MemberNotification::class);
     }
 
@@ -29,6 +32,10 @@ class NotificationStartTimeJob extends Job
      */
     public function handle()
     {
-        $this->memberNotification->startTask($this->memberNotificationParameters);
+        $isTaskExist = Task::whereId($this->task->id)->exists();
+        if ($isTaskExist){
+
+            $this->memberNotification->startTask($this->memberNotificationParameters);
+        }
     }
 }

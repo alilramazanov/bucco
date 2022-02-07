@@ -18,11 +18,9 @@ class CreateTaskAction extends ActionCore
     // memberNotificationId используется для отправки пуш уведомления
     public function addAJob( $task, $memberNotificationParameters){
 
-        $isTaskExists = Task::whereId($task->id)->exists();
-        if ($isTaskExists){
-            \Queue::later(Carbon::parse($task->start_at), new NotificationStartTimeJob($memberNotificationParameters));
-            \Queue::later(Carbon::parse($task->start_at)->addMinutes(2), new NotificationStartWorkingJob($task, $memberNotificationParameters));
-        }
+        \Queue::later(Carbon::parse($task->start_at), new NotificationStartTimeJob($task, $memberNotificationParameters));
+        \Queue::later(Carbon::parse($task->start_at)->addMinutes(2), new NotificationStartWorkingJob($task, $memberNotificationParameters));
+
 
     }
 }

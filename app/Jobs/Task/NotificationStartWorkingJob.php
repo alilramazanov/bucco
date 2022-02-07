@@ -35,20 +35,25 @@ class NotificationStartWorkingJob extends Job
      */
     public function handle()
     {
-        switch ($this->task->task_status_id){
-            case 1:
 
-                $this->task->update([
-                    'task_status_id' => 4
-                ]);
+        $isTaskExist = Task::whereId($this->task->id)->exists();
 
-                $message = 'Задача просрочена';
-                $this->memberNotification->acceptTask($this->memberNotificationParameters, $message);
-                break;
+        if ($isTaskExist){
+            switch ($this->task->task_status_id){
+                case 1:
 
-            case 2:
-                \Queue::later(Carbon::parse($this->task->end_at)->subMinutes(2), new MinutesBeforeTheEndJob($this->memberNotificationParameters));
-                \Queue::later(Carbon::parse($this->task->end_at)->addMinutes(2), new EndOfTaskJob($this->task));
+                    $this->task->update([
+                        'task_status_id' => 4
+                    ]);
+
+                    $message = 'Задача просрочена';
+                    $this->memberNotification->acceptTask($this->memberNotificationParameters, $message);
+                    break;
+
+                case 2:
+                    \Queue::later(Carbon::parse($this->task->end_at)->subMinutes(2), new MinutesBeforeTheEndJob($this->memberNotificationParameters));
+                    \Queue::later(Carbon::parse($this->task->end_at)->addMinutes(2), new EndOfTaskJob($this->task));
+            }
         }
     }
 }
