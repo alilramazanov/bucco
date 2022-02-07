@@ -151,7 +151,7 @@ class TaskController extends BaseController
         ];
 
 
-        $this->createTaskAction->addAJob($newTask, $memberNotificationParameters);
+//        $this->createTaskAction->addAJob($newTask, $memberNotificationParameters);
 
 
 
