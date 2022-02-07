@@ -77,9 +77,9 @@ class TaskLoader extends BaseLoader
 
         $timeDifferenceOfTheLastTask = $this->diffInMinutesInTasks($task);
 
-        // Начало задачи расcчитывается от конца самой последней задачи + 5 минут
+        // Начало задачи расcчитывается от конца самой последней задачи + 2 минуты
         $data['start_at'] = Carbon::parse($theLastTask->end_at < Carbon::now() ? Carbon::now() : $theLastTask->end_at )
-            ->addMinutes(5);
+            ->addMinutes(2);
 
         $data['end_at'] = Carbon::parse($data['start_at'])
             ->addMinutes($timeDifferenceOfTheLastTask);
