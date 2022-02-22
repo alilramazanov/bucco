@@ -3,12 +3,7 @@
 namespace App\Http\Repositories\Control;
 
 
-use App\Http\Resources\Control\Common\BasicErrorResource;
-use App\Http\Resources\Control\Member\AdminMemberListResource;
-use App\Http\Resources\Control\Member\DetailGroupMemberResource;
-use App\Http\Resources\Control\Member\DetailMemberResource;
-use App\Http\Resources\Control\Member\GroupMemberListResource;
-use App\Models\Group;
+
 use App\Models\GroupMember;
 use App\Models\Member;
 use App\Models\Member as Model;
@@ -38,20 +33,23 @@ class MemberRepository extends BaseRepository
 
     public function getGroupMemberList($request){
 
-        $groupId = $request->group_id;
-        $group = Group::find($groupId);
+        $columns  = [
+            'm.id',
+            'm.name',
+            'm.avatar',
+            'group_members.group_id as group_id',
+            'group_members.position'
+        ];
 
-        $groupMemberList = [];
+        $groupMembers = GroupMember::query()
+            ->select($columns)
+            ->where('group_members.group_id', 1)
+            ->leftJoin('members as m', 'm.id', '=', 'group_members.member_id')
+            ->orderBy('m.created_at', 'desc')
+            ->get();
 
-        foreach ($group->members as $member){
-            if ($member->pivot->group_id == $groupId){
-                $groupMemberList [] = $member;
-            }
-        }
 
-        $groupMemberList = array_reverse($groupMemberList);
-
-        return $groupMemberList;
+        return $groupMembers;
 
     }
 
