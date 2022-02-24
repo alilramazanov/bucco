@@ -43,7 +43,7 @@ class MemberRepository extends BaseRepository
 
         $groupMembers = GroupMember::query()
             ->select($columns)
-            ->where('group_members.group_id', 1)
+            ->where('group_members.group_id', $request->get('group_id'))
             ->leftJoin('members as m', 'm.id', '=', 'group_members.member_id')
             ->orderBy('m.created_at', 'desc')
             ->get();
